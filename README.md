@@ -3,20 +3,14 @@
 Copyright (c) 2019 Liam Rotchford, Simon Barton
 Rliam@pdx.edu, Simon5@pdx.edu
 
-This program computes a basic statistic. Its input is
-taken from `stdin`, and must consist of floating-point
-numbers as text, one per line.
+This program generates an interesting, mosaic image. This was inspired
+by the Mandelbrot image generator. Its input is a specific flag that
+let's the program know what kind of image to generate. [TODO write out
+the specific semantics of how an image is created].
 
-The program outputs one of the following statistics as the
-text of a floating-point number on stdout.
-
-* `--mean`: Arithmetic Mean
-* `--stddev`: Population Standard Deviation
-* `--median`: Median
-* `--l2`: Euclidean Norm
-
-The various statistics are implemented in the `stats`
-library crate, which can be used by other programs as well.
+The following flags can be used to specify how an image is made
+* `--Mandelbrot`: Creates Mandelbrot image
+* `--random`: Median
 
 ## Build and Run
 
