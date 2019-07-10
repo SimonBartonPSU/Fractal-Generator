@@ -1,5 +1,5 @@
 [package]
-name = "Fractal-Generator"
+name = "fractal_generator"
 version = "0.1.0"
 authors = ["Simon Barton <simon5@pdx.edu>", "Liam Rotchford <rliam@pdx.edu>"]
 edition = "2018"
