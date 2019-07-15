@@ -39,7 +39,8 @@ fn usage() -> ! {
 
 fn main() {
     let mut args: Vec<String> = std::env::args().collect();
-    if args.len() < 5 || args.len() > 6 {
+    println!("Our args len is {}", args.len());
+    if args.len() < 6 || args.len() > 7 {
         usage()
     }
   
@@ -47,7 +48,7 @@ fn main() {
     
 
     match args[1].as_str() {
-        "mandlebrot" => mandelbrot_fractal(args.as_mut_slice()),
+        "mandelbrot" => mandelbrot_fractal(args.as_mut_slice()),
         //"dragoncurve" =>
         //"levyccurve" =>
         _ => usage()
