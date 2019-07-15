@@ -4,10 +4,10 @@
 // Mandelbrot example from Blandy & Orendorff, ch 1.
 // Compute and display a Mandelbrot set.
 
-use std::str::FromStr;
-
 mod mandelbrot;
+
 use crate::mandelbrot::*;
+use std::str::FromStr;
 
 /// Show a usage message and exit.
 fn usage() -> ! {
