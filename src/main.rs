@@ -33,7 +33,7 @@ fn mandelbrot_fractal(arg_set: &mut [String]) {
 
 /// Show a usage message and exit.
 fn usage() -> ! {
-    eprintln!("\n\n\tusage: mandelbrot <fractal-type> <file-name> <width>x<height> <viewul>x<viewlr> [<threads>] \n\n");
+    eprintln!("\n\n\tusage: <fractal-type> <file-name> <width>x<height> <viewul>x<viewlr> [<threads>] \n\n");
     std::process::exit(1)
 }
 
