@@ -26,7 +26,7 @@ run the program with `cargo run`. However, to allow the program to correctly gen
 
 `--` before the program flag: for example,
 
-    cargo run --release mandelbrot.png 1000x1000 0.2,0.5x0.4,0.7 3
+    cargo run --release mandelbrot mandelbrot.png 1000x1000 0.2,0.5x0.4,0.7 3
     
 
 To build or run an optimized version, use `cargo --release`.
