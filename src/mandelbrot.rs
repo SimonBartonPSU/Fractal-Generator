@@ -72,10 +72,12 @@ impl PixelSpace {
         for row in 0..self.pixel_dims.1 {
             for col in 0..self.pixel_dims.0 {
                 let c = self.pixel_to_point((col, row));
-                let t = match escape_time(c, 255) {
-                    None => 0,
-                    Some(t) => 255 - t as u8,
+                
+                let t = match escape_time(c, 255) {         //T is what determine the shade on the 
+                    None => 0,                              // bit shade choice, if its something then black 255
+                    Some(t) => 255 - t as u8,               // otherwise white
                 };
+                
                 result[p] = t;
                 p += 1;
             }
@@ -86,20 +88,31 @@ impl PixelSpace {
     pub fn write_image(&self, filename: &str, nthreads: usize) -> Result<(), std::io::Error> {
         let w = self.pixel_dims.0 as usize;
         let h = self.pixel_dims.1 as usize;
+        
+
         let mut pixels = vec![0u8; w * h];
+        
         crossbeam::scope(|spawner| {
             let mut h0 = 0;
             let dh = h / nthreads;
+            
             for px in pixels.chunks_mut(w * dh) {
                 let h1 = std::cmp::min(h as u64, h0 as u64 + dh as u64);
                 let ps = self.band(h0, h1);
                 spawner.spawn(move || ps.render(px));
                 h0 = h1;
             }
+        
         });
+        
         let output = File::create(filename)?;
+        
         let encoder = PNGEncoder::new(output);
+        
+        //println!("\n\n{:?}\n\n", pixels);
+        
         encoder.encode(&pixels, w as u32, h as u32, ColorType::Gray(8))
+        //pixels are my numbers of image, w and h are the dimensions
     }
 
     /// Return a PixelSpace representing a horizontal "band"
