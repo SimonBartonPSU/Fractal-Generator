@@ -6,6 +6,6 @@ edition = "2018"
 
 [dependencies]
 num = "0.1.27"
-image = "0.21.2"
+image = "0.22.0"
 crossbeam = "0.2.8"
 rand = "0.7.0"

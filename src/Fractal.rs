@@ -1,9 +1,27 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
 
+use::image::Rgb;
 
-pub fn julia_fractal(imgy: u32, imgx: u32, scalex: f32, scaley: f32, imgbuf: image::ImageBuffer<Rgb<u8>, Vec<u8>>) {
+pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str) {
 
-  // A redundant loop to demonstrate reading image data
+    // https://crates.io/crates/image
+    let scalex = 3.0 / imgx as f32;
+    let scaley = 3.0 / imgy as f32;
+
+    // Create a new ImgBuf with width: imgx and height: imgy
+    let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
+
+    // let mut rng = rand::thread_rng();
+    // let randR: f32 = rng.gen_range(0, 255) as f32;
+    //let randB: f32 = rng.gen_range(0, 255) as f32;
+
+    // Iterate over the coordinates and pixels of the image
+    for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
+        let r = (0.3 * x as f32) as u8;
+        let b = (0.3 * y as f32) as u8;
+        *pixel = image::Rgb([r, 0, b]);
+    }
+
     for x in 0..imgx {
         for y in 0..imgy {
             let cx = y as f32 * scalex - 1.5;
@@ -19,9 +37,11 @@ pub fn julia_fractal(imgy: u32, imgx: u32, scalex: f32, scaley: f32, imgbuf: ima
             }
 
             let pixel = imgbuf.get_pixel_mut(x, y);
-            let data = (*pixel as image::Rgb<u8>).data;
+            let image::Rgb(data) = *pixel;
             *pixel = image::Rgb([data[0], i as u8, data[2]]);
         }
     }
 
+    // Save the image as “fractal.png”, the format is deduced from the path
+    imgbuf.save(filename).unwrap();
 }

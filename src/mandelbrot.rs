@@ -8,6 +8,27 @@ use num::Complex;
 use std::fs::File;
 use std::str::FromStr;
 
+/*
+pub fn mandelbrot_fractal(arg_set: &mut [String]) {
+
+    
+    let cs = (&arg_set[4]).split('x').collect::<Vec<&str>>();
+    let cul = parse_complex(cs[0]).expect("bad complex coordinates");
+    let clr = parse_complex(cs[1]).expect("bad complex coordinates");
+    let ps = PixelSpace {
+        pixel_dims,
+        complex_corners: (cul, clr),
+    };
+    let nthreads = if arg_set.len() == 6 {
+        usize::from_str(&arg_set[5]).expect("non-number of threads")
+    } else {
+        1
+    };
+    ps.write_image(&arg_set[2], nthreads)
+        .expect("could not write png")
+}
+*/
+
 /// Determine if `c` is still a Mandelbrot set candidate
 /// after `limit` iterations. If `c` has been eliminated
 /// return the iteration count.
