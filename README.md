@@ -27,6 +27,10 @@ run the program with `cargo run`. However, to allow the program to correctly gen
     cargo run --release mandelbrot mandelbrot.png 1000x1000 
                        <Frac-type>    <file>     <widthxheight>
 
+    or
+
+    cargo run -- julia julia.png 800x800
+
 To build or run an optimized version, use `cargo --release`.
 
 Run `cargo test` to do some simple testing.

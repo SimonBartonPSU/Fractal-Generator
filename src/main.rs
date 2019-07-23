@@ -8,7 +8,7 @@ mod mandelbrot;
 mod fractal;
 
 use crate::mandelbrot::*;
-use crate::Fractal::*;
+use crate::fractal::*;
 
 use std::string::String;
 // use rand::Rng;
