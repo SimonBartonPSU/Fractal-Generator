@@ -27,7 +27,7 @@ run the program with `cargo run`. However, to allow the program to correctly gen
     cargo run --release mandelbrot mandelbrot.png 1000x1000 
                        <Frac-type>    <file>     <widthxheight>
 
-    or
+or
 
     cargo run -- julia julia.png 800x800
 
