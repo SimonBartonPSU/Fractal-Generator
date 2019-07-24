@@ -28,7 +28,8 @@ pub fn julia_fractal(imgx: u32, imgy: u32, filename: &str) {
             let mut z = num::Complex::new(cx, cy);
 
             let mut i = 0;
-            while i < 255 && z.norm() <= 2.0 {      //the julia fractal
+            while i < 255 && z.norm() <= 2.0 {
+                //the julia fractal
                 z = z * z + c;
                 i += 1;
             }

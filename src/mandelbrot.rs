@@ -2,7 +2,6 @@
 
 /// Mandelbrot - fractal pattern representing the escape time of
 /// a complex number being squared plus some constant to infinity.
-
 use image::png::PNGEncoder;
 use image::ColorType;
 use num::Complex;
@@ -11,14 +10,10 @@ use std::str::FromStr;
 
 pub fn mandelbrot_fractal(imgx: u32, imgy: u32, filename: &str) {
     // Hard-coded complex upper-left and lower right coordinates
-    let cul = Complex { re: 0.2, im: 0.5 };
-    let clr = Complex { re: 0.4, im: 0.7 };
-
     let ps = PixelSpace {
-        pixel_dims: (imgx as u64, imgy as u64),
-        complex_corners: (cul, clr),
+        pixel_dims: (u64::from(imgx), u64::from(imgy)),
+        complex_corners: (Complex { re: -2.0, im: 1.0 }, Complex { re: 1.0, im: -1.0 }),
     };
-
     ps.write_image(filename, 3).expect("Image write failed...");
 }
 
@@ -65,12 +60,12 @@ impl PixelSpace {
         for row in 0..self.pixel_dims.1 {
             for col in 0..self.pixel_dims.0 {
                 let c = self.pixel_to_point((col, row));
-                
-                let t = match escape_time(c, 255) {         //t is what determine the shade on the 
-                    None => 0,                              // bit shade choice, if its something then black 255
-                    Some(t) => 255 - t as u8,               // otherwise white
+
+                let t = match escape_time(c, 255) {
+                    //t is what determine the shade on the
+                    None => 0, // bit shade choice, if its something then black 255
+                    Some(t) => 255 - t as u8, // otherwise white
                 };
-                
                 result[p] = t;
                 p += 1;
             }
@@ -81,27 +76,25 @@ impl PixelSpace {
     pub fn write_image(&self, filename: &str, nthreads: usize) -> Result<(), std::io::Error> {
         let w = self.pixel_dims.0 as usize;
         let h = self.pixel_dims.1 as usize;
-        
 
         let mut pixels = vec![0u8; w * h];
-        
+
         crossbeam::scope(|spawner| {
             let mut h0 = 0;
             let dh = h / nthreads;
-            
+
             for px in pixels.chunks_mut(w * dh) {
                 let h1 = std::cmp::min(h as u64, h0 as u64 + dh as u64);
                 let ps = self.band(h0, h1);
                 spawner.spawn(move || ps.render(px));
                 h0 = h1;
             }
-        
         });
-        
+
         let output = File::create(filename)?;
-        
+
         let encoder = PNGEncoder::new(output);
-        
+
         encoder.encode(&pixels, w as u32, h as u32, ColorType::Gray(8))
     }
 
@@ -135,9 +128,9 @@ pub fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
 /*
 /// Parse a complex number.
 pub fn parse_complex(s: &str) -> Option<Complex<f64>> {
-    match parse_pair(s, ',') {
-        Some((re, im)) => Some(Complex { re, im }),
-        None => None,
-    }
+match parse_pair(s, ',') {
+Some((re, im)) => Some(Complex { re, im }),
+None => None,
 }
-*/
+}
+ */
