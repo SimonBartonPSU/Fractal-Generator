@@ -1,14 +1,11 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
 
-use::image::Rgb;
-
-pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str) {
-
+pub fn julia_fractal(imgx: u32, imgy: u32, filename: &str) {
     // https://crates.io/crates/image
     let scalex = 3.0 / imgx as f32;
     let scaley = 3.0 / imgy as f32;
 
-    // Create a new ImgBuf with width: imgx and height: imgy
+    // Width by Height image buffer
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
 
     // let mut rng = rand::thread_rng();
@@ -43,5 +40,5 @@ pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str) {
     }
 
     // Save the image as “fractal.png”, the format is deduced from the path
-    imgbuf.save(filename).unwrap();
+    imgbuf.save(filename).expect("Image write failed...");
 }

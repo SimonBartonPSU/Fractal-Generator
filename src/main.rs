@@ -13,7 +13,6 @@ use crate::fractal::*;
 use std::string::String;
 // use rand::Rng;
 
-
 /// Show a usage message and exit.
 fn usage() -> ! {
     eprintln!("\n\n\tusage: <fractal-type> <file-name> <width>x<height>\n\n");
@@ -36,7 +35,7 @@ fn main() {
     
     match args[1].as_str() {
         "julia" => julia_fractal(imgx, imgy, filename),
-        //"mandelbrot" => mandelbrot_fractal(args.as_mut_slice()),
+        "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename),
         //"dragoncurve" =>
         //"levyccurve" =>
         _ => usage()
