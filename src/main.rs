@@ -20,22 +20,16 @@ fn usage() -> ! {
 }
 
 fn main() {
-    let mut args: Vec<String> = std::env::args().collect();
+    let args: Vec<String> = std::env::args().collect();
     if args.len() != 4 {
         usage()
     }
     let pixel_dims = parse_pair(&args[3], 'x').expect("bad image dimensions");
-    args[1] = args[1].to_lowercase();
 
-    let imgx = pixel_dims.0;
-    let imgy = pixel_dims.1;
-    let filename = &args[2];
-
-    //determine which fractal to use
-
-    match args[1].as_str() {
-        "julia" => julia_fractal(imgx, imgy, filename),
-        "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename),
+    // determine which fractal to use
+    match args[1].to_lowercase().as_str() {
+        "julia" => julia_fractal(pixel_dims.0, pixel_dims.1, &args[2]),
+        "mandelbrot" => mandelbrot_fractal(pixel_dims.0, pixel_dims.1, &args[2]),
         //"dragoncurve" =>
         //"levyccurve" =>
         _ => usage(),
