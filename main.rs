@@ -13,7 +13,7 @@ use std::string::String;
 
 /// Show a usage message and exit.
 fn usage() -> ! {
-    eprintln!("\n\n\tusage: <fractal-type> <file-name> <width>x<height>\n\n");
+    eprintln!("\n\n\tusage: <fractal-type> <file-name> <width>x<height> <color or gray>\n\n");
     std::process::exit(1)
 }
 
