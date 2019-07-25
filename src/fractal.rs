@@ -43,3 +43,4 @@ pub fn julia_fractal(imgx: u32, imgy: u32, filename: &str) {
     // Save the image as “fractal.png”, the format is deduced from the path
     imgbuf.save(filename).expect("Image write failed...");
 }
+

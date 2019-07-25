@@ -4,9 +4,11 @@
 // Mandelbrot example from Blandy & Orendorff, ch 1.
 // Compute and display a Mandelbrot set.
 
+mod barnsley;
 mod fractal;
 mod mandelbrot;
 
+use crate::barnsley::*;
 use crate::fractal::*;
 use crate::mandelbrot::*;
 
@@ -28,10 +30,10 @@ fn main() {
 
     // determine which fractal to use
     match args[1].to_lowercase().as_str() {
-        "julia" => julia_fractal(pixel_dims.0, pixel_dims.1, &args[2]),
+        "julia"      => julia_fractal(pixel_dims.0, pixel_dims.1, &args[2]),
         "mandelbrot" => mandelbrot_fractal(pixel_dims.0, pixel_dims.1, &args[2]),
+        "barnsley"   => barnsley_fern(pixel_dims.0, pixel_dims.1, &args[2]),
         //"dragoncurve" =>
-        //"levyccurve" =>
         _ => usage(),
     }
 }
