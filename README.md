@@ -11,7 +11,7 @@ This program extends the original code supplied by Bart Massey to include RGB co
 The following flags can be used to specify how an image is made
 * `--Mandelbrot`: Creates the Original Mandelbrot image
 * `--Julia Set`:  Creates the Julia Set fractal image
-* `--MultiJulia`: Creates a Multi branch Julia Set fractual image
+* `--Multi-Julia`: Creates a Multi branch Julia Set fractual image
 
 ## Build and Run
 
