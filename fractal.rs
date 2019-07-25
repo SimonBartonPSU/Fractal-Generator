@@ -3,7 +3,7 @@
 use ::image::Rgb;
 //use rand::Rng;
 
-pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str) {
+pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
     // https://crates.io/crates/image
     let scalex = 3.0 / imgx as f32;
     let scaley = 3.0 / imgy as f32;
@@ -42,7 +42,11 @@ pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str) {
 
             let Rgb(data) = *pixel;
 
-            *pixel = Rgb([data[0], i as u8, data[2]]);
+            if scheme == "color" {
+                *pixel = Rgb([data[0], i as u8, data[2]]);
+            }else {
+                *pixel = Rgb([i as u8, i as u8, i as u8]);
+            }
         }
     }
 
@@ -50,7 +54,7 @@ pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str) {
     imgbuf.save(filename).unwrap();
 }
 
-pub fn multi_julia(imgy: u32, imgx: u32, filename: &str) {
+pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
     // Create a new ImgBuf with width: imgx and height: imgy
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
 
@@ -88,7 +92,11 @@ pub fn multi_julia(imgy: u32, imgx: u32, filename: &str) {
 
             let Rgb(data) = *pixel;
 
-            *pixel = Rgb([data[0], i as u8, data[2]]);
+            if scheme == "color" {
+                *pixel = Rgb([data[0], i as u8, data[2]]);
+            }else {
+                *pixel = Rgb([i as u8, i as u8, i as u8]);
+            }
         }
     }
 

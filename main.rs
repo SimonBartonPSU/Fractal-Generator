@@ -30,7 +30,7 @@ pub fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
 
 fn main() {
     let mut args: Vec<String> = std::env::args().collect();
-    if args.len() != 4 {
+    if args.len() != 5 {
         usage()
     }
 
@@ -40,13 +40,14 @@ fn main() {
     let imgx = pixel_dims.0;
     let imgy = pixel_dims.1;
     let filename = &args[2];
+    let scheme = &args[4];
 
     //determine which fractal to use
 
     match args[1].as_str() {
-        "julia" => julia_fractal(imgx, imgy, filename),
+        "julia" => julia_fractal(imgx, imgy, filename, scheme),
         //"mandelbrot" => mandelbrot_fractal(args.as_mut_slice()),
-        "multi-julia" => multi_julia(imgx, imgy, filename),
+        "multi-julia" => multi_julia(imgx, imgy, filename, scheme),
         _ => usage(),
     }
 }
