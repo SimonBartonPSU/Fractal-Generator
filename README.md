@@ -9,9 +9,9 @@ This program generates fractal .png image patterns based on the list of fractals
 This program extends the original code supplied by Bart Massey to include RGB color schemes to the fractal images as the original code leaves it in black and white. The program also includes other fractal image choices for a variety of options and experimentation. The program will utilize the same general system for determineing the "shade" of a pixel and now apply it to the RGB color scheme included in the newest version of the image crate.
 
 The following flags can be used to specify how an image is made
-* `--Mandelbrot`:   Creates the Original Mandelbrot image
-* `--Dragoncurve`:  Creates the Dragoncurve fractal image
-* `--LevyCcurve`:   Creates the Levy C curve fractual image
+* `--Mandelbrot`: Creates the Original Mandelbrot image
+* `--Julia Set`:  Creates the Julia Set fractal image
+* `--Multi-Julia`: Creates a Multi branch Julia Set fractual image
 
 ## Build and Run
 
@@ -21,15 +21,12 @@ run the program with `cargo run`. However, to allow the program to correctly gen
     <fractal_type>
     <file>
     <width>x<height>
+    <color or gray>
 
 `--` before the program flag: for example,
 
-    cargo run --release mandelbrot mandelbrot.png 1000x1000 
-                       <Frac-type>    <file>     <widthxheight>
 
-or
-
-    cargo run -- julia julia.png 800x800
+    cargo run -- julia julia.png 800x800 color
 
 To build or run an optimized version, use `cargo --release`.
 
