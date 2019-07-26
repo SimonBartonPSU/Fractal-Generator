@@ -117,3 +117,4 @@ pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
 
     imgbuf.save(filename).unwrap();
 }
+

@@ -4,8 +4,10 @@
 // Mandelbrot example from Blandy & Orendorff, ch 1.
 // Compute and display a Mandelbrot set.
 
+mod barnsley;
 mod fractal;
 
+use crate::barnsley::*;
 use crate::fractal::*;
 use std::str::FromStr;
 use std::string::String;
