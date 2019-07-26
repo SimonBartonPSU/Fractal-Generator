@@ -6,12 +6,13 @@
 
 mod barnsley;
 mod fractal;
+mod mandelbrot;
 
 use crate::barnsley::*;
 use crate::fractal::*;
-use std::str::FromStr;
+use crate::mandelbrot::*;
 use std::string::String;
-// use rand::Rng;
+use std::str::FromStr;
 
 /// Show a usage message and exit.
 fn usage() -> ! {
@@ -19,6 +20,8 @@ fn usage() -> ! {
     std::process::exit(1)
 }
 
+/// Parse a string as a pair of values separated by a
+/// separator char.
 pub fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
     let fields: Vec<&str> = s.split(sep).collect();
     if fields.len() != 2 {
@@ -47,8 +50,9 @@ fn main() {
     //determine which fractal to use
 
     match args[1].as_str() {
-        "julia" => julia_fractal(imgx, imgy, filename, scheme),
-        //"mandelbrot" => mandelbrot_fractal(args.as_mut_slice()),
+        "barnsley"    => barnsley_fern(imgx, imgy, filename, scheme), 
+        "julia"       => julia_fractal(imgx, imgy, filename, scheme),
+        "mandelbrot"  => mandelbrot_fractal(imgx, imgy, filename, scheme),
         "multi-julia" => multi_julia(imgx, imgy, filename, scheme),
         _ => usage(),
     }

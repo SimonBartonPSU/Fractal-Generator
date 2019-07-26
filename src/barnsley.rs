@@ -3,7 +3,7 @@
 
 use rand::Rng;
 
-pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str) {
+pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: &str) {
     let max_iter = 200000_u32;
     let mut rng = rand::thread_rng();
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
@@ -38,7 +38,11 @@ pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str) {
         let new_x = ((imgx as f64) / 2. + x * (imgx as f64) / 11.).round() as u32;
         let new_y = ((imgy as f64) - y * (imgy as f64) / 11.).round() as u32;
         let pixel = imgbuf.get_pixel_mut(new_x, new_y);
-        *pixel = image::Rgb([50 as u8, 205 as u8, 50 as u8]);
+        if scheme == "color" {
+            *pixel = image::Rgb([50 as u8, 205 as u8, 50 as u8]);
+        } else {
+            *pixel = image::Rgb([255 as u8, 255 as u8, 255 as u8]);
+        }
     }
 
     imgbuf.save(filename).expect("Image write failed...");
