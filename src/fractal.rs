@@ -66,25 +66,20 @@ pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
 
 //=======================================================================
 
-pub fn pixel_set_multi(
-    (imgx, imgy): (u32, u32),
-    (loop_i, loop_j): (u32, u32),
-    mut iteration: u64,
-) -> u64 {
-    let mut value_x = 3.0 * (loop_i as f32 - 0.5 * imgx as f32) / (imgx as f32);
-    let mut value_y = 2.0 * (loop_j as f32 - 0.5 * imgy as f32) / (imgy as f32);
-    let safety_check = (value_x * value_x) + (value_y * value_y);
+pub fn pixel_set_multi((imgx, imgy): (f32, f32), (loop_x, loop_y): (f32, f32), mut i: u64) -> u64 {
+    let mut val_x = 3.0 * (loop_x - 0.5 * imgx) / (imgx);
+    let mut val_y = 2.0 * (loop_y - 0.5 * imgy) / (imgy);
     let complex_x = -0.9;
     let complex_y = 0.27015;
 
-    while safety_check < 4.0 && iteration > 1 {
-        let holder = (value_x * value_x) - (value_y * value_y) + complex_x;
-        value_y = 2.0 * (value_x * value_y + complex_y);
-        value_x = holder;
-        iteration -= 1;
+    while (val_x * val_x + val_y * val_y) < 4.0 && i > 1 {
+        let holder = (val_x * val_x) - (val_y * val_y) + complex_x;
+        val_y = 2.0 * (val_x * val_y) + complex_y;
+        val_x = holder;
+        i -= 1;
     }
 
-    iteration
+    i
 }
 
 pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
@@ -97,15 +92,18 @@ pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
         *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]);
     }
 
-    let img = (imgx, imgy);
+    //let imgx_edit = 8000;
+    //let imgy_edit = 6000;
 
-    for i in 0..imgx {
-        for j in 0..imgy {
-            let loop_val = (i, j);
+    let img = (imgx as f32, imgy as f32);
+
+    for x in 0..imgx {
+        for y in 0..imgy {
+            let loop_val = (x as f32, y as f32);
 
             let result = pixel_set_multi(img, loop_val, 110);
 
-            let pixel = imgbuf.get_pixel_mut(i, j);
+            let pixel = imgbuf.get_pixel_mut(x, y);
 
             let Rgb(data) = *pixel;
 
