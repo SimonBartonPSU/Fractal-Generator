@@ -5,11 +5,13 @@
 // Compute and display a Mandelbrot set.
 
 mod barnsley;
-mod fractal;
+mod julia_sets;
+mod multi_julia_set;
 mod mandelbrot;
 
 use crate::barnsley::*;
-use crate::fractal::*;
+use crate::julia_sets::*;
+use crate::multi_julia_set::*;
 use crate::mandelbrot::*;
 use std::string::String;
 use std::str::FromStr;
