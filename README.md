@@ -12,6 +12,7 @@ The following flags can be used to specify how an image is made
 * `--Mandelbrot`: Creates the Original Mandelbrot image
 * `--Julia Set`:  Creates the Julia Set fractal image
 * `--Multi-Julia`: Creates a Multi branch Julia Set fractual image
+* `--Barnsley`: Creates the Barnsley fern fractal image
 
 ## Build and Run
 
