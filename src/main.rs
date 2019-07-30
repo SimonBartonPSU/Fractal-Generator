@@ -6,15 +6,15 @@
 
 mod barnsley;
 mod julia_sets;
-mod multi_julia_set;
 mod mandelbrot;
+mod multi_julia_set;
 
 use crate::barnsley::*;
 use crate::julia_sets::*;
-use crate::multi_julia_set::*;
 use crate::mandelbrot::*;
-use std::string::String;
+use crate::multi_julia_set::*;
 use std::str::FromStr;
+use std::string::String;
 
 /// Show a usage message and exit.
 fn usage() -> ! {
@@ -52,9 +52,9 @@ fn main() {
     //determine which fractal to use
 
     match args[1].as_str() {
-        "barnsley"    => barnsley_fern(imgx, imgy, filename, scheme), 
-        "julia"       => julia_fractal(imgx, imgy, filename, scheme),
-        "mandelbrot"  => mandelbrot_fractal(imgx, imgy, filename, scheme),
+        "barnsley" => barnsley_fern(imgx, imgy, filename, scheme),
+        "julia" => julia_fractal(imgx, imgy, filename, scheme),
+        "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename, scheme),
         "multi-julia" => multi_julia(imgx, imgy, filename, scheme),
         _ => usage(),
     }

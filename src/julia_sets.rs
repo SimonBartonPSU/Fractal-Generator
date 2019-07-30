@@ -63,4 +63,3 @@ pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
     // Save the image
     imgbuf.save(filename).unwrap();
 }
-

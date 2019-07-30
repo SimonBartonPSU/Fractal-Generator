@@ -35,6 +35,6 @@ pub fn mandelbrot_fractal(imgx: u32, imgy: u32, filename: &str, scheme: &str) {
             *pixel = image::Rgb([i as u8, i as u8, i as u8]);
         }
     }
-    
+
     imgbuf.save(filename).expect("Image write failed...");
 }
