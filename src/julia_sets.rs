@@ -11,10 +11,8 @@ use rand::Rng;
 /// do so until the value is outside the appropriate range where it can still generate
 /// correctly. The int value that is broken out of the function is returned
 /// and used for the color shade of the currently specfied pixel.
-pub fn pixel_setter((complex_x, complex_y): (f32, f32), mut iteration: u64) -> u64 {
-    let mut rng = rand::thread_rng();
-    let randjulia = rng.gen_range(1, 3);
-
+pub fn pixel_setter((complex_x, complex_y): (f32, f32), mut iteration: u64, randjulia: u64) -> u64 {
+    
     //determine which julia_set fractal will be generated
     let complex_num = match randjulia {
         1 => num::Complex::new(-0.4, 0.6),
@@ -46,19 +44,24 @@ pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
         *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]);
     }
 
+    let mut rng = rand::thread_rng();
+    let randjulia = rng.gen_range(1, 4);
+
     //move through the dimensions of the image size, call the fractal generator to calculate the pixel shade, set pixel
     for x in 0..imgx {
         for y in 0..imgy {
             let complex_pos = ((y as f32 * scaleset.0 - 1.5), (x as f32 * scaleset.1 - 1.5)); //determines position in frame
 
-            let result = pixel_setter(complex_pos, 0);
+
+            let result = pixel_setter(complex_pos, 0, randjulia);
 
             let pixel = imgbuf.get_pixel_mut(x, y);
 
             let Rgb(data) = *pixel;
 
             if scheme == "color" {
-                *pixel = Rgb([data[0], result as u8, data[2]]);
+                *pixel = Rgb([result as u8, data[0], data[2]]);
+                //*pixel = Rgb([data[0], result as u8, data[2]]);
             } else {
                 *pixel = Rgb([result as u8, result as u8, result as u8]);
             }
