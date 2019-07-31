@@ -5,8 +5,6 @@
 // I/O Help
 // https://www.reddit.com/r/rust/comments/41hgwq/help_needed_user_input_in_rust/
 
-#![allow(dead_code)]
-
 mod barnsley;
 mod julia_sets;
 mod mandelbrot;
@@ -21,37 +19,36 @@ use crate::util::*;
 use std::string::String;
 
 fn usage() -> ! {
-    eprintln!("\n\n\tusage: <fractal-type> <file-name> <width>x<height> <color or gray>\n\n");
+    eprintln!("\n\n\tusage: <fractal-type> <file-name> <width>x<height>\n\n");
     std::process::exit(1)
 }
 
 fn main() {
-    let mut args: Vec<String> = std::env::args().collect();
-    if args.len() != 5 {
+    let mut args: Vec<String> = std::env::args().skip(1).collect();
+    if args.len() != 3 {
         usage()
     }
 
-    let pixel_dims = parse_pair(&args[3], 'x').expect("bad image dimensions");
-    args[1] = args[1].to_lowercase();
+    let pixel_dims = parse_pair(&args[2], 'x').expect("bad image dimensions");
+    args[0] = args[0].to_lowercase();
 
     let imgx = pixel_dims.0;
     let imgy = pixel_dims.1;
-    let filename = &args[2];
-    let color = &args[4];
+    let filename = &args[1];
     let scheme = Scheme::default(); 
 
-    let input: Vec<String> = user_menu();
+    let _input: Vec<String> = user_menu();
     //match input[0] {
         //"custom".to_string() =>
         //"random".to_string() =>
     //}
 
 
-    match args[1].as_str() {
+    match args[0].as_str() {
         "barnsley" => barnsley_fern(imgx, imgy, filename, scheme),
-        "julia" => julia_fractal(imgx, imgy, filename, color),
-        "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename, color),
-        "multi-julia" => multi_julia(imgx, imgy, filename, color),
+        //"julia" => julia_fractal(imgx, imgy, filename, color),
+        "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename, scheme),
+        //"multi-julia" => multi_julia(imgx, imgy, filename, color),
         _ => usage(),
     }
 }
