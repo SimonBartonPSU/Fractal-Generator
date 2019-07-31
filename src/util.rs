@@ -44,10 +44,10 @@ pub enum Color {
 }
 
 pub struct Scheme {
-    color_scheme: String,
-    color: Color,
-    background: bool,
-    bg_color: Color,
+    pub color_scheme: String,
+    pub color: Color,
+    pub background: bool,
+    pub bg_color: Color,
     // enum Transformation
 }
 
@@ -63,10 +63,17 @@ impl Default for Scheme {
 }
 
 /// Helper to return three u8s to funcion as an RGB
-pub fn get_rgb(color: Color) -> [3; u8] {
+pub fn rgb_data(color: Color) -> [u8; 3] {
     match color {
         Red    => [255, 0, 0],
-        Orange => [
+        Orange => [255, 165, 0],
+        Yellow => [255, 255, 0],
+        Blue   => [0, 0, 255],
+        Green  => [0, 128, 0],
+        Violet => [238, 130, 238],
+        Black  => [0, 0, 0],
+        White  => [255, 255, 255],
+    }
 }
 
 /// Helper to parse a string as a pair of values separated
