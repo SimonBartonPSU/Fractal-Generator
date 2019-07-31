@@ -7,7 +7,7 @@ use ::image::Rgb;
 use rand::Rng;
 
 ///Julia Set Fractal - Each pixel in the user specified dimensions runs through
-/// the loop that calculates the Julia set formula of (z^2 + c), and will continue to
+/// the loop that calculates the Julia set formula of (f(z) = z^2 + c), and will continue to
 /// do so until the value is outside the appropriate range where it can still generate
 /// correctly. The int value that is broken out of the function is returned
 /// and used for the color shade of the currently specfied pixel.
