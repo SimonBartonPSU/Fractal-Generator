@@ -42,13 +42,13 @@ fn main() {
 
     let input: Vec<String> = user_menu();
     //match input[0] {
-        //"normal".to_string() => 
-    //Scheme schema = {
+        //"custom".to_string() =>
+        //"random".to_string() =>
     //}
 
 
     match args[1].as_str() {
-        "barnsley" => barnsley_fern(imgx, imgy, filename, color),
+        "barnsley" => barnsley_fern(imgx, imgy, filename, scheme),
         "julia" => julia_fractal(imgx, imgy, filename, color),
         "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename, color),
         "multi-julia" => multi_julia(imgx, imgy, filename, color),

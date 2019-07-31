@@ -4,6 +4,7 @@
 // Barnsley's IFS: https://en.wikipedia.org/wiki/Barnsley_fern#Construction
 
 use rand::Rng;
+use crate::util::*;
 
 /// Plot Barnsley's fern - For each pixel in an image sized by user input,
 /// apply one of four affine transformations. That is, the x,y coordinate pair
@@ -13,9 +14,10 @@ use rand::Rng;
 ///
 /// A random number generator can be used to achieve
 /// the desired percentage occurence of each transformation.
-pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: &str) {
+pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: Scheme) {
     let mut rng = rand::thread_rng();
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
+    let color: [u8; 3] = rgb_data(scheme.color);
 
     let mut x = 0_f64;
     let mut y = 0_f64;
@@ -44,11 +46,7 @@ pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: &str) {
         let new_x = ((imgx as f64) / 2.0 + x * (imgx as f64) / 11.0).round() as u32;
         let new_y = ((imgy as f64) - y * (imgy as f64) / 11.0).round() as u32;
         let pixel = imgbuf.get_pixel_mut(new_x, new_y);
-        if scheme == "color" {
-            *pixel = image::Rgb([50 as u8, 205 as u8, 50 as u8]);
-        } else {
-            *pixel = image::Rgb([255 as u8, 255 as u8, 255 as u8]);
-        }
+        *pixel = image::Rgb([color[0], color[1], color[2]]);
     }
 
     imgbuf.save(filename).expect("Image write failed...");
