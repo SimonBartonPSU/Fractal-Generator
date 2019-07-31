@@ -3,16 +3,15 @@
 // Inspired by http://rosettacode.org/wiki/Barnsley_fern
 // Barnsley's IFS: https://en.wikipedia.org/wiki/Barnsley_fern#Construction
 
-
 use rand::Rng;
 
 /// Plot Barnsley's fern - For each pixel in an image sized by user input,
 /// apply one of four affine transformations. That is, the x,y coordinate pair
 /// is mulitplied by some values in Barnsley's matrix of constants.
 /// Although tedious, this iterated function system could technically
-/// be plotted by hand. 
+/// be plotted by hand.
 ///
-/// A random number generator can be used to achieve 
+/// A random number generator can be used to achieve
 /// the desired percentage occurence of each transformation.
 pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: &str) {
     let mut rng = rand::thread_rng();
@@ -22,7 +21,6 @@ pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: &str) {
     let mut y = 0_f64;
 
     for _ in 0..20000_u32 {
-
         let rand_num = rng.gen::<f32>();
         let cx: f64;
         let cy: f64;
