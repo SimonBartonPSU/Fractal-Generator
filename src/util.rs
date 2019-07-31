@@ -63,7 +63,7 @@ impl Default for Scheme {
 }
 
 /// Helper to return three u8s to funcion as an RGB
-pub fn rgb_data(color: Color) -> [u8; 3] {
+pub fn color_to_rgb(color: Color) -> [u8; 3] {
     match color {
         Red    => [255, 0, 0],
         Orange => [255, 165, 0],
