@@ -2,37 +2,27 @@
 
 // Originally inspired by the
 // Mandelbrot example from Blandy & Orendorff, ch 1.
-// Compute and display a Mandelbrot set.
+// I/O Help
+// https://www.reddit.com/r/rust/comments/41hgwq/help_needed_user_input_in_rust/
+
+#![allow(dead_code)]
 
 mod barnsley;
 mod julia_sets;
 mod mandelbrot;
 mod multi_julia_set;
+mod util;
 
 use crate::barnsley::*;
 use crate::julia_sets::*;
 use crate::mandelbrot::*;
 use crate::multi_julia_set::*;
-use std::str::FromStr;
+use crate::util::*;
 use std::string::String;
 
-/// Show a usage message and exit.
 fn usage() -> ! {
     eprintln!("\n\n\tusage: <fractal-type> <file-name> <width>x<height> <color or gray>\n\n");
     std::process::exit(1)
-}
-
-/// Parse a string as a pair of values separated by a
-/// separator char.
-pub fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
-    let fields: Vec<&str> = s.split(sep).collect();
-    if fields.len() != 2 {
-        return None;
-    }
-    match (T::from_str(fields[0]), T::from_str(fields[1])) {
-        (Ok(f0), Ok(f1)) => Some((f0, f1)),
-        _ => None,
-    }
 }
 
 fn main() {
@@ -47,15 +37,21 @@ fn main() {
     let imgx = pixel_dims.0;
     let imgy = pixel_dims.1;
     let filename = &args[2];
-    let scheme = &args[4];
+    let color = &args[4];
+    let scheme = Scheme::default(); 
 
-    //determine which fractal to use
+    let input: Vec<String> = user_menu();
+    //match input[0] {
+        //"normal".to_string() => 
+    //Scheme schema = {
+    //}
+
 
     match args[1].as_str() {
-        "barnsley" => barnsley_fern(imgx, imgy, filename, scheme),
-        "julia" => julia_fractal(imgx, imgy, filename, scheme),
-        "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename, scheme),
-        "multi-julia" => multi_julia(imgx, imgy, filename, scheme),
+        "barnsley" => barnsley_fern(imgx, imgy, filename, color),
+        "julia" => julia_fractal(imgx, imgy, filename, color),
+        "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename, color),
+        "multi-julia" => multi_julia(imgx, imgy, filename, color),
         _ => usage(),
     }
 }
