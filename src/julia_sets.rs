@@ -3,24 +3,26 @@
 //base code credited to: https://crates.io/crates/image
 //resource on julia_set fractals: https://en.wikipedia.org/wiki/Julia_set#Pseudocode_for_normal_Julia_sets
 
-
 use ::image::Rgb;
 use rand::Rng;
 
-
+///Julia Set Fractal - Each pixel in the user specified dimensions runs through
+/// the loop that calculates the Julia set formula of (z^2 + c), and will continue to
+/// do so until the value is outside the appropriate range where it can still generate
+/// correctly. The int value that is broken out of the function is returned
+/// and used for the color shade of the currently specfied pixel.
 pub fn pixel_setter((complex_x, complex_y): (f32, f32), mut iteration: u64) -> u64 {
-    
     let mut rng = rand::thread_rng();
     let randjulia = rng.gen_range(1, 3);
 
     //determine which julia_set fractal will be generated
     let complex_num = match randjulia {
-    	1 => num::Complex::new(-0.4, 0.6),
-    	2 => num::Complex::new(0.285, 0.01),
-    	3 => num::Complex::new(-0.7269, 0.1889),
-    	_ => num::Complex::new(-0.4, 0.6),
+        1 => num::Complex::new(-0.4, 0.6),
+        2 => num::Complex::new(0.285, 0.01),
+        3 => num::Complex::new(-0.7269, 0.1889),
+        _ => num::Complex::new(-0.4, 0.6),
     };
-	
+
     let mut value = num::Complex::new(complex_x, complex_y);
 
     while iteration < 255 && value.norm() <= 2.0 {
@@ -38,12 +40,13 @@ pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
 
     // Create a new ImgBuf with width: imgx and height: imgy
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
-  
+
     // Iterate over the coordinates and pixels of the image
     for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
         *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]);
     }
 
+    //move through the dimensions of the image size, call the fractal generator to calculate the pixel shade, set pixel
     for x in 0..imgx {
         for y in 0..imgy {
             let complex_pos = ((y as f32 * scaleset.0 - 1.5), (x as f32 * scaleset.1 - 1.5)); //determines position in frame
@@ -65,4 +68,3 @@ pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
     // Save the image
     imgbuf.save(filename).unwrap();
 }
-
