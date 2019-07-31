@@ -5,30 +5,42 @@
 use std::io;
 use std::str::FromStr;
 use crate::util::Color::*;
+use image::*;
 
-pub fn user_menu() -> Vec<String> {
+/// Main mechanism for user interaction
+/// Allows user to generate fractal in three ways
+/// 
+pub fn user_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
-    let mut result = Vec::<String>::new();
     println!("normal, custom, or random fractal generation?");
     io::stdin().read_line(&mut input).ok().expect("Expected good input");
 
-    result.push(input.clone());
+    let trimmed: &str = input.trim();
 
-    if input == "custom".to_string() {
-        custom_menu(&mut result);
+    match trimmed {
+        "normal" => normal_menu(&mut scheme),
+        "custom" => custom_menu(&mut scheme),
+        "random" => _randomize(&mut scheme),
+        _ => println!("Unrecognized input... running default."),
     }
-    else if input == "random".to_string() {
-        println!("random scheme");
-        // random_scheme(),
-    }
-    result
 }
 
-pub fn custom_menu(result: &mut Vec<String>) {
+pub fn normal_menu(mut scheme: &mut Scheme) {
+    let mut input = String::new();
+    println!("What color fractal? (ROYGBIV)");
+    io::stdin().read_line(&mut input).ok().expect("Expected good input");
+    scheme.color = str_to_color(input.trim());
+}
+
+pub fn custom_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
     println!("What color fractal? (ROYGBIV, Black, White)");
     io::stdin().read_line(&mut input).ok().expect("Expected good input");
-    result.push(input);
+    scheme.color = str_to_color(&input);
+}
+
+pub fn _randomize(_scheme: &mut Scheme) {
+
 }
 
 /// Supported colors for user input
@@ -43,27 +55,30 @@ pub enum Color {
     White,
 }
 
+/// Container for properties of fractal being built
 pub struct Scheme {
-    pub color_scheme: String,
+    /// Actual color of the fractal
     pub color: Color,
-    pub background: bool,
+    pub fancy_background: bool,
     pub bg_color: Color,
+    pub bg_color_2: Color,
     // enum Transformation
 }
 
 impl Default for Scheme {
     fn default() -> Scheme {
         Scheme {
-            color_scheme: "rgb".to_string(),
-            color: Blue,
-            background: false,
+            color: Green,
+            fancy_background: false,
             bg_color: Black,
+            bg_color_2: Red, 
         }
     }
 }
 
-/// Helper to return three u8s to funcion as an RGB
-pub fn color_to_rgb(color: Color) -> [u8; 3] {
+/// Helper to return three u8s based on parsed color
+/// u8s function as RGB data
+pub fn color_to_rgb(color: &Color) -> [u8; 3] {
     match color {
         Red    => [255, 0, 0],
         Orange => [255, 165, 0],
@@ -73,6 +88,39 @@ pub fn color_to_rgb(color: Color) -> [u8; 3] {
         Violet => [238, 130, 238],
         Black  => [0, 0, 0],
         White  => [255, 255, 255],
+    }
+}
+
+/// Convenient conversion from String to a Color
+/// Defaults to Blue for invalid input colors
+pub fn str_to_color(color: &str) -> Color {
+    match color {
+        "red"    => Red,
+        "orange" => Orange,
+        "yellow" => Yellow,
+        "blue"   => Blue,
+        "green"  => Green,
+        "violet" => Violet,
+        "black"  => Black,
+        "white"  => White,
+        &_       => Blue,
+    }
+}
+
+/// Iterate over the pixels of the image and apply a cool
+/// background transitioning from one color to another
+pub fn apply_fancy_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>) {
+    for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
+        *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]);
+    }
+}
+
+/// Iterate over the pixels of the image and apply a cool
+/// background transitioning from one color to another
+pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Scheme) {
+    let color: [u8; 3] = color_to_rgb(&scheme.bg_color);
+    for (_x, _y, pixel) in imgbuf.enumerate_pixels_mut() {
+        *pixel = Rgb([color[0], color[1], color[2]]);
     }
 }
 

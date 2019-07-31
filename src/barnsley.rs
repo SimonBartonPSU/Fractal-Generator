@@ -17,10 +17,12 @@ use crate::util::*;
 pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: Scheme) {
     let mut rng = rand::thread_rng();
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
-    let color: [u8; 3] = color_to_rgb(scheme.color);
+    let color: [u8; 3] = color_to_rgb(&scheme.color);
 
     let mut x = 0_f64;
     let mut y = 0_f64;
+
+    apply_background(&mut imgbuf, &scheme);
 
     for _ in 0..20000_u32 {
         let rand_num = rng.gen::<f32>();

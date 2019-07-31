@@ -35,20 +35,15 @@ fn main() {
     let imgx = pixel_dims.0;
     let imgy = pixel_dims.1;
     let filename = &args[1];
-    let scheme = Scheme::default(); 
+    let mut scheme = Scheme::default(); 
 
-    let _input: Vec<String> = user_menu();
-    //match input[0] {
-        //"custom".to_string() =>
-        //"random".to_string() =>
-    //}
-
+    user_menu(&mut scheme);
 
     match args[0].as_str() {
         "barnsley" => barnsley_fern(imgx, imgy, filename, scheme),
-        //"julia" => julia_fractal(imgx, imgy, filename, color),
+        "julia" => julia_fractal(imgx, imgy, filename, "color"),
         "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename, scheme),
-        //"multi-julia" => multi_julia(imgx, imgy, filename, color),
+        "multi-julia" => multi_julia(imgx, imgy, filename, "color"),
         _ => usage(),
     }
 }

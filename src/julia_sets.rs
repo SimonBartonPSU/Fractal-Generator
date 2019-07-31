@@ -1,6 +1,6 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
 
-use ::image::Rgb;
+use image::Rgb;
 
 //use rand::Rng;
 
