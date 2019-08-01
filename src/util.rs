@@ -22,12 +22,18 @@ pub fn user_menu(mut scheme: &mut Scheme) {
 
     match trimmed {
         "normal" => normal_menu(&mut scheme),
-        "custom" => { normal_menu(&mut scheme); custom_menu(&mut scheme) },
+        "custom" => {
+            println!("We're glad you chose customization message\n\n");
+            normal_menu(&mut scheme);
+            custom_menu(&mut scheme)
+        }
         "random" => _randomize(&mut scheme),
         _ => println!("Unrecognized input... running default."),
     }
 }
 
+/// The normal option allows a user to select only the color
+/// of the fractal they will generate.
 pub fn normal_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
     if scheme.fractal == "barnsley".to_string() {
@@ -35,22 +41,33 @@ pub fn normal_menu(mut scheme: &mut Scheme) {
     } else {
         println!("What color fractal? red, green, blue, or white?");
     }
-    io::stdin()
-        .read_line(&mut input)
-        .ok();
+    io::stdin().read_line(&mut input).ok();
     scheme.color = str_to_color(input.trim());
 }
 
+/// The custom option allows a user to fine tune properties
+/// of the fractal art image.
 pub fn custom_menu(mut scheme: &mut Scheme) {
-    let mut input = String::new();
-    //let mut response = String::new();
-    println!("We're glad you've chosen customization.\n\n");
-    println!("Select an item to customize"); // TODO while loop to select items
-    println!("What color background would you like? ");
-    io::stdin()
-        .read_line(&mut input)
-        .ok(); 
-    scheme.bg_color = str_to_color(input.trim());
+    let mut buffer = String::new();
+    let std = io::stdin();
+
+    let mut finished: bool = false;
+    while !finished {
+        println!("Select an item to customize by its ID number:");
+        println!("    1. Background color (solid)\n    2. Background color (transition)\n    'quit' to quit\n");
+        std.read_line(&mut buffer).ok();
+
+        match buffer.trim() {
+            "1" => {
+                println!("What color background would you like? ");
+                io::stdin().read_line(&mut buffer).ok();
+                scheme.bg_color = str_to_color(buffer.trim());
+            },
+            "quit" => finished = true,
+            _ => println!("Invalid input: {:?}. Enter a number (1, 2, ..)", buffer),
+        }
+        buffer.clear();
+    }
 }
 
 pub fn _randomize(_scheme: &mut Scheme) {}
@@ -134,23 +151,22 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Sch
             match scheme.bg_color {
                 Red => match scheme.bg_color_2 {
                     Blue => *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]),
-                    Green => *pixel = Rgb([((0.3 * x as f32) as u8), ((0.3*y as f32) as u8), 0]),
+                    Green => *pixel = Rgb([((0.3 * x as f32) as u8), ((0.3 * y as f32) as u8), 0]),
                     _ => println!("Unsupported bg_color_2"),
-                }
+                },
                 Green => match scheme.bg_color_2 {
                     Blue => *pixel = Rgb([0, ((0.3 * x as f32) as u8), ((0.3 * y as f32) as u8)]),
                     Red => *pixel = Rgb([((0.3 * x as f32) as u8), ((0.3 * y as f32) as u8), 0]),
                     _ => println!("Unsupported bg_color_2"),
-                }
+                },
                 Blue => match scheme.bg_color_2 {
                     Red => *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]),
                     Green => *pixel = Rgb([0, ((0.3 * x as f32) as u8), ((0.3 * y as f32) as u8)]),
                     _ => println!("Unsupported bg_color_2"),
-                }
+                },
                 _ => println!("Unsupported bg_color"),
             }
-        }
-        else {
+        } else {
             *pixel = Rgb([color[0], color[1], color[2]]);
         }
     }
