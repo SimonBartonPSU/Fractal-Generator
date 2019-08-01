@@ -35,15 +35,15 @@ fn main() {
     let imgx = pixel_dims.0;
     let imgy = pixel_dims.1;
     let filename = &args[1];
-    let mut scheme = Scheme::default(); 
+    let mut scheme = Scheme { fractal: args[0].clone(), ..Default::default() }; 
 
     user_menu(&mut scheme);
 
     match args[0].as_str() {
         "barnsley" => barnsley_fern(imgx, imgy, filename, scheme),
-        "julia" => julia_fractal(imgx, imgy, filename, "color"),
+        "julia" => julia_fractal(imgx, imgy, filename, scheme),
         "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename, scheme),
-        "multi-julia" => multi_julia(imgx, imgy, filename, "color"),
+        //"multi-julia" => multi_julia(imgx, imgy, filename, scheme),
         _ => usage(),
     }
 }

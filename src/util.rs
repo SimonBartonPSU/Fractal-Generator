@@ -27,7 +27,12 @@ pub fn user_menu(mut scheme: &mut Scheme) {
 
 pub fn normal_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
-    println!("What color fractal? (ROYGBIV)");
+    if scheme.fractal == "barnsley".to_string() {
+        println!("What color fractal? (ROYGBIV)");
+    }
+    else {
+        println!("What color fractal? red, green, blue, or white?");
+    }
     io::stdin().read_line(&mut input).ok().expect("Expected good input");
     scheme.color = str_to_color(input.trim());
 }
@@ -44,6 +49,7 @@ pub fn _randomize(_scheme: &mut Scheme) {
 }
 
 /// Supported colors for user input
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Color {
     Red,
     Orange,
@@ -57,6 +63,7 @@ pub enum Color {
 
 /// Container for properties of fractal being built
 pub struct Scheme {
+    pub fractal: String,
     /// Actual color of the fractal
     pub color: Color,
     pub fancy_background: bool,
@@ -68,6 +75,7 @@ pub struct Scheme {
 impl Default for Scheme {
     fn default() -> Scheme {
         Scheme {
+            fractal: "mandelbrot".to_string(),
             color: Green,
             fancy_background: false,
             bg_color: Black,
@@ -109,18 +117,31 @@ pub fn str_to_color(color: &str) -> Color {
 
 /// Iterate over the pixels of the image and apply a cool
 /// background transitioning from one color to another
-pub fn apply_fancy_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>) {
+pub fn apply_fancy_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Scheme) {
+    let color_one: [u8; 3] = color_to_rgb(&scheme.bg_color);
     for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
-        *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]);
     }
 }
 
 /// Iterate over the pixels of the image and apply a cool
-/// background transitioning from one color to another
+/// background, which will depend on scheme.
+/// Either transitioning from one color to another
+/// or just a solid background.
 pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Scheme) {
     let color: [u8; 3] = color_to_rgb(&scheme.bg_color);
-    for (_x, _y, pixel) in imgbuf.enumerate_pixels_mut() {
-        *pixel = Rgb([color[0], color[1], color[2]]);
+    let color_two: [u8; 3] = color_to_rgb(&scheme.bg_color_2);
+
+    for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
+        if scheme.fancy_background {
+            *pixel = Rgb([((0.3 * x as f32) as u8), 
+                            0, 
+                            ((0.3 * y as f32) as u8)]);
+        }
+        /* TODO
+        else {
+            *pixel = Rgb([color[0], color[1], color[2]]);
+        }
+        */
     }
 }
 

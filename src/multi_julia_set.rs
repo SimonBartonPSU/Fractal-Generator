@@ -1,6 +1,7 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
-
-use ::image::Rgb;
+/*
+use image::Rgb;
+use crate::util::*;
 
 pub fn pixel_set_multi((imgx, imgy): (f32, f32), (loop_x, loop_y): (f32, f32), mut i: u64) -> u64 {
     let mut val_x = 3.0 * (loop_x - 0.5 * imgx) / (imgx);
@@ -18,7 +19,7 @@ pub fn pixel_set_multi((imgx, imgy): (f32, f32), (loop_x, loop_y): (f32, f32), m
     i
 }
 
-pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
+pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: Scheme) {
     // Create a new ImgBuf with width: imgx and height: imgy
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
 
@@ -53,3 +54,4 @@ pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
 
     imgbuf.save(filename).unwrap();
 }
+*/
