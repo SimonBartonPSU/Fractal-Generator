@@ -2,18 +2,21 @@
 
 #![allow(dead_code)]
 
-use std::io;
-use std::str::FromStr;
 use crate::util::Color::*;
 use image::*;
+use std::io;
+use std::str::FromStr;
 
 /// Main mechanism for user interaction
 /// Allows user to generate fractal in three ways
-/// 
+///
 pub fn user_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
     println!("normal, custom, or random fractal generation?");
-    io::stdin().read_line(&mut input).ok().expect("Expected good input");
+    io::stdin()
+        .read_line(&mut input)
+        .ok()
+        .expect("Expected good input");
 
     let trimmed: &str = input.trim();
 
@@ -29,24 +32,27 @@ pub fn normal_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
     if scheme.fractal == "barnsley".to_string() {
         println!("What color fractal? (ROYGBIV)");
-    }
-    else {
+    } else {
         println!("What color fractal? red, green, blue, or white?");
     }
-    io::stdin().read_line(&mut input).ok().expect("Expected good input");
+    io::stdin()
+        .read_line(&mut input)
+        .ok()
+        .expect("Expected good input");
     scheme.color = str_to_color(input.trim());
 }
 
 pub fn custom_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
     println!("What color fractal? (ROYGBIV, Black, White)");
-    io::stdin().read_line(&mut input).ok().expect("Expected good input");
+    io::stdin()
+        .read_line(&mut input)
+        .ok()
+        .expect("Expected good input");
     scheme.color = str_to_color(&input);
 }
 
-pub fn _randomize(_scheme: &mut Scheme) {
-
-}
+pub fn _randomize(_scheme: &mut Scheme) {}
 
 /// Supported colors for user input
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -79,7 +85,7 @@ impl Default for Scheme {
             color: Green,
             fancy_background: false,
             bg_color: Black,
-            bg_color_2: Red, 
+            bg_color_2: Red,
         }
     }
 }
@@ -88,14 +94,14 @@ impl Default for Scheme {
 /// u8s function as RGB data
 pub fn color_to_rgb(color: &Color) -> [u8; 3] {
     match color {
-        Red    => [255, 0, 0],
+        Red => [255, 0, 0],
         Orange => [255, 165, 0],
         Yellow => [255, 255, 0],
-        Blue   => [0, 0, 255],
-        Green  => [0, 128, 0],
+        Blue => [0, 0, 255],
+        Green => [0, 128, 0],
         Violet => [238, 130, 238],
-        Black  => [0, 0, 0],
-        White  => [255, 255, 255],
+        Black => [0, 0, 0],
+        White => [255, 255, 255],
     }
 }
 
@@ -103,15 +109,15 @@ pub fn color_to_rgb(color: &Color) -> [u8; 3] {
 /// Defaults to Blue for invalid input colors
 pub fn str_to_color(color: &str) -> Color {
     match color {
-        "red"    => Red,
+        "red" => Red,
         "orange" => Orange,
         "yellow" => Yellow,
-        "blue"   => Blue,
-        "green"  => Green,
+        "blue" => Blue,
+        "green" => Green,
         "violet" => Violet,
-        "black"  => Black,
-        "white"  => White,
-        &_       => Blue,
+        "black" => Black,
+        "white" => White,
+        &_ => Blue,
     }
 }
 
@@ -119,8 +125,7 @@ pub fn str_to_color(color: &str) -> Color {
 /// background transitioning from one color to another
 pub fn apply_fancy_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Scheme) {
     let color_one: [u8; 3] = color_to_rgb(&scheme.bg_color);
-    for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
-    }
+    for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {}
 }
 
 /// Iterate over the pixels of the image and apply a cool
@@ -133,9 +138,7 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Sch
 
     for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
         if scheme.fancy_background {
-            *pixel = Rgb([((0.3 * x as f32) as u8), 
-                            0, 
-                            ((0.3 * y as f32) as u8)]);
+            *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]);
         }
         /* TODO
         else {
@@ -157,3 +160,18 @@ pub fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
         _ => None,
     }
 }
+
+// Helper -- map a color onto an rgb pixel
+/*
+pub fn paint_color(pixel: &mut image::Pixel::Rgb([u8; 3]),
+                            scheme: &Scheme, result: u64) {
+    let Rgb(data) = *pixel;
+    match scheme.color {
+        Red   => *pixel = Rgb([result as u8, data[1], data[2]]),
+        Green => *pixel = Rgb([data[0], result as u8, data[2]]),
+        Blue  => *pixel = Rgb([data[0], data[1], result as u8]),
+        White => *pixel = Rgb([result as u8, result as u8, result as u8]),
+        _ => panic!("Unsupported color"),
+    }
+}
+*/

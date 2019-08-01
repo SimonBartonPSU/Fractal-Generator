@@ -3,10 +3,9 @@
 //base code credited to: https://crates.io/crates/image
 //resource on julia_set fractals: https://en.wikipedia.org/wiki/Julia_set#Pseudocode_for_normal_Julia_sets
 
-
-use image::Rgb;
-use crate::util::*;
 use crate::util::Color::*;
+use crate::util::*;
+use image::Rgb;
 use rand::Rng;
 
 ///Julia Set Fractal - Each pixel in the user specified dimensions runs through
@@ -15,7 +14,6 @@ use rand::Rng;
 /// correctly. The int value that is broken out of the function is returned
 /// and used for the color shade of the currently specfied pixel.
 pub fn pixel_setter((complex_x, complex_y): (f32, f32), mut iteration: u64, randjulia: u64) -> u64 {
-    
     //determine which julia_set fractal will be generated
     let complex_num = match randjulia {
         1 => num::Complex::new(-0.4, 0.6),
@@ -47,7 +45,6 @@ pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: Scheme) {
 
     apply_background(&mut imgbuf, &scheme);
 
-
     let mut rng = rand::thread_rng();
     let randjulia = rng.gen_range(1, 4);
 
@@ -63,12 +60,11 @@ pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: Scheme) {
             let Rgb(data) = *pixel;
 
             match scheme.color {
-                Red   => *pixel = Rgb([result as u8, data[1], data[2]]),
+                Red => *pixel = Rgb([result as u8, data[1], data[2]]),
                 Green => *pixel = Rgb([data[0], result as u8, data[2]]),
-                Blue  => *pixel = Rgb([data[0], data[1], result as u8]),
+                Blue => *pixel = Rgb([data[0], data[1], result as u8]),
                 White => *pixel = Rgb([result as u8, result as u8, result as u8]),
                 _ => panic!("Unsupported color"),
-
             }
         }
     }

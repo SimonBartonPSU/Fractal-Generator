@@ -3,9 +3,9 @@
 // base code credited to: https://rosettacode.org/wiki/Julia_set#Rust
 // knowledge source and pseudo code: https://en.wikipedia.org/wiki/Julia_set#Pseudocode_for_normal_Julia_sets
 
-use image::Rgb;
-use crate::util::*;
 use crate::util::Color::*;
+use crate::util::*;
+use image::Rgb;
 
 /// Multi-Julia Set Fractal - Each pixel in the user specified dimensions runs through
 /// the loop that calculates the Julia set formula of (f(z) = z^n + c), and will continue to
@@ -55,15 +55,14 @@ pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: Scheme) {
             let pixel = imgbuf.get_pixel_mut(x, y);
 
             let Rgb(data) = *pixel;
-            
+
             match scheme.color {
-                Red   => *pixel = Rgb([result as u8, data[1], data[2]]),
+                Red => *pixel = Rgb([result as u8, data[1], data[2]]),
                 Green => *pixel = Rgb([data[0], result as u8, data[2]]),
-                Blue  => *pixel = Rgb([data[0], data[1], result as u8]),
+                Blue => *pixel = Rgb([data[0], data[1], result as u8]),
                 White => *pixel = Rgb([result as u8, result as u8, result as u8]),
                 _ => panic!("Unsupported color"),
             }
-
         }
     }
 

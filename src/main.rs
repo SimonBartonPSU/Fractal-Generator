@@ -35,7 +35,10 @@ fn main() {
     let imgx = pixel_dims.0;
     let imgy = pixel_dims.1;
     let filename = &args[1];
-    let mut scheme = Scheme { fractal: args[0].clone(), ..Default::default() }; 
+    let mut scheme = Scheme {
+        fractal: args[0].clone(),
+        ..Default::default()
+    };
 
     user_menu(&mut scheme);
 

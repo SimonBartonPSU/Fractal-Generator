@@ -1,9 +1,9 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
 
+use crate::util::*;
 /// Mandelbrot - fractal pattern representing the escape time of
 /// a complex number being squared plus some constant to infinity.
 use num::Complex;
-use crate::util::*;
 
 pub fn mandelbrot_fractal(imgx: u32, imgy: u32, filename: &str, _scheme: Scheme) {
     let complex_x_min = -2_f32;
