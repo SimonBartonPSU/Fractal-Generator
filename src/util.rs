@@ -22,7 +22,7 @@ pub fn user_menu(mut scheme: &mut Scheme) {
 
     match trimmed {
         "normal" => normal_menu(&mut scheme),
-        "custom" => custom_menu(&mut scheme),
+        "custom" => { normal_menu(&mut scheme); custom_menu(&mut scheme) },
         "random" => _randomize(&mut scheme),
         _ => println!("Unrecognized input... running default."),
     }
@@ -37,19 +37,20 @@ pub fn normal_menu(mut scheme: &mut Scheme) {
     }
     io::stdin()
         .read_line(&mut input)
-        .ok()
-        .expect("Expected good input");
+        .ok();
     scheme.color = str_to_color(input.trim());
 }
 
 pub fn custom_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
-    println!("What color fractal? (ROYGBIV, Black, White)");
+    //let mut response = String::new();
+    println!("We're glad you've chosen customization.\n\n");
+    println!("Select an item to customize"); // TODO while loop to select items
+    println!("What color background would you like? ");
     io::stdin()
         .read_line(&mut input)
-        .ok()
-        .expect("Expected good input");
-    scheme.color = str_to_color(&input);
+        .ok(); 
+    scheme.bg_color = str_to_color(input.trim());
 }
 
 pub fn _randomize(_scheme: &mut Scheme) {}
@@ -84,7 +85,7 @@ impl Default for Scheme {
             fractal: "mandelbrot".to_string(),
             color: Green,
             fancy_background: false,
-            bg_color: Black,
+            bg_color: Blue,
             bg_color_2: Red,
         }
     }
@@ -122,29 +123,36 @@ pub fn str_to_color(color: &str) -> Color {
 }
 
 /// Iterate over the pixels of the image and apply a cool
-/// background transitioning from one color to another
-pub fn apply_fancy_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Scheme) {
-    let color_one: [u8; 3] = color_to_rgb(&scheme.bg_color);
-    for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {}
-}
-
-/// Iterate over the pixels of the image and apply a cool
 /// background, which will depend on scheme.
 /// Either transitioning from one color to another
 /// or just a solid background.
 pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Scheme) {
     let color: [u8; 3] = color_to_rgb(&scheme.bg_color);
-    let color_two: [u8; 3] = color_to_rgb(&scheme.bg_color_2);
 
     for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
         if scheme.fancy_background {
-            *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]);
+            match scheme.bg_color {
+                Red => match scheme.bg_color_2 {
+                    Blue => *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]),
+                    Green => *pixel = Rgb([((0.3 * x as f32) as u8), ((0.3*y as f32) as u8), 0]),
+                    _ => println!("Unsupported bg_color_2"),
+                }
+                Green => match scheme.bg_color_2 {
+                    Blue => *pixel = Rgb([0, ((0.3 * x as f32) as u8), ((0.3 * y as f32) as u8)]),
+                    Red => *pixel = Rgb([((0.3 * x as f32) as u8), ((0.3 * y as f32) as u8), 0]),
+                    _ => println!("Unsupported bg_color_2"),
+                }
+                Blue => match scheme.bg_color_2 {
+                    Red => *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]),
+                    Green => *pixel = Rgb([0, ((0.3 * x as f32) as u8), ((0.3 * y as f32) as u8)]),
+                    _ => println!("Unsupported bg_color_2"),
+                }
+                _ => println!("Unsupported bg_color"),
+            }
         }
-        /* TODO
         else {
             *pixel = Rgb([color[0], color[1], color[2]]);
         }
-        */
     }
 }
 
