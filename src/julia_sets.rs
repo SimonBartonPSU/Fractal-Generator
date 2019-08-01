@@ -3,7 +3,10 @@
 //base code credited to: https://crates.io/crates/image
 //resource on julia_set fractals: https://en.wikipedia.org/wiki/Julia_set#Pseudocode_for_normal_Julia_sets
 
-use ::image::Rgb;
+
+use image::Rgb;
+use crate::util::*;
+use crate::util::Color::*;
 use rand::Rng;
 
 ///Julia Set Fractal - Each pixel in the user specified dimensions runs through
@@ -33,16 +36,17 @@ pub fn pixel_setter((complex_x, complex_y): (f32, f32), mut iteration: u64, rand
     iteration
 }
 
-pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
+pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: Scheme) {
+    // https://crates.io/crates/image
+
     let scaleset = ((3.0 / imgx as f32), (3.0 / imgy as f32));
+    let color: [u8; 3] = color_to_rgb(&scheme.color);
 
     // Create a new ImgBuf with width: imgx and height: imgy
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
 
-    // Iterate over the coordinates and pixels of the image
-    for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
-        *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]);
-    }
+    apply_background(&mut imgbuf, &scheme);
+
 
     let mut rng = rand::thread_rng();
     let randjulia = rng.gen_range(1, 4);
@@ -52,18 +56,19 @@ pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
         for y in 0..imgy {
             let complex_pos = ((y as f32 * scaleset.0 - 1.5), (x as f32 * scaleset.1 - 1.5)); //determines position in frame
 
-
             let result = pixel_setter(complex_pos, 0, randjulia);
 
             let pixel = imgbuf.get_pixel_mut(x, y);
 
             let Rgb(data) = *pixel;
 
-            if scheme == "color" {
-                *pixel = Rgb([result as u8, data[0], data[2]]);
-                //*pixel = Rgb([data[0], result as u8, data[2]]);
-            } else {
-                *pixel = Rgb([result as u8, result as u8, result as u8]);
+            match scheme.color {
+                Red   => *pixel = Rgb([result as u8, data[1], data[2]]),
+                Green => *pixel = Rgb([data[0], result as u8, data[2]]),
+                Blue  => *pixel = Rgb([data[0], data[1], result as u8]),
+                White => *pixel = Rgb([result as u8, result as u8, result as u8]),
+                _ => panic!("Unsupported color"),
+
             }
         }
     }

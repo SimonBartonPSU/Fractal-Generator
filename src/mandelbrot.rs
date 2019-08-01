@@ -3,8 +3,9 @@
 /// Mandelbrot - fractal pattern representing the escape time of
 /// a complex number being squared plus some constant to infinity.
 use num::Complex;
+use crate::util::*;
 
-pub fn mandelbrot_fractal(imgx: u32, imgy: u32, filename: &str, scheme: &str) {
+pub fn mandelbrot_fractal(imgx: u32, imgy: u32, filename: &str, _scheme: Scheme) {
     let complex_x_min = -2_f32;
     let complex_x_max = 1_f32;
     let complex_y_min = -2_f32;
@@ -29,11 +30,7 @@ pub fn mandelbrot_fractal(imgx: u32, imgy: u32, filename: &str, scheme: &str) {
             z = z * z + c;
             i = t;
         }
-        if scheme == "color" {
-            *pixel = image::Rgb([0_u8, 0_u8, i as u8]);
-        } else {
-            *pixel = image::Rgb([i as u8, i as u8, i as u8]);
-        }
+        *pixel = image::Rgb([0_u8, 0_u8, i as u8]);
     }
 
     imgbuf.save(filename).expect("Image write failed...");

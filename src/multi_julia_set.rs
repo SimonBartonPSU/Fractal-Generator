@@ -3,7 +3,9 @@
 // base code credited to: https://rosettacode.org/wiki/Julia_set#Rust
 // knowledge source and pseudo code: https://en.wikipedia.org/wiki/Julia_set#Pseudocode_for_normal_Julia_sets
 
-use ::image::Rgb;
+use image::Rgb;
+use crate::util::*;
+use crate::util::Color::*;
 
 /// Multi-Julia Set Fractal - Each pixel in the user specified dimensions runs through
 /// the loop that calculates the Julia set formula of (f(z) = z^n + c), and will continue to
@@ -28,15 +30,18 @@ pub fn pixel_set_multi((imgx, imgy): (f32, f32), (loop_x, loop_y): (f32, f32), m
     i
 }
 
-pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
+pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: Scheme) {
     // Create a new ImgBuf with width: imgx and height: imgy
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
 
     // Iterate over the coordinates and pixels of the image
+    /*
     for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
         //R                     //G         //B
         *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]);
     }
+    */
+    apply_background(&mut imgbuf, &scheme);
 
     let img = (imgx as f32, imgy as f32);
 
@@ -50,12 +55,15 @@ pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: &str) {
             let pixel = imgbuf.get_pixel_mut(x, y);
 
             let Rgb(data) = *pixel;
-
-            if scheme == "color" {
-                *pixel = Rgb([data[0], result as u8, data[2]]);
-            } else {
-                *pixel = Rgb([result as u8, result as u8, result as u8]);
+            
+            match scheme.color {
+                Red   => *pixel = Rgb([result as u8, data[1], data[2]]),
+                Green => *pixel = Rgb([data[0], result as u8, data[2]]),
+                Blue  => *pixel = Rgb([data[0], data[1], result as u8]),
+                White => *pixel = Rgb([result as u8, result as u8, result as u8]),
+                _ => panic!("Unsupported color"),
             }
+
         }
     }
 
