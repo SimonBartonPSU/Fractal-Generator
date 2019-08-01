@@ -1,7 +1,8 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
-/*
+
 use image::Rgb;
 use crate::util::*;
+use crate::util::Color::*;
 
 pub fn pixel_set_multi((imgx, imgy): (f32, f32), (loop_x, loop_y): (f32, f32), mut i: u64) -> u64 {
     let mut val_x = 3.0 * (loop_x - 0.5 * imgx) / (imgx);
@@ -24,10 +25,13 @@ pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: Scheme) {
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
 
     // Iterate over the coordinates and pixels of the image
+    /*
     for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
         //R                     //G         //B
         *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]);
     }
+    */
+    apply_background(&mut imgbuf, &scheme);
 
     //let imgx_edit = 8000;
     //let imgy_edit = 6000;
@@ -43,15 +47,17 @@ pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: Scheme) {
             let pixel = imgbuf.get_pixel_mut(x, y);
 
             let Rgb(data) = *pixel;
-
-            if scheme == "color" {
-                *pixel = Rgb([data[0], result as u8, data[2]]);
-            } else {
-                *pixel = Rgb([result as u8, result as u8, result as u8]);
+            
+            match scheme.color {
+                Red   => *pixel = Rgb([result as u8, data[1], data[2]]),
+                Green => *pixel = Rgb([data[0], result as u8, data[2]]),
+                Blue  => *pixel = Rgb([data[0], data[1], result as u8]),
+                White => *pixel = Rgb([result as u8, result as u8, result as u8]),
+                _ => panic!("Unsupported color"),
             }
+
         }
     }
 
     imgbuf.save(filename).unwrap();
 }
-*/

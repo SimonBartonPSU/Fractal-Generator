@@ -43,7 +43,7 @@ fn main() {
         "barnsley" => barnsley_fern(imgx, imgy, filename, scheme),
         "julia" => julia_fractal(imgx, imgy, filename, scheme),
         "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename, scheme),
-        //"multi-julia" => multi_julia(imgx, imgy, filename, scheme),
-        _ => usage(),
+        "multi-julia" => multi_julia(imgx, imgy, filename, scheme),
+        _ => panic!("Unsupported fractal type"),
     }
 }
