@@ -6,14 +6,10 @@
 use crate::util::*;
 use rand::Rng;
 
-/// Plot Barnsley's fern - For each pixel in an image sized by user input,
-/// apply one of four affine transformations. That is, the x,y coordinate pair
-/// is mulitplied by some values in Barnsley's matrix of constants.
-/// Although tedious, this iterated function system could technically
-/// be plotted by hand.
-///
-/// A random number generator can be used to achieve
-/// the desired percentage occurence of each transformation.
+/// Plot Barnsley's fern - For some arbitrarily large number of iterations,
+/// apply one of four affine transformations. That is, start the x,y coordinate
+/// pair at 0,0 then multiply by some values in Barnsley's matrix of
+/// constants and adding some constant.
 pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: Scheme) {
     let mut rng = rand::thread_rng();
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
@@ -52,4 +48,5 @@ pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: Scheme) {
     }
 
     imgbuf.save(filename).expect("Image write failed...");
+    process_image(filename, "brighten");
 }
