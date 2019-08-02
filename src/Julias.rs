@@ -42,13 +42,13 @@ pub fn pixel_setter((complex_x, complex_y): (f32, f32), mut iteration: u64, rand
 //Multilevel
 pub fn pixel_set_multi((complex_x, complex_y): (f32, f32), mut iteration: u64, randjulia: u64) -> u64 {
     
-    let complex_num = 0.279;
+    let complex_num = 0.626;
 
     let mut value = num::Complex::new(complex_x, complex_y);
 
     while iteration < 255 && value.norm() <= 2.0 {
         //the multi-julia fractal formula (f(z) = z^n + c)
-        value = (value.powf(2.0)) + complex_num,
+        value = (value.powf(7.0)) + complex_num,
       
 
         iteration += 1;
