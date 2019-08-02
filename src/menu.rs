@@ -1,5 +1,6 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
 
+use std::io::Write; 
 use crate::util::*;
 use std::io;
 
@@ -7,22 +8,34 @@ use std::io;
 /// Allows user to generate fractal in three ways
 pub fn user_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
-    println!("normal, custom, or random fractal generation?");
+
+    print!("
+    \n\nUSER MENU: \n
+    \to What type of background would you like? Please select from the following options. \n
+    \t\t1) Normal: Simple black background\n
+    \t\t2) Custom: User choice color background\n
+    \t\t3) Random: Randomly generated background\n
+    \to Input: "
+    );
+    io::stdout().flush().unwrap();  
+
     io::stdin()
         .read_line(&mut input)
         .ok()
         .expect("Expected good input");
 
-    let trimmed: &str = input.trim();
+    let trimmed: &str = &input.trim().to_lowercase();
+
+    println!("\n========================================================================================================================================\n");
 
     match trimmed {
-        "normal" => normal_menu(&mut scheme),
-        "custom" => {
+        "normal" | "1" => normal_menu(&mut scheme),
+        "custom" | "2" => {
             println!("We're glad you chose customization message\n\n");
             normal_menu(&mut scheme);
             custom_menu(&mut scheme)
         }
-        "random" => _randomize(&mut scheme),
+        "random" | "3" => _randomize(&mut scheme),
         _ => println!("Unrecognized input... running default."),
     }
 }
@@ -31,13 +44,53 @@ pub fn user_menu(mut scheme: &mut Scheme) {
 /// of the fractal they will generate.
 pub fn normal_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
+    let scheme_type;
+    println!("\n\no FRACTAL COLOR MENU: \n
+        o What color would you like the fractal to be? Please select from the following option. \n");
+
     if scheme.fractal == "barnsley".to_string() {
-        println!("What color fractal? (ROYGBIV)");
+        scheme_type = true;
+        print!("
+        \t1) Red\n
+        \t2) Orange\n
+        \t3) Yellow\n
+        \t4) Green\n
+        \t5) Blue\n
+        \t6) Violet\n
+        \t7) White\n
+        o Input: "
+        );
+        
     } else {
-        println!("What color fractal? red, green, blue, or white?");
+        scheme_type = false;
+        print!("
+        \t1) Red\n
+        \t2) Green\n
+        \t3) Blue\n
+        \t4) White\n
+        o Input: "
+        );
     }
+
+    io::stdout().flush().unwrap(); 
     io::stdin().read_line(&mut input).ok();
-    scheme.color = str_to_color(input.trim());
+    
+    let mut trimmed: &str = &input.trim().to_lowercase();
+
+    trimmed = match trimmed {
+        "1" => "red",
+        "2" => if scheme_type {"orange"} else {"green"},
+        "3" => if scheme_type {"yellow"} else {"blue"},
+        "4" => if scheme_type {"green"} else {"white"},
+        "5" => "blue",
+        "6" => "violet",
+        "7" => "white",
+        _ => trimmed,         //if not a numeric char then just keep input as is
+    };
+    
+    scheme.color = str_to_color(trimmed);
+
+    println!("\n========================================================================================================================================\n");
 }
 
 /// The custom option allows a user to fine tune properties
