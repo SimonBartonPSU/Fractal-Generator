@@ -8,12 +8,14 @@
 mod barnsley;
 mod julia_sets;
 mod mandelbrot;
+mod menu;
 mod multi_julia_set;
 mod util;
 
 use crate::barnsley::*;
 use crate::julia_sets::*;
 use crate::mandelbrot::*;
+use crate::menu::*;
 use crate::multi_julia_set::*;
 use crate::util::*;
 use std::string::String;
