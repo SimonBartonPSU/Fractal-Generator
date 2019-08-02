@@ -3,9 +3,10 @@
 use crate::util::*;
 /// Mandelbrot - fractal pattern representing the escape time of
 /// a complex number being squared plus some constant to infinity.
+use image::Rgb;
 use num::Complex;
 
-pub fn mandelbrot_fractal(imgx: u32, imgy: u32, filename: &str, _scheme: Scheme) {
+pub fn mandelbrot_fractal(imgx: u32, imgy: u32, filename: &str, scheme: Scheme) {
     let complex_x_min = -2_f32;
     let complex_x_max = 1_f32;
     let complex_y_min = -2_f32;
@@ -15,6 +16,8 @@ pub fn mandelbrot_fractal(imgx: u32, imgy: u32, filename: &str, _scheme: Scheme)
 
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
 
+    apply_background(&mut imgbuf, &scheme);
+
     for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
         let cx = complex_x_min + x as f32 * scalex;
         let cy = complex_y_min + y as f32 * scaley;
@@ -23,14 +26,22 @@ pub fn mandelbrot_fractal(imgx: u32, imgy: u32, filename: &str, _scheme: Scheme)
         let mut z = Complex::new(0_f32, 0_f32);
 
         let mut i = 0;
-        for t in 0..256 {
+        for t in 0..255 {
             if z.norm() > 2.0 {
                 break;
             }
             z = z * z + c;
             i = t;
         }
-        *pixel = image::Rgb([0_u8, 0_u8, i as u8]);
+
+        let Rgb(data) = *pixel;
+        match scheme.color {
+            Red => *pixel = Rgb([i, data[1], data[2]]), //apply it to the channel the user chose
+            Green => *pixel = Rgb([data[0], i, data[2]]),
+            Blue => *pixel = Rgb([data[0], data[1], i]),
+            White => *pixel = Rgb([i, i, i]),
+            _ => panic!("Unsupported color"),
+        }
     }
 
     imgbuf.save(filename).expect("Image write failed...");
