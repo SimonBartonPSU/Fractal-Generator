@@ -57,7 +57,7 @@ pub fn pixel_set_multi((complex_x, complex_y): (f32, f32), mut iteration: u64, r
     
     //determine what complex number to use based on
     let complex_num = match randjulia {
-        //every stage of the multi-julia set is listed as a possible option
+        //every stage of the multi-julia set is listed as a possible option src: https://en.wikipedia.org/wiki/Julia_set
         2 => 0.279,
         3 => 0.400,
         4 => 0.484,
@@ -72,7 +72,7 @@ pub fn pixel_set_multi((complex_x, complex_y): (f32, f32), mut iteration: u64, r
     while iteration < 255 && value.norm() <= 2.0 {
         //the multi-julia fractal formula (f(z) = z^n + c), 
         value = match randjulia {
-            2 => (value.powf(2.0)) + complex_num,
+            2 => (value.powf(2.0)) + complex_num,       // src of what powers to use: (https://en.wikipedia.org/wiki/Julia_set) under example julia-sets
             3 => (value.powf(3.0)) + complex_num,
             4 => (value.powf(4.0)) + complex_num,
             5 => (value.powf(5.0)) + complex_num,
