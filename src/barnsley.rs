@@ -49,5 +49,5 @@ pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: Scheme) {
 
     imgbuf.save(filename).expect("Image write failed...");
     process_image(filename, "huerotate");
-    imgbuf.save(filename).expect("Image write failed...");
+    imgbuf.save("huerotate.png").expect("Image write failed...");
 }

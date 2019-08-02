@@ -115,14 +115,18 @@ pub fn process_image(filename: &str, transformation: &str) {
     let image = image::open(filename).unwrap();
     
     match transformation {
-        "blur" => image::imageops::blur(&image, 0.9_f32),
-        "brighten" => imageops::brighten(&image, 0),
+        "blur" => image::imageops::blur(&image, 0.5_f32)
+                             .save("blur05.png").expect(".|."),
+        "brighten" => imageops::brighten(&image, 5)
+                             .save("brighten5.png").expect(".|."),
         //huerotate seems to not work ... ?
-        "huerotate" => imageops::huerotate(&image, 270),
+        "huerotate" => imageops::huerotate(&image, 0)
+                            .save("huerotate0.png").expect(".|."),
        
-        &_ => { println!("Default blur"); image::imageops::blur(&image,
-        0.9_f32) },
+        &_ => { println!("Default blur"); 
+        image::imageops::blur(&image, 0.9_f32).save("okea").expect("asd") },
     };
+    image.save("huerote.png").expect("Image write failed...");
 }
 
 /// Helper to parse a string as a pair of values separated
