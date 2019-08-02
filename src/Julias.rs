@@ -1,5 +1,9 @@
 //base code credited to: https://crates.io/crates/image
 //resource on julia_set fractals: https://en.wikipedia.org/wiki/Julia_set#Pseudocode_for_normal_Julia_sets
+//resource on multi-julia set / multibrot set: https://en.wikipedia.org/wiki/Multibrot_set
+
+use rand::Rng;
+
 
 ///Julia Set Fractal - "the Julia set consists of values such that an arbitrarily
 /// small perturbation can cause drastic changes in the sequence of iterated function values.
@@ -10,7 +14,12 @@
 /// do so until the value is outside the appropriate range where it can still generate
 /// correctly. The int value that is broken out of the function is returned
 /// and used for the color shade of the currently specfied pixel.
-pub fn pixel_setter((complex_x, complex_y): (f32, f32), mut iteration: u64, randjulia: u64) -> u64 {
+pub fn pixel_setter((complex_x, complex_y): (f32, f32), mut iteration: u64) -> u64 {
+    
+    let mut rng = rand::thread_rng(); 
+    
+    let randjulia = rng.gen_range(1, 11);       //determine random value that will choose which julia set will be generated
+
     //determine which julia_set fractal will be generated (On the wiki page source under "Quadraic polynomials")
     let complex_num = match randjulia {
         //every stage of the julia set is listed as a possible option
@@ -40,8 +49,12 @@ pub fn pixel_setter((complex_x, complex_y): (f32, f32), mut iteration: u64, rand
 
 
 //Multilevel
-pub fn pixel_set_multi((complex_x, complex_y): (f32, f32), mut iteration: u64, randjulia: u64) -> u64 {
+pub fn pixel_set_multi((complex_x, complex_y): (f32, f32), mut iteration: u64) -> u64 {
     
+    let mut rng = rand::thread_rng(); 
+    let randjulia = rng.gen_range(2, 8);       //determine random value that will choose which julia set will be generated
+     
+    //determine what complex number to use based on
     let complex_num = match randjulia {
         //every stage of the julia set is listed as a possible option
         2 => 0.279,

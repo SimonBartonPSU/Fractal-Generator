@@ -8,19 +8,11 @@ use crate::Julias::*;
 use crate::util::Color::*;
 use crate::util::*;
 use image::Rgb;
-use rand::Rng;
+
 
 pub fn julia_fractal(julia_type: &str, imgy: u32, imgx: u32, filename: &str, scheme: Scheme) {
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy); // Create a new ImgBuf and apply our dimensions to it.
     let scaleset = ((3.0 / imgx as f32), (3.0 / imgy as f32));
-
-    let mut rng = rand::thread_rng(); 
-    
-    let randjulia = match julia_type {         //determine random value that will choose which julia set will be generated
-        "julia" => rng.gen_range(1, 11),
-        "multi-julia" => rng.gen_range(2, 8),
-        _ => panic!("Unsupported fractal type"),
-    };
 
     apply_background(&mut imgbuf, &scheme); //set the intial background of the image based on the users choice
 
@@ -31,9 +23,9 @@ pub fn julia_fractal(julia_type: &str, imgy: u32, imgx: u32, filename: &str, sch
 
 
             let result = match julia_type {
-                "julia" => pixel_setter(complex_pos, 0, randjulia), //run pixel through fractal formula in Julias.rs
-                "multi-julia" => pixel_set_multi(complex_pos, 0, randjulia),
-                _ => pixel_setter(complex_pos, 0, randjulia),       //default is normal julia set
+                "julia" => pixel_setter(complex_pos, 0), //run pixel through fractal formula in Julias.rs
+                "multi-julia" => pixel_set_multi(complex_pos, 0),
+                _ => pixel_setter(complex_pos, 0),       //default is normal julia set
             };
 
 
