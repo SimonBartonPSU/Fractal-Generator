@@ -1,15 +1,16 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
 
-use std::io::Write; 
 use crate::util::*;
 use std::io;
+use std::io::Write;
 
 /// Main mechanism for user interaction
 /// Allows user to generate fractal in three ways
 pub fn user_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
 
-    print!("
+    print!(
+        "
     \n\nUSER MENU: \n
     \to What type of background would you like? Please select from the following options. \n
     \t\t1) Normal: Simple black background\n
@@ -17,11 +18,10 @@ pub fn user_menu(mut scheme: &mut Scheme) {
     \t\t3) Random: Randomly generated background\n
     \to Input: "
     );
-    io::stdout().flush().unwrap();  
+    io::stdout().flush().unwrap();
 
     io::stdin()
         .read_line(&mut input)
-        .ok()
         .expect("Expected good input");
 
     let trimmed: &str = &input.trim().to_lowercase();
@@ -45,12 +45,15 @@ pub fn user_menu(mut scheme: &mut Scheme) {
 pub fn normal_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
     let scheme_type;
-    println!("\n\no FRACTAL COLOR MENU: \n
-        o What color would you like the fractal to be? Please select from the following option. \n");
+    println!(
+        "\n\no FRACTAL COLOR MENU: \n
+        o What color would you like the fractal to be? Please select from the following option. \n"
+    );
 
-    if scheme.fractal == "barnsley".to_string() {
+    if scheme.fractal == "barnsley" {
         scheme_type = true;
-        print!("
+        print!(
+            "
         \t1) Red\n
         \t2) Orange\n
         \t3) Yellow\n
@@ -60,10 +63,10 @@ pub fn normal_menu(mut scheme: &mut Scheme) {
         \t7) White\n
         o Input: "
         );
-        
     } else {
         scheme_type = false;
-        print!("
+        print!(
+            "
         \t1) Red\n
         \t2) Green\n
         \t3) Blue\n
@@ -72,22 +75,40 @@ pub fn normal_menu(mut scheme: &mut Scheme) {
         );
     }
 
-    io::stdout().flush().unwrap(); 
+    io::stdout().flush().unwrap();
     io::stdin().read_line(&mut input).ok();
-    
+
     let mut trimmed: &str = &input.trim().to_lowercase();
 
     trimmed = match trimmed {
         "1" => "red",
-        "2" => if scheme_type {"orange"} else {"green"},
-        "3" => if scheme_type {"yellow"} else {"blue"},
-        "4" => if scheme_type {"green"} else {"white"},
+        "2" => {
+            if scheme_type {
+                "orange"
+            } else {
+                "green"
+            }
+        }
+        "3" => {
+            if scheme_type {
+                "yellow"
+            } else {
+                "blue"
+            }
+        }
+        "4" => {
+            if scheme_type {
+                "green"
+            } else {
+                "white"
+            }
+        }
         "5" => "blue",
         "6" => "violet",
         "7" => "white",
-        _ => trimmed,         //if not a numeric char then just keep input as is
+        _ => trimmed, //if not a numeric char then just keep input as is
     };
-    
+
     scheme.color = str_to_color(trimmed);
 
     println!("\n========================================================================================================================================\n");
@@ -111,7 +132,7 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
                 println!("What color background would you like? ");
                 io::stdin().read_line(&mut buffer).ok();
                 scheme.bg_color = str_to_color(buffer.trim());
-            },
+            }
             "2" => {
                 scheme.fancy_background = true;
                 buffer.clear();
@@ -132,5 +153,3 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
 }
 
 pub fn _randomize(_scheme: &mut Scheme) {}
-
-
