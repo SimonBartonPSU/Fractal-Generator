@@ -9,7 +9,6 @@ use std::str::FromStr;
 
 /// Main mechanism for user interaction
 /// Allows user to generate fractal in three ways
-///
 pub fn user_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
     println!("normal, custom, or random fractal generation?");
@@ -113,7 +112,7 @@ impl Default for Scheme {
             fractal: "mandelbrot".to_string(),
             color: Green,
             fancy_background: false,
-            bg_color: Blue,
+            bg_color: Black,
             bg_color_2: Red,
         }
     }
@@ -195,18 +194,3 @@ pub fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
         _ => None,
     }
 }
-
-// Helper -- map a color onto an rgb pixel
-/*
-pub fn paint_color(pixel: &mut image::Pixel::Rgb([u8; 3]),
-                            scheme: &Scheme, result: u64) {
-    let Rgb(data) = *pixel;
-    match scheme.color {
-        Red   => *pixel = Rgb([result as u8, data[1], data[2]]),
-        Green => *pixel = Rgb([data[0], result as u8, data[2]]),
-        Blue  => *pixel = Rgb([data[0], data[1], result as u8]),
-        White => *pixel = Rgb([result as u8, result as u8, result as u8]),
-        _ => panic!("Unsupported color"),
-    }
-}
-*/
