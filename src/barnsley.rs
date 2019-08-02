@@ -3,8 +3,8 @@
 // Inspired by http://rosettacode.org/wiki/Barnsley_fern
 // Barnsley's IFS: https://en.wikipedia.org/wiki/Barnsley_fern#Construction
 
-use rand::Rng;
 use crate::util::*;
+use rand::Rng;
 
 /// Plot Barnsley's fern - For each pixel in an image sized by user input,
 /// apply one of four affine transformations. That is, the x,y coordinate pair

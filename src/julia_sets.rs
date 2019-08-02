@@ -8,7 +8,7 @@ use crate::util::*;
 use image::Rgb;
 use rand::Rng;
 
-///Julia Set Fractal - "the Julia set consists of values such that an arbitrarily
+/// Julia Set Fractal - "the Julia set consists of values such that an arbitrarily
 /// small perturbation can cause drastic changes in the sequence of iterated function values.
 /// Thus the behavior of the Julia set is "chaotic"."
 
@@ -19,6 +19,7 @@ use rand::Rng;
 /// and used for the color shade of the currently specfied pixel.
 
 pub fn pixel_setter((complex_x, complex_y): (f32, f32), mut iteration: u64, randjulia: u64) -> u64 {
+
     //determine which julia_set fractal will be generated (On the wiki page source under "Quadraic polynomials")
     let complex_num = match randjulia {
         //every stage of the julia set is listed as a possible option
