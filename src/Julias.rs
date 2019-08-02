@@ -7,7 +7,7 @@ use rand::Rng;
 
 ///Julia Set Fractal - "the Julia set consists of values such that an arbitrarily
 /// small perturbation can cause drastic changes in the sequence of iterated function values.
-/// Thus the behavior of the Julia set is "chaotic"."
+/// Thus the behavior of the Julia set is "chaotic"." (src: https://en.wikipedia.org/wiki/Julia_set)
 
 /// Each pixel in the user specified dimensions runs through
 /// the loop that calculates the Julia set formula of (f(z) = z^2 + c), and will continue to
@@ -48,7 +48,17 @@ pub fn pixel_setter((complex_x, complex_y): (f32, f32), mut iteration: u64) -> u
 }
 
 
-//Multilevel
+///Multi-Julia set or Multibrot set Fractal-
+/// "A multibrot set is the set of values in the complex plane whose absolute value remains below 
+/// some finite value throughout iterations by a member of the general monic univariate polynomial 
+/// family of recursions." (src: https://en.wikipedia.org/wiki/Multibrot_set)
+
+/// Each pixel in the user specified dimensions runs through
+/// the loop that calculates the multi-Julia or Multibro set formula of (f(z) = z^n + c), and will continue to
+/// do so until the value is outside the appropriate range where it can still generate
+/// correctly. The int value that is broken out of the function is returned
+/// and used for the color shade of the currently specfied pixel.
+
 pub fn pixel_set_multi((complex_x, complex_y): (f32, f32), mut iteration: u64) -> u64 {
     
     let mut rng = rand::thread_rng(); 
@@ -56,7 +66,7 @@ pub fn pixel_set_multi((complex_x, complex_y): (f32, f32), mut iteration: u64) -
      
     //determine what complex number to use based on
     let complex_num = match randjulia {
-        //every stage of the julia set is listed as a possible option
+        //every stage of the multi-julia set is listed as a possible option
         2 => 0.279,
         3 => 0.400,
         4 => 0.484,
@@ -69,8 +79,7 @@ pub fn pixel_set_multi((complex_x, complex_y): (f32, f32), mut iteration: u64) -
     let mut value = num::Complex::new(complex_x, complex_y);
 
     while iteration < 255 && value.norm() <= 2.0 {
-        //the multi-julia fractal formula (f(z) = z^n + c)
-
+        //the multi-julia fractal formula (f(z) = z^n + c), 
         value = match randjulia {
             2 => (value.powf(2.0)) + complex_num,
             3 => (value.powf(3.0)) + complex_num,
@@ -85,7 +94,4 @@ pub fn pixel_set_multi((complex_x, complex_y): (f32, f32), mut iteration: u64) -
     }
 
     iteration
-
-    
-
 }
