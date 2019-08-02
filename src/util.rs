@@ -58,12 +58,14 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
 
         match buffer.trim() {
             "1" => {
+                buffer.clear();
                 println!("What color background would you like? ");
                 io::stdin().read_line(&mut buffer).ok();
                 scheme.bg_color = str_to_color(buffer.trim());
             },
             "2" => {
                 scheme.fancy_background = true;
+                buffer.clear();
                 println!("Choose your first color: red, green, blue: ");
                 io::stdin().read_line(&mut buffer).ok();
                 scheme.bg_color = str_to_color(buffer.trim());
@@ -145,7 +147,7 @@ pub fn str_to_color(color: &str) -> Color {
         "violet" => Violet,
         "black" => Black,
         "white" => White,
-        &_ => Blue,
+        &_ => Black,
     }
 }
 
