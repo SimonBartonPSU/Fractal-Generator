@@ -81,21 +81,23 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Sch
     let color: [u8; 3] = color_to_rgb(&scheme.bg_color);
 
     for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
+        let xc: u8 = (0.3 * x as f32) as u8;
+        let yc: u8 = (0.3 * y as f32) as u8;
         if scheme.fancy_background {
             match scheme.bg_color {
                 Red => match scheme.bg_color_2 {
-                    Blue => *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]),
-                    Green => *pixel = Rgb([((0.3 * x as f32) as u8), ((0.3 * y as f32) as u8), 0]),
+                    Blue => *pixel = Rgb([xc, 0, yc]),
+                    Green => *pixel = Rgb([xc, yc, 0]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 Green => match scheme.bg_color_2 {
-                    Blue => *pixel = Rgb([0, ((0.3 * x as f32) as u8), ((0.3 * y as f32) as u8)]),
-                    Red => *pixel = Rgb([((0.3 * x as f32) as u8), ((0.3 * y as f32) as u8), 0]),
+                    Blue => *pixel = Rgb([0, xc, yc]),
+                    Red => *pixel = Rgb([xc, yc, 0]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 Blue => match scheme.bg_color_2 {
-                    Red => *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]),
-                    Green => *pixel = Rgb([0, ((0.3 * x as f32) as u8), ((0.3 * y as f32) as u8)]),
+                    Red => *pixel = Rgb([xc, 0, yc]),
+                    Green => *pixel = Rgb([0, xc, yc]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 _ => println!("Unsupported bg_color"),
@@ -104,6 +106,18 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Sch
             *pixel = Rgb([color[0], color[1], color[2]]);
         }
     }
+}
+
+/// Image processing functions supplied by image crate
+/// to be used for fun and randomization
+pub fn process_image(filename: &str, transformation: &str) { 
+    let image = image::open(filename).unwrap();
+    
+    match transformation {
+        "blur" => image::imageops::blur(&image, 0.9_f32),
+        "brighten" => image::imageops::brighten(&image, 0),
+        &_ => image::imageops::blur(&image, 0.9_f32),
+    };
 }
 
 /// Helper to parse a string as a pair of values separated
