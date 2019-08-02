@@ -4,6 +4,7 @@
 
 use crate::util::Color::*;
 use image::*;
+use image::imageops;
 use std::str::FromStr;
 
 /// Supported colors for user input
@@ -115,8 +116,12 @@ pub fn process_image(filename: &str, transformation: &str) {
     
     match transformation {
         "blur" => image::imageops::blur(&image, 0.9_f32),
-        "brighten" => image::imageops::brighten(&image, 0),
-        &_ => image::imageops::blur(&image, 0.9_f32),
+        "brighten" => imageops::brighten(&image, 0),
+        //huerotate seems to not work ... ?
+        "huerotate" => imageops::huerotate(&image, 270),
+       
+        &_ => { println!("Default blur"); image::imageops::blur(&image,
+        0.9_f32) },
     };
 }
 
