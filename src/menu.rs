@@ -54,6 +54,7 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
 
         match buffer.trim() {
             "1" => {
+                scheme.fancy_background = false;
                 buffer.clear();
                 println!("What color background would you like? ");
                 io::stdin().read_line(&mut buffer).ok();
