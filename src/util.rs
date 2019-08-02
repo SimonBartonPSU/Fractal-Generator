@@ -63,6 +63,17 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
                 io::stdin().read_line(&mut buffer).ok();
                 scheme.bg_color = str_to_color(buffer.trim());
             },
+            "2" => {
+                scheme.fancy_background = true;
+                println!("Choose your first color: red, green, blue: ");
+                io::stdin().read_line(&mut buffer).ok();
+                scheme.bg_color = str_to_color(buffer.trim());
+                buffer.clear();
+                println!("Choose one of the remaining two: red, green, blue: ");
+                io::stdin().read_line(&mut buffer).ok();
+                scheme.bg_color_2 = str_to_color(buffer.trim());
+                println!("Assummed good input...");
+            }
             "quit" => finished = true,
             _ => println!("Invalid input: {:?}. Enter a number (1, 2, ..)", buffer),
         }

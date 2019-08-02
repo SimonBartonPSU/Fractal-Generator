@@ -38,7 +38,6 @@ pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: Scheme) {
     // https://crates.io/crates/image
 
     let scaleset = ((3.0 / imgx as f32), (3.0 / imgy as f32));
-    let color: [u8; 3] = color_to_rgb(&scheme.color);
 
     // Create a new ImgBuf with width: imgx and height: imgy
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
