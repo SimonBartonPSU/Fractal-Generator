@@ -134,7 +134,7 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Sch
 /// Image processing functions supplied by image crate
 /// to be used for fun and randomization
 /// imageops functions
-
+/// Acceptable ranges:
 /// Range for blur 0.75 to 5.0
 /// Range for brighten -50 to 80
 /// Range for contrast -20.0 to 200.0
@@ -161,6 +161,7 @@ pub fn process_image(filename: &str, transformation: &str) {
     };
 }
 
+/// Generate a random fractal color and background color
 pub fn randomize(scheme: &mut Scheme) {
     scheme.random = true;
     let fractal_num;
@@ -174,10 +175,14 @@ pub fn randomize(scheme: &mut Scheme) {
     scheme.bg_color = str_to_color(COLORS[bg_num]);
 }
 
+/// Apply a random number of random transformations
 pub fn random_transforms(filename: &str) {
-    let transform_num = rand::thread_rng().gen_range(0, 9);
-    let transform = TRANSFORMS[transform_num];
-    process_image(filename, transform);
+    for _ in 0..5 {
+        let transform_num = rand::thread_rng().gen_range(0, 9);
+        let transform = TRANSFORMS[transform_num];
+        process_image(filename, transform);
+    }
+    process_image(filename, "huerotate");
 }
 
 /// Helper to parse a string as a pair of values separated
