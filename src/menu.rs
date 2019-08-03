@@ -50,6 +50,7 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
     while !finished {
         println!("Select an item to customize by its ID number:");
         println!("    1. Background color (solid)\n    2. Background color (transition)\n    'quit' to quit\n");
+        // println!("3 for transform\n");
         std.read_line(&mut buffer).ok();
 
         match buffer.trim() {
@@ -71,6 +72,12 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
                 io::stdin().read_line(&mut buffer).ok();
                 scheme.bg_color_2 = str_to_color(buffer.trim());
                 println!("Assummed good input...");
+            }
+            "3" => {
+                buffer.clear();
+                println!("Choose a transformation to add: blur, brighten, contrast,
+                huerotate"); 
+                io::stdin().read_line(&mut buffer).ok();
             }
             "quit" => finished = true,
             _ => println!("Invalid input: {:?}. Enter a number (1, 2, ..)", buffer),

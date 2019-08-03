@@ -51,4 +51,6 @@ fn main() {
         "multi-julia" => multi_julia(imgx, imgy, filename, scheme),
         _ => panic!("Unsupported fractal type"),
     }
+
+    process_image(filename, "sharpen filter");
 }
