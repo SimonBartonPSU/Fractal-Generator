@@ -19,7 +19,6 @@ use rand::Rng;
 /// and used for the color shade of the currently specfied pixel.
 
 pub fn pixel_setter((complex_x, complex_y): (f32, f32), mut iteration: u64, randjulia: u64) -> u64 {
-
     //determine which julia_set fractal will be generated (On the wiki page source under "Quadraic polynomials")
     let complex_num = match randjulia {
         //every stage of the julia set is listed as a possible option
@@ -47,7 +46,7 @@ pub fn pixel_setter((complex_x, complex_y): (f32, f32), mut iteration: u64, rand
     iteration
 }
 
-pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: Scheme) {
+pub fn julia_fractal(imgy: u32, imgx: u32, filename: &str, scheme: &mut Scheme) {
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy); // Create a new ImgBuf and apply our dimensions to it.
     let scaleset = ((3.0 / imgx as f32), (3.0 / imgy as f32));
 

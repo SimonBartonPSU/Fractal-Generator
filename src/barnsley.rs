@@ -10,7 +10,7 @@ use rand::Rng;
 /// apply one of four affine transformations. That is, start the x,y coordinate
 /// pair at 0,0 then multiply by some values in Barnsley's matrix of
 /// constants and adding some constant.
-pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: Scheme) {
+pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: &mut Scheme) {
     let mut rng = rand::thread_rng();
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
     let color: [u8; 3] = color_to_rgb(&scheme.color);

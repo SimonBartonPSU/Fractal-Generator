@@ -7,7 +7,7 @@ use num::Complex;
 
 /// Mandelbrot - fractal pattern representing the escape time of
 /// a complex number being squared plus some constant to infinity.
-pub fn mandelbrot_fractal(imgx: u32, imgy: u32, filename: &str, scheme: Scheme) {
+pub fn mandelbrot_fractal(imgx: u32, imgy: u32, filename: &str, scheme: &mut Scheme) {
     let complex_x_min = -2_f32;
     let complex_x_max = 1_f32;
     let complex_y_min = -1.4_f32;

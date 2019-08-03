@@ -45,12 +45,14 @@ fn main() {
     user_menu(&mut scheme);
 
     match args[0].as_str() {
-        "barnsley" => barnsley_fern(imgx, imgy, filename, scheme),
-        "julia" => julia_fractal(imgx, imgy, filename, scheme),
-        "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename, scheme),
-        "multi-julia" => multi_julia(imgx, imgy, filename, scheme),
+        "barnsley" => barnsley_fern(imgx, imgy, filename, &mut scheme),
+        "julia" => julia_fractal(imgx, imgy, filename, &mut scheme),
+        "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename, &mut scheme),
+        "multi-julia" => multi_julia(imgx, imgy, filename, &mut scheme),
         _ => panic!("Unsupported fractal type"),
     }
 
-    process_image(filename, "sharpen filter");
+    if scheme.random {
+        random_transforms(filename);
+    }
 }

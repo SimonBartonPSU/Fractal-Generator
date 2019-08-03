@@ -3,9 +3,30 @@
 #![allow(dead_code)]
 
 use crate::util::Color::*;
-use image::*;
 use image::imageops::*;
+use image::*;
+use rand::Rng;
 use std::str::FromStr;
+
+const SMOOTH_KERNEL: [f32; 9] = [1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0];
+const SHARPEN_KERNEL: [f32; 9] = [-1.0, -1.0, -1.0, -1.0, 9.0, -1.0, -1.0, -1.0, -1.0];
+const RAISED_KERNEL: [f32; 9] = [0.0, 0.0, -2.0, 0.0, 2.0, 0.0, 1.0, 0.0, 0.0];
+const COLORS: [&str; 8] = [
+    "red", "blue", "green", "orange", "yellow", "violet", "black", "white",
+];
+const TRANSFORMS: [&str; 11] = [
+    "blur",
+    "brighten",
+    "contrast",
+    "huerotate",
+    "invert",
+    "rotate90",
+    "rotate180",
+    "rotate270",
+    "smooth filter",
+    "sharpen filter",
+    "raised filter",
+];
 
 /// Supported colors for user input
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -28,7 +49,7 @@ pub struct Scheme {
     pub fancy_background: bool,
     pub bg_color: Color,
     pub bg_color_2: Color,
-    // enum Transformation
+    pub random: bool,
 }
 
 impl Default for Scheme {
@@ -39,6 +60,7 @@ impl Default for Scheme {
             fancy_background: false,
             bg_color: Black,
             bg_color_2: Red,
+            random: false,
         }
     }
 }
@@ -109,10 +131,6 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Sch
     }
 }
 
-const SMOOTH_KERNEL: [f32; 9] = [1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0];
-const SHARPEN_KERNEL: [f32; 9] = [-1.0, -1.0, -1.0, -1.0, 9.0, -1.0, -1.0, -1.0, -1.0];
-const RAISED_KERNEL: [f32; 9] = [0.0, 0.0, -2.0, 0.0, 2.0, 0.0, 1.0, 0.0, 0.0];
-
 /// Image processing functions supplied by image crate
 /// to be used for fun and randomization
 /// imageops functions
@@ -121,15 +139,18 @@ const RAISED_KERNEL: [f32; 9] = [0.0, 0.0, -2.0, 0.0, 2.0, 0.0, 1.0, 0.0, 0.0];
 /// Range for brighten -50 to 80
 /// Range for contrast -20.0 to 200.0
 /// Range for huerotate 5 to 355
-pub fn process_image(filename: &str, transformation: &str) { 
+pub fn process_image(filename: &str, transformation: &str) {
     let mut image = image::open(filename).unwrap();
-    
+
     match transformation {
-        "blur" => blur(&image, 1.0_f32).save(filename).unwrap(),
-        "brighten" => brighten(&image, 80).save(filename).unwrap(),
+        "blur" => blur(&image, 2.0_f32).save(filename).unwrap(),
+        "brighten" => brighten(&image, 50).save(filename).unwrap(),
         "contrast" => contrast(&image, 40.0_f32).save(filename).unwrap(),
-        "huerotate" => huerotate(&image, 0).save(filename).unwrap(),
-        "invert" => { invert(&mut image); image.save(filename).unwrap() },
+        "huerotate" => huerotate(&image, 270).save(filename).unwrap(),
+        "invert" => {
+            invert(&mut image);
+            image.save(filename).unwrap()
+        }
         "rotate90" => rotate90(&image).save(filename).unwrap(),
         "rotate180" => rotate180(&image).save(filename).unwrap(),
         "rotate270" => rotate270(&image).save(filename).unwrap(),
@@ -138,6 +159,25 @@ pub fn process_image(filename: &str, transformation: &str) {
         "raised filter" => filter3x3(&image, &RAISED_KERNEL).save(filename).unwrap(),
         &_ => blur(&image, 0.9_f32).save("dfault_transform.png").unwrap(),
     };
+}
+
+pub fn randomize(scheme: &mut Scheme) {
+    scheme.random = true;
+    let fractal_num;
+    if scheme.fractal == "barnsley".to_string() {
+        fractal_num = rand::thread_rng().gen_range(0, 8);
+    } else {
+        fractal_num = rand::thread_rng().gen_range(0, 3);
+    }
+    scheme.color = str_to_color(COLORS[fractal_num]);
+    let bg_num = rand::thread_rng().gen_range(0, 8);
+    scheme.bg_color = str_to_color(COLORS[bg_num]);
+}
+
+pub fn random_transforms(filename: &str) {
+    let transform_num = rand::thread_rng().gen_range(0, 9);
+    let transform = TRANSFORMS[transform_num];
+    process_image(filename, transform);
 }
 
 /// Helper to parse a string as a pair of values separated

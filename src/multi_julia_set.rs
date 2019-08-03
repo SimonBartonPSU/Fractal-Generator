@@ -30,7 +30,7 @@ pub fn pixel_set_multi((imgx, imgy): (f32, f32), (loop_x, loop_y): (f32, f32), m
     i
 }
 
-pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: Scheme) {
+pub fn multi_julia(imgy: u32, imgx: u32, filename: &str, scheme: &mut Scheme) {
     // Create a new ImgBuf with width: imgx and height: imgy
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
 
