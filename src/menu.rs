@@ -42,7 +42,7 @@ pub fn user_menu(mut scheme: &mut Scheme) {
 /// The normal option allows a user to select only the color
 /// of the fractal they will generate.
 pub fn normal_menu(mut scheme: &mut Scheme) {
-    let mut input = String::new();
+    let mut input;
     let scheme_type;
     println!(
         "\n\no FRACTAL COLOR MENU: \n

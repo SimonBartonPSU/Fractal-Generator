@@ -41,8 +41,8 @@ pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: &mut Scheme) 
         x = cx;
         y = cy;
 
-        let new_x = ((imgx as f64) / 2.0 + x * (imgx as f64) / 11.0).round() as u32;
-        let new_y = ((imgy as f64) - y * (imgy as f64) / 11.0).round() as u32;
+        let new_x = ((f64::from(imgx)) / 2.0 + x * (f64::from(imgx)) / 11.0).round() as u32;
+        let new_y = ((f64::from(imgy)) - y * (f64::from(imgy)) / 11.0).round() as u32;
         let pixel = imgbuf.get_pixel_mut(new_x, new_y);
         *pixel = image::Rgb([color[0], color[1], color[2]]);
     }

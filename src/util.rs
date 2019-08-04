@@ -14,13 +14,12 @@ const RAISED_KERNEL: [f32; 9] = [0.0, 0.0, -2.0, 0.0, 2.0, 0.0, 1.0, 0.0, 0.0];
 const COLORS: [&str; 8] = [
     "red", "blue", "green", "orange", "yellow", "violet", "black", "white",
 ];
-const TRANSFORMS: [&str; 11] = [
+const TRANSFORMS: [&str; 10] = [
     "blur",
     "brighten",
     "contrast",
     "huerotate",
     "invert",
-    "rotate90",
     "rotate180",
     "rotate270",
     "smooth filter",
@@ -165,12 +164,11 @@ pub fn process_image(filename: &str, transformation: &str) {
 /// Generate a random fractal color and background color
 pub fn randomize(scheme: &mut Scheme) {
     scheme.random = true;
-    let fractal_num;
-    if scheme.fractal == "barnsley".to_string() {
-        fractal_num = rand::thread_rng().gen_range(0, 8);
+    let fractal_num = if scheme.fractal == "barnsley" {
+        rand::thread_rng().gen_range(0, 8)
     } else {
-        fractal_num = rand::thread_rng().gen_range(0, 3);
-    }
+        rand::thread_rng().gen_range(0, 3)
+    };
     scheme.color = str_to_color(COLORS[fractal_num]);
     let bg_num = rand::thread_rng().gen_range(0, 8);
     scheme.bg_color = str_to_color(COLORS[bg_num]);
@@ -179,7 +177,7 @@ pub fn randomize(scheme: &mut Scheme) {
 /// Apply a random number of random transformations
 pub fn random_transforms(filename: &str) {
     for _ in 0..5 {
-        let transform_num = rand::thread_rng().gen_range(0, 9);
+        let transform_num = rand::thread_rng().gen_range(0, 8);
         let transform = TRANSFORMS[transform_num];
         process_image(filename, transform);
     }
