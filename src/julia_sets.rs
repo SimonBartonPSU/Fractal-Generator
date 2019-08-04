@@ -7,7 +7,7 @@ use crate::julias::*;
 
 use crate::util::Color::*;
 use crate::util::*;
-use image::Rgb;
+use image::Rgba;
 use rand::Rng;
 
 pub fn julia_fractal(julia_type: &str, imgy: u32, imgx: u32, filename: &str, scheme: &Scheme) {
@@ -36,14 +36,14 @@ pub fn julia_fractal(julia_type: &str, imgy: u32, imgx: u32, filename: &str, sch
             };
 
             let pixel = imgbuf.get_pixel_mut(x, y); //pull out pixel data
-            let Rgb(data) = *pixel; //set pixel data onto the rgb array
+            let Rgba(data) = *pixel; //set pixel data onto the rgb array
 
             match scheme.color {
                 //apply the pixel shade on the result from pixel setter
-                Red => *pixel = Rgb([result as u8, data[1], data[2]]), //apply it to the channel the user chose
-                Green => *pixel = Rgb([data[0], result as u8, data[2]]),
-                Blue => *pixel = Rgb([data[0], data[1], result as u8]),
-                White => *pixel = Rgb([result as u8, result as u8, result as u8]),
+                Red => *pixel = Rgba([result as u8, data[1], data[2], 255]), //apply it to the channel the user chose
+                Green => *pixel = Rgba([data[0], result as u8, data[2], 255]),
+                Blue => *pixel = Rgba([data[0], data[1], result as u8, 255]),
+                White => *pixel = Rgba([result as u8, result as u8, result as u8, 255]),
                 _ => panic!("Unsupported color"),
             }
         }

@@ -100,7 +100,7 @@ pub fn str_to_color(color: &str) -> Color {
 /// background, which will depend on scheme.
 /// Either transitioning from one color to another
 /// or just a solid background.
-pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Scheme) {
+pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Scheme) {
     let color: [u8; 3] = color_to_rgb(scheme.bg_color);
 
     for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
@@ -109,25 +109,25 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Sch
         if scheme.fancy_background {
             match scheme.bg_color {
                 Red => match scheme.bg_color_2 {
-                    Blue => *pixel = Rgb([xc, 0, yc]),
-                    Green => *pixel = Rgb([xc, yc, 0]),
+                    Blue => *pixel = Rgba([xc, 0, yc, 25]),
+                    Green => *pixel = Rgba([xc, yc, 0, 25]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 Green => match scheme.bg_color_2 {
-                    Blue => *pixel = Rgb([0, xc, yc]),
-                    Red => *pixel = Rgb([xc, yc, 0]),
+                    Blue => *pixel = Rgba([0, xc, yc, 25]),
+                    Red => *pixel = Rgba([xc, yc, 0, 25]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 Blue => match scheme.bg_color_2 {
-                    Red => *pixel = Rgb([xc, 0, yc]),
-                    Green => *pixel = Rgb([0, xc, yc]),
+                    Red => *pixel = Rgba([xc, 0, yc, 25]),
+                    Green => *pixel = Rgba([0, xc, yc, 25]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 _ => println!("Unsupported bg_color"),
             }
         } else {
             //solid bg
-            *pixel = Rgb([color[0], color[1], color[2]]);
+            *pixel = Rgba([color[0], color[1], color[2], 25]);
         }
     }
 }
@@ -145,9 +145,9 @@ pub fn process_image(filename: &str, transformation: &str) {
     let rotation: i32 = rand::thread_rng().gen_range(0,3);
 
     match transformation {
-        "blur" => blur(&image, 2.0_f32).save(filename).unwrap(),
-        "brighten" => brighten(&image, 50).save(filename).unwrap(),
-        "contrast" => contrast(&image, 40.0_f32).save(filename).unwrap(),
+        "blur" => blur(&image, 3.0_f32).save(filename).unwrap(),
+        "brighten" => brighten(&image, 70).save(filename).unwrap(),
+        "contrast" => contrast(&image, 100.0_f32).save(filename).unwrap(),
         "huerotate" => huerotate(&image, rotation).save(filename).unwrap(),
         "invert" => {
             invert(&mut image);
