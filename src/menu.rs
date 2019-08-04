@@ -59,7 +59,7 @@ pub fn normal_menu(mut scheme: &mut Scheme) {
 
     } else {
         scheme_type = false;
-        input = color_options_rgb();
+        input = color_options_rgb(false);
     }
 
     input = color_determine(input, scheme_type);
@@ -87,7 +87,7 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
    
     io::stdout().flush().unwrap();
     io::stdin().read_line(&mut input).ok();
-    let mut trimmed: &str = &input.trim().to_lowercase();
+    let trimmed: &str = &input.trim().to_lowercase();
     
     println!("\n========================================================================================================================================\n");
 
@@ -99,7 +99,6 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
             o What solid color background would you like? Keep in mind some fractal colors are easier to see on certain colors\n ");
             
             input = color_options_extensive();
-
             input = color_determine(input, true);
 
             let color: &str = &input;
@@ -107,41 +106,59 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
             scheme.bg_color = str_to_color(color);
         }
 
-        "2" | "transition" => {         //TODO: alter up with new functions
+        "2" | "transition" => {         
             scheme.fancy_background = true;
 
             input.clear();
+            println!("\n\no TRANSITIONAL BACKGROUND COLOR MENU: \n
+            o Please select one of the following colors: ");
 
-            println!("Choose your first color: red, green, blue: ");
+            input = color_options_rgb(true);
+            input = color_determine(input, false);
 
-            io::stdin().read_line(&mut input).ok();
+            let mut color: &str = &input;
 
-            scheme.bg_color = str_to_color(input.trim());
+            scheme.bg_color = str_to_color(color);
 
             input.clear();
 
-            println!("Choose one of the remaining two: red, green, blue: ");
+            println!("\n\to Choose one color that is not the same as the first: ");
 
-            io::stdin().read_line(&mut input).ok();
+            input = color_options_rgb(true);
+            input = color_determine(input, false);
+            color = &input;
 
-            scheme.bg_color_2 = str_to_color(input.trim());
+            scheme.bg_color_2 = str_to_color(color);
 
-            println!("Assummed good input...");
         }
 
-        
-        _ => println!("Invalid input: {:?}. Enter a number (1, 2, ..)", input),
+        _ => {
+            println!("Unrecognized input... running default black background.");
+
+            let color: &str = "black";
+
+            scheme.bg_color = str_to_color(color);
+        }
     }
-        
-    input.clear();
+
+    println!("\n========================================================================================================================================\n");
 }
+
+
+
+
+//TODO:
 
 pub fn _randomize(_scheme: &mut Scheme) {}
 
 
 
-//User Prompts and Match statements for color
 
+
+
+
+
+//User Prompts and Match statements for color
 
 pub fn color_options_extensive() -> String {
     let mut input = String::new();  
@@ -159,32 +176,57 @@ pub fn color_options_extensive() -> String {
     );
     io::stdout().flush().unwrap();
     io::stdin().read_line(&mut input).ok();
-    
-    input.to_string()
+
+    let trimmed: &str = &input.trim().to_lowercase();
+
+    if trimmed == "1" || trimmed == "2" || trimmed == "3" || trimmed == "4" || trimmed == "5" || trimmed == "6" || trimmed == "7" || trimmed == "8" {
+       input.to_string()
+
+    } else {
+        println!("\n\to Non-allowed option selected, running default color RED \n");
+        "1".to_string()
+    } 
 }
 
-pub fn color_options_rgb() -> String {
+pub fn color_options_rgb(transitional: bool) -> String {
     let mut input = String::new();  
 
-    print!("
+    if transitional {
+        print!("
+        \t1) Red\n
+        \t2) Green\n
+        \t3) Blue\n
+        o Input: "
+        );
+    } else {
+        print!("
         \t1) Red\n
         \t2) Green\n
         \t3) Blue\n
         \t4) White\n
         o Input: "
-    );
+        );
+    }
     io::stdout().flush().unwrap();
     io::stdin().read_line(&mut input).ok();
+
+    let trimmed: &str = &input.trim().to_lowercase();
     
-    input.to_string()
+    if trimmed == "1" || trimmed == "2" || trimmed == "3" || trimmed != "4" {
+        input.to_string()
+
+    } else {
+        println!("\n\to Non-allowed option selected, running default color RED \n");
+        "1".to_string()
+    }
 }
 
 pub fn color_determine(input: String, scheme_type: bool) -> String {
 
     let mut trimmed: &str = &input.trim().to_lowercase();
 
-    trimmed = match trimmed {
-        "1" => "red",
+    trimmed = match trimmed {   //if solid case -> used colors_options_extensive then scheme type is true for matching
+        "1" => "red",           //else if normal or transitional cases -> used color_options_rgb and scheme type is false for the shorter list
         "2" => {
             if scheme_type {
                 "orange"
