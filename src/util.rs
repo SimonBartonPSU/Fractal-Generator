@@ -125,7 +125,7 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Sch
                 },
                 _ => println!("Unsupported bg_color"),
             }
-        } else {
+        } else { //solid bg
             *pixel = Rgb([color[0], color[1], color[2]]);
         }
     }

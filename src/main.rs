@@ -7,16 +7,17 @@
 
 mod barnsley;
 mod julia_sets;
+mod julias;
 mod mandelbrot;
-mod menu;
-mod multi_julia_set;
 mod util;
+mod menu;
+
+
 
 use crate::barnsley::*;
 use crate::julia_sets::*;
 use crate::mandelbrot::*;
 use crate::menu::*;
-use crate::multi_julia_set::*;
 use crate::util::*;
 use std::string::String;
 
@@ -46,9 +47,8 @@ fn main() {
 
     match args[0].as_str() {
         "barnsley" => barnsley_fern(imgx, imgy, filename, &mut scheme),
-        "julia" => julia_fractal(imgx, imgy, filename, &mut scheme),
+        "julia" | "multi-julia" => julia_fractal(args[0].as_str(), imgx, imgy, filename, &scheme),
         "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename, &mut scheme),
-        "multi-julia" => multi_julia(imgx, imgy, filename, &mut scheme),
         _ => panic!("Unsupported fractal type"),
     }
 

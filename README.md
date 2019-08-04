@@ -11,7 +11,7 @@ This program extends the original code supplied by Bart Massey to include RGB co
 The following flags can be used to specify how an image is made
 * `--Mandelbrot`: Creates the Original Mandelbrot image
 * `--Julia Set`:  Creates the Julia Set fractal image
-* `--Multi-Julia`: Creates a Multi branch Julia Set fractual image
+* `--Multi-Julia`: Creates a Multi-Julia or Multibrot Set fractual image
 * `--Barnsley`: Creates the Barnsley fern fractal image
 
 ## Build and Run
@@ -20,14 +20,14 @@ Build this program and library with `cargo build`. You can
 run the program with `cargo run`. However, to allow the program to correctly generate a image to your specifications you will need to supply the following data:
     
     <fractal_type>
-    <file>
+    <file_name>
     <width>x<height>
-    <color or gray>
+   
 
 `--` before the program flag: for example,
 
 
-    cargo run -- julia julia.png 800x800 color
+    cargo run -- julia julia.png 800x800
 
 To build or run an optimized version, use `cargo --release`.
 
