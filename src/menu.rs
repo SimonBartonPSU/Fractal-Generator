@@ -9,21 +9,25 @@ use std::io::Write;
 pub fn user_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
 
-    print!(
-        "
-    \n\nUSER MENU: \n
-    \to What type of background would you like? Please select from the following options. \n
-    \t\t1) Normal: Simple black background\n
-    \t\t2) Custom: User choice colored background\n
-    \t\t3) Random: Randomly generated background\n
-    \to Input: "
-    );
-    io::stdout().flush().unwrap();
+    if scheme.fractal == "barnsley" {
+        print!(
+            "
+        \n\nUSER MENU: \n
+        o What type of background would you like? Please select from the following options. \n
+        \t1) Normal: Simple black background\n
+        \t2) Custom: User choice colored background\n
+        \t3) Random: Randomly generated background\n
+        o Input: "
+        );
 
-    io::stdin()
+        io::stdout().flush().unwrap();
+        io::stdin()
         .read_line(&mut input)
         .expect("Expected good input");
-
+    } else {
+        input = "normal".to_string();
+    }
+    
     let trimmed: &str = &input.trim().to_lowercase();
 
     println!("\n========================================================================================================================================\n");
@@ -75,10 +79,10 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
     
     print!(
         "\n\no BACKGROUND STYLE MENU: \n
-        \to Which background coloring style would you like? Please select from the options below \n
-        \t\t1) Solid: solid colored background\n
-        \t\t2) Transitional: multiple color transition background\n
-        \to Input: "
+        o Which background coloring style would you like? Please select from the options below \n
+        \t1) Solid: solid colored background\n
+        \t2) Transitional: multiple color transition background\n
+        o Input: "
     );
    
     io::stdout().flush().unwrap();
@@ -88,10 +92,11 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
     println!("\n========================================================================================================================================\n");
 
     match trimmed {
-        "1" => {
+        "1" | "solid" => {          
+            scheme.fancy_background = false;
 
             println!("\n\no SOLID BACKGROUND COLOR MENU: \n
-                \to What solid color background would you like? Please select from the options below \n ");
+            o What solid color background would you like? Keep in mind some fractal colors are easier to see on certain colors\n ");
             
             input = color_options_extensive();
 
@@ -102,7 +107,7 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
             scheme.bg_color = str_to_color(color);
         }
 
-        "2" => {
+        "2" | "transition" => {         //TODO: alter up with new functions
             scheme.fancy_background = true;
 
             input.clear();
@@ -131,6 +136,13 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
     input.clear();
 }
 
+pub fn _randomize(_scheme: &mut Scheme) {}
+
+
+
+//User Prompts and Match statements for color
+
+
 pub fn color_options_extensive() -> String {
     let mut input = String::new();  
 
@@ -142,6 +154,7 @@ pub fn color_options_extensive() -> String {
         \t5) Blue\n
         \t6) Violet\n
         \t7) White\n
+        \t8) Black\n
         o Input: "
     );
     io::stdout().flush().unwrap();
@@ -196,10 +209,11 @@ pub fn color_determine(input: String, scheme_type: bool) -> String {
         "5" => "blue",
         "6" => "violet",
         "7" => "white",
+        "8" => "black",
         _ => trimmed, //if not a numeric char then just keep input as is
     };
 
     trimmed.to_string()
 }
 
-pub fn _randomize(_scheme: &mut Scheme) {}
+
