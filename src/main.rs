@@ -9,10 +9,8 @@ mod barnsley;
 mod julia_sets;
 mod julias;
 mod mandelbrot;
-mod util;
 mod menu;
-
-
+mod util;
 
 use crate::barnsley::*;
 use crate::julia_sets::*;

@@ -14,19 +14,19 @@ const RAISED_KERNEL: [f32; 9] = [0.0, 0.0, -2.0, 0.0, 2.0, 0.0, 1.0, 0.0, 0.0];
 const COLORS: [&str; 8] = [
     "red", "blue", "green", "orange", "yellow", "violet", "black", "white",
 ];
-const TRANSFORMS: [&str; 11] = [
+const TRANSFORMS: [&str; 10] = [
     "blur",
     "brighten",
     "contrast",
     "huerotate",
     "invert",
-    "rotate90",
     "rotate180",
     "rotate270",
     "smooth filter",
     "sharpen filter",
     "raised filter",
 ];
+const ROTATIONS: [i32; 3] = [90,180,270];
 
 /// Supported colors for user input
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -67,7 +67,7 @@ impl Default for Scheme {
 
 /// Helper to return three u8s based on parsed color
 /// u8s function as RGB data
-pub fn color_to_rgb(color: &Color) -> [u8; 3] {
+pub fn color_to_rgb(color: Color) -> [u8; 3] {
     match color {
         Red => [255, 0, 0],
         Orange => [255, 165, 0],
@@ -100,8 +100,8 @@ pub fn str_to_color(color: &str) -> Color {
 /// background, which will depend on scheme.
 /// Either transitioning from one color to another
 /// or just a solid background.
-pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Scheme) {
-    let color: [u8; 3] = color_to_rgb(&scheme.bg_color);
+pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Scheme) {
+    let color: [u8; 3] = color_to_rgb(scheme.bg_color);
 
     for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
         let xc: u8 = (0.3 * x as f32) as u8;
@@ -109,24 +109,25 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Sch
         if scheme.fancy_background {
             match scheme.bg_color {
                 Red => match scheme.bg_color_2 {
-                    Blue => *pixel = Rgb([xc, 0, yc]),
-                    Green => *pixel = Rgb([xc, yc, 0]),
+                    Blue => *pixel = Rgba([xc, 0, yc, 25]),
+                    Green => *pixel = Rgba([xc, yc, 0, 25]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 Green => match scheme.bg_color_2 {
-                    Blue => *pixel = Rgb([0, xc, yc]),
-                    Red => *pixel = Rgb([xc, yc, 0]),
+                    Blue => *pixel = Rgba([0, xc, yc, 25]),
+                    Red => *pixel = Rgba([xc, yc, 0, 25]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 Blue => match scheme.bg_color_2 {
-                    Red => *pixel = Rgb([xc, 0, yc]),
-                    Green => *pixel = Rgb([0, xc, yc]),
+                    Red => *pixel = Rgba([xc, 0, yc, 25]),
+                    Green => *pixel = Rgba([0, xc, yc, 25]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 _ => println!("Unsupported bg_color"),
             }
-        } else { //solid bg
-            *pixel = Rgb([color[0], color[1], color[2]]);
+        } else {
+            //solid bg
+            *pixel = Rgba([color[0], color[1], color[2], 25]);
         }
     }
 }
@@ -141,12 +142,13 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Sch
 /// Range for huerotate 5 to 355
 pub fn process_image(filename: &str, transformation: &str) {
     let mut image = image::open(filename).unwrap();
+    let rotation: i32 = rand::thread_rng().gen_range(0,3);
 
     match transformation {
-        "blur" => blur(&image, 2.0_f32).save(filename).unwrap(),
-        "brighten" => brighten(&image, 50).save(filename).unwrap(),
-        "contrast" => contrast(&image, 40.0_f32).save(filename).unwrap(),
-        "huerotate" => huerotate(&image, 270).save(filename).unwrap(),
+        "blur" => blur(&image, 3.0_f32).save(filename).unwrap(),
+        "brighten" => brighten(&image, 70).save(filename).unwrap(),
+        "contrast" => contrast(&image, 100.0_f32).save(filename).unwrap(),
+        "huerotate" => huerotate(&image, rotation).save(filename).unwrap(),
         "invert" => {
             invert(&mut image);
             image.save(filename).unwrap()
@@ -164,12 +166,11 @@ pub fn process_image(filename: &str, transformation: &str) {
 /// Generate a random fractal color and background color
 pub fn randomize(scheme: &mut Scheme) {
     scheme.random = true;
-    let fractal_num;
-    if scheme.fractal == "barnsley".to_string() {
-        fractal_num = rand::thread_rng().gen_range(0, 8);
+    let fractal_num = if scheme.fractal == "barnsley" {
+        rand::thread_rng().gen_range(0, 8)
     } else {
-        fractal_num = rand::thread_rng().gen_range(0, 3);
-    }
+        rand::thread_rng().gen_range(0, 3)
+    };
     scheme.color = str_to_color(COLORS[fractal_num]);
     let bg_num = rand::thread_rng().gen_range(0, 8);
     scheme.bg_color = str_to_color(COLORS[bg_num]);
@@ -178,7 +179,7 @@ pub fn randomize(scheme: &mut Scheme) {
 /// Apply a random number of random transformations
 pub fn random_transforms(filename: &str) {
     for _ in 0..5 {
-        let transform_num = rand::thread_rng().gen_range(0, 9);
+        let transform_num = rand::thread_rng().gen_range(0, 8);
         let transform = TRANSFORMS[transform_num];
         process_image(filename, transform);
     }

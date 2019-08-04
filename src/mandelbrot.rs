@@ -2,7 +2,7 @@
 
 use crate::util::Color::*;
 use crate::util::*;
-use image::Rgb;
+use image::Rgba;
 use num::Complex;
 
 /// Mandelbrot - fractal pattern representing the escape time of
@@ -35,12 +35,12 @@ pub fn mandelbrot_fractal(imgx: u32, imgy: u32, filename: &str, scheme: &mut Sch
             i = t;
         }
 
-        let Rgb(data) = *pixel;
+        let Rgba(data) = *pixel;
         match scheme.color {
-            Red => *pixel = Rgb([i, data[1], data[2]]), //apply it to the channel the user chose
-            Green => *pixel = Rgb([data[0], i, data[2]]),
-            Blue => *pixel = Rgb([data[0], data[1], i]),
-            White => *pixel = Rgb([i, i, i]),
+            Red => *pixel = Rgba([i, data[1], data[2], 255]),
+            Green => *pixel = Rgba([data[0], i, data[2], 255]),
+            Blue => *pixel = Rgba([data[0], data[1], i, 255]),
+            White => *pixel = Rgba([i, i, i, 255]),
             _ => panic!("Unsupported color"),
         }
     }
