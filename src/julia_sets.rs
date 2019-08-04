@@ -10,8 +10,7 @@ use crate::util::*;
 use image::Rgb;
 use rand::Rng;
 
-
-pub fn julia_fractal(julia_type: &str, imgy: u32, imgx: u32, filename: &str, scheme: Scheme) {
+pub fn julia_fractal(julia_type: &str, imgy: u32, imgx: u32, filename: &str, scheme: &Scheme) {
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy); // Create a new ImgBuf and apply our dimensions to it.
     let scaleset = ((3.0 / imgx as f32), (3.0 / imgy as f32));
 

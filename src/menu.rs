@@ -16,7 +16,7 @@ pub fn user_menu(mut scheme: &mut Scheme) {
         o What type of background would you like? Please select from the following options. \n
         \t1) Normal: Simple black background\n
         \t2) Custom: User choice colored background\n
-        \t3) Random: Randomly generated background\n
+        \t3) Random: Random properties of fractal fractal\n
         o Input: "
         );
 
@@ -38,7 +38,7 @@ pub fn user_menu(mut scheme: &mut Scheme) {
             normal_menu(&mut scheme);
             custom_menu(&mut scheme)
         }
-        "random" | "3" => _randomize(&mut scheme),
+        "random" | "3"  => randomize(&mut scheme),
         _ => println!("Unrecognized input... running default."),
     }
 }
@@ -74,7 +74,6 @@ pub fn normal_menu(mut scheme: &mut Scheme) {
 /// The custom option allows a user to fine tune properties
 /// of the fractal art image.
 pub fn custom_menu(mut scheme: &mut Scheme) {
-    
     let mut input = String::new();  
     
     print!(
@@ -143,20 +142,6 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
 
     println!("\n========================================================================================================================================\n");
 }
-
-
-
-
-//TODO:
-
-pub fn _randomize(_scheme: &mut Scheme) {}
-
-
-
-
-
-
-
 
 //User Prompts and Match statements for color
 
@@ -257,5 +242,3 @@ pub fn color_determine(input: String, scheme_type: bool) -> String {
 
     trimmed.to_string()
 }
-
-
