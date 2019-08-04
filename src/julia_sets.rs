@@ -16,25 +16,24 @@ pub fn julia_fractal(julia_type: &str, imgy: u32, imgx: u32, filename: &str, sch
 
     apply_background(&mut imgbuf, &scheme); //set the intial background of the image based on the users choice
 
-    let mut rng = rand::thread_rng(); 
-    let randjulia = match julia_type {      //determine random value that will choose which julia set will be generated 
+    let mut rng = rand::thread_rng();
+    let randjulia = match julia_type {
+        //determine random value that will choose which julia set will be generated
         "julia" => rng.gen_range(1, 11),
         "multi-julia" => rng.gen_range(2, 8),
         _ => rng.gen_range(1, 11),
     };
-     
+
     //cycle through every pixel, send to fractal formula function pixel_setter, set the pixel based on result of that function
     for x in 0..imgx {
         for y in 0..imgy {
             let complex_pos = ((y as f32 * scaleset.0 - 1.5), (x as f32 * scaleset.1 - 1.5)); //determines position in frame
 
-
             let result = match julia_type {
                 "julia" => pixel_setter(complex_pos, 0, randjulia), //run pixel through fractal formula in Julias.rs
                 "multi-julia" => pixel_set_multi(complex_pos, 0, randjulia),
-                _ => pixel_setter(complex_pos, 0, randjulia),       //default is normal julia set
+                _ => pixel_setter(complex_pos, 0, randjulia), //default is normal julia set
             };
-
 
             let pixel = imgbuf.get_pixel_mut(x, y); //pull out pixel data
             let Rgb(data) = *pixel; //set pixel data onto the rgb array

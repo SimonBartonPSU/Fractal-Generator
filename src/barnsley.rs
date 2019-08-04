@@ -13,7 +13,7 @@ use rand::Rng;
 pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: &mut Scheme) {
     let mut rng = rand::thread_rng();
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy);
-    let color: [u8; 3] = color_to_rgb(&scheme.color);
+    let color: [u8; 3] = color_to_rgb(scheme.color);
 
     let mut x = 0_f64;
     let mut y = 0_f64;

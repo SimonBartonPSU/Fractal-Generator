@@ -67,7 +67,7 @@ impl Default for Scheme {
 
 /// Helper to return three u8s based on parsed color
 /// u8s function as RGB data
-pub fn color_to_rgb(color: &Color) -> [u8; 3] {
+pub fn color_to_rgb(color: Color) -> [u8; 3] {
     match color {
         Red => [255, 0, 0],
         Orange => [255, 165, 0],
@@ -101,7 +101,7 @@ pub fn str_to_color(color: &str) -> Color {
 /// Either transitioning from one color to another
 /// or just a solid background.
 pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Scheme) {
-    let color: [u8; 3] = color_to_rgb(&scheme.bg_color);
+    let color: [u8; 3] = color_to_rgb(scheme.bg_color);
 
     for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
         let xc: u8 = (0.3 * x as f32) as u8;
@@ -125,7 +125,8 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Sch
                 },
                 _ => println!("Unsupported bg_color"),
             }
-        } else { //solid bg
+        } else {
+            //solid bg
             *pixel = Rgb([color[0], color[1], color[2]]);
         }
     }
