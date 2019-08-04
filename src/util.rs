@@ -80,8 +80,8 @@ pub fn str_to_color(color: &str) -> Color {
 pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Scheme) {
     let color: [u8; 3] = color_to_rgb(&scheme.bg_color);
 
-    for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
-        if scheme.fancy_background {
+    for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {    
+        if scheme.fancy_background {                        //transition bg
             match scheme.bg_color {
                 Red => match scheme.bg_color_2 {
                     Blue => *pixel = Rgb([((0.3 * x as f32) as u8), 0, ((0.3 * y as f32) as u8)]),
@@ -100,8 +100,19 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgb<u8>, Vec<u8>>, scheme: &Sch
                 },
                 _ => println!("Unsupported bg_color"),
             }
-        } else {
-            *pixel = Rgb([color[0], color[1], color[2]]);
+        } else { //solid bg
+                
+            match scheme.bg_color {
+                Red => *pixel = Rgb([255, 0, 0]),
+                Orange => *pixel = Rgb([255, 128, 0]),
+                Yellow => *pixel = Rgb([255, 255, 0]),
+                Blue => *pixel = Rgb([0, 0, 255]),
+                Green => *pixel = Rgb([0, 255, 0]),
+                Violet => *pixel = Rgb([204, 0, 204]),
+                Black => *pixel = Rgb([0, 0, 0]),
+                White => *pixel = Rgb([255, 255, 255]),
+            };
+             
         }
     }
 }

@@ -3,7 +3,7 @@
 //base code credited to: https://crates.io/crates/image
 //resource on julia_set fractals: https://en.wikipedia.org/wiki/Julia_set#Pseudocode_for_normal_Julia_sets
 
-use crate::Julias::*;
+use crate::julias::*;
 
 use crate::util::Color::*;
 use crate::util::*;
