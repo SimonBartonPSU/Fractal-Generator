@@ -36,6 +36,7 @@ fn main() {
 
     if args[0] == "auto-random" {
         auto_random(args[2].parse::<usize>().unwrap(), &args[1]);
+        std::process::exit(0);
     }
 
     let pixel_dims = parse_pair(&args[2], 'x').expect("bad image dimensions");
