@@ -26,7 +26,7 @@ const TRANSFORMS: [&str; 10] = [
     "sharpen filter",
     "raised filter",
 ];
-const ROTATIONS: [i32; 3] = [90,180,270];
+const ROTATIONS: [i32; 3] = [90, 180, 270];
 
 /// Supported colors for user input
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -142,7 +142,7 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Sc
 /// Range for huerotate 5 to 355
 pub fn process_image(filename: &str, transformation: &str) {
     let mut image = image::open(filename).unwrap();
-    let rotation: i32 = rand::thread_rng().gen_range(0,3);
+    let rotation: i32 = rand::thread_rng().gen_range(0, 3);
 
     match transformation {
         "blur" => blur(&image, 3.0_f32).save(filename).unwrap(),
