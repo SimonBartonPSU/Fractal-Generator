@@ -199,15 +199,14 @@ pub fn random_transforms(scheme: &Scheme, filename: &str) {
 /// was randomized. In case a randomization happens to look cool
 /// and one would like to apply the same characteristics to another fractal.
 pub fn log_random(scheme: &Scheme, filename: &str, record: Vec<String>) {
-
     let transforms = record.join(", \n");
 
     let data: String = format!(
-            "Fractal log\n
+        "Fractal log\n
             Scheme:\n {:?},
             Transformations:\n {},",
-            scheme, transforms);
-
+        scheme, transforms
+    );
 
     let write_path = "/tmp/".to_owned() + filename + ".log";
     fs::write(write_path, data).expect("Log write failed...");
@@ -223,6 +222,6 @@ pub fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
     }
     match (T::from_str(fields[0]), T::from_str(fields[1])) {
         (Ok(f0), Ok(f1)) => Some((f0, f1)),
-            _ => None,
+        _ => None,
     }
 }
