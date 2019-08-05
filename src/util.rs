@@ -111,25 +111,25 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Sc
         if scheme.fancy_background {
             match scheme.bg_color {
                 Red => match scheme.bg_color_2 {
-                    Blue => *pixel = Rgba([xc, 0, yc, 25]),
-                    Green => *pixel = Rgba([xc, yc, 0, 25]),
+                    Blue => *pixel = Rgba([xc, 0, yc, 50]),
+                    Green => *pixel = Rgba([xc, yc, 0, 50]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 Green => match scheme.bg_color_2 {
-                    Blue => *pixel = Rgba([0, xc, yc, 25]),
-                    Red => *pixel = Rgba([xc, yc, 0, 25]),
+                    Blue => *pixel = Rgba([0, xc, yc, 50]),
+                    Red => *pixel = Rgba([xc, yc, 0, 50]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 Blue => match scheme.bg_color_2 {
-                    Red => *pixel = Rgba([xc, 0, yc, 25]),
-                    Green => *pixel = Rgba([0, xc, yc, 25]),
+                    Red => *pixel = Rgba([xc, 0, yc, 50]),
+                    Green => *pixel = Rgba([0, xc, yc, 50]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 _ => println!("Unsupported bg_color"),
             }
         } else {
             //solid bg
-            *pixel = Rgba([color[0], color[1], color[2], 25]);
+            *pixel = Rgba([color[0], color[1], color[2], 50]);
         }
     }
 }
@@ -170,14 +170,35 @@ pub fn process_image(filename: &str, transformation: &str) {
 /// Generate a random fractal color and background color
 pub fn randomize(scheme: &mut Scheme) {
     scheme.random = true;
-    let fractal_num = if scheme.fractal == "barnsley" {
-        rand::thread_rng().gen_range(0, 8)
+    let fractal_color;
+    if scheme.fractal == "barnsley" {
+        fractal_color = rand::thread_rng().gen_range(0, 8);
+
+        if rand::thread_rng().gen_range(0, 1) == 0 {
+            scheme.fancy_background = true;
+        } else { 
+            scheme.fancy_background = false;
+        }
     } else {
-        rand::thread_rng().gen_range(0, 3)
-    };
-    scheme.color = str_to_color(COLORS[fractal_num]);
-    let bg_num = rand::thread_rng().gen_range(0, 8);
-    scheme.bg_color = str_to_color(COLORS[bg_num]);
+        fractal_color = rand::thread_rng().gen_range(0, 3);
+    }
+    scheme.color = str_to_color(COLORS[fractal_color]);
+
+    if scheme.fancy_background == true {
+        let background_1 = rand::thread_rng().gen_range(0, 3);
+        scheme.bg_color = str_to_color(COLORS[background_1]);
+        let mut different = true;
+        while different {
+            let background_2 = rand::thread_rng().gen_range(0, 3);
+            scheme.bg_color_2 = str_to_color(COLORS[background_2]);
+            if scheme.bg_color_2 != scheme.bg_color {
+                different = false;
+            }
+        }
+    } else {
+        let bg_num = rand::thread_rng().gen_range(0, 8);
+        scheme.bg_color = str_to_color(COLORS[bg_num]);
+    }
 }
 
 /// Apply a random number of random transformations
