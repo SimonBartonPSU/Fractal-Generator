@@ -51,6 +51,6 @@ fn main() {
     }
 
     if scheme.random {
-        random_transforms(filename);
+        random_transforms(&scheme, filename);
     }
 }

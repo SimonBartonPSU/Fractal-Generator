@@ -6,16 +6,17 @@ use crate::util::Color::*;
 use image::imageops::*;
 use image::*;
 use rand::Rng;
+use std::fs;
 use std::str::FromStr;
 
+/// 3x3 matrix values and other literals
 const SMOOTH_KERNEL: [f32; 9] = [1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0];
 const SHARPEN_KERNEL: [f32; 9] = [-1.0, -1.0, -1.0, -1.0, 9.0, -1.0, -1.0, -1.0, -1.0];
 const RAISED_KERNEL: [f32; 9] = [0.0, 0.0, -2.0, 0.0, 2.0, 0.0, 1.0, 0.0, 0.0];
 const COLORS: [&str; 8] = [
     "red", "blue", "green", "orange", "yellow", "violet", "black", "white",
 ];
-const TRANSFORMS: [&str; 10] = [
-    "blur",
+const TRANSFORMS: [&str; 9] = [
     "brighten",
     "contrast",
     "huerotate",
@@ -42,6 +43,7 @@ pub enum Color {
 }
 
 /// Container for properties of fractal being built
+#[derive(Debug)]
 pub struct Scheme {
     pub fractal: String,
     /// Actual color of the fractal
@@ -102,6 +104,7 @@ pub fn str_to_color(color: &str) -> Color {
 /// or just a solid background.
 pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Scheme) {
     let color: [u8; 3] = color_to_rgb(scheme.bg_color);
+    let alpha: u8 = if scheme.fractal == "barnsley" { 75 } else { 30 };
 
     for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
         let xc: u8 = (0.3 * x as f32) as u8;
@@ -109,25 +112,25 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Sc
         if scheme.fancy_background {
             match scheme.bg_color {
                 Red => match scheme.bg_color_2 {
-                    Blue => *pixel = Rgba([xc, 0, yc, 25]),
-                    Green => *pixel = Rgba([xc, yc, 0, 25]),
+                    Blue => *pixel = Rgba([xc, 0, yc, alpha]),
+                    Green => *pixel = Rgba([xc, yc, 0, alpha]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 Green => match scheme.bg_color_2 {
-                    Blue => *pixel = Rgba([0, xc, yc, 25]),
-                    Red => *pixel = Rgba([xc, yc, 0, 25]),
+                    Blue => *pixel = Rgba([0, xc, yc, alpha]),
+                    Red => *pixel = Rgba([xc, yc, 0, alpha]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 Blue => match scheme.bg_color_2 {
-                    Red => *pixel = Rgba([xc, 0, yc, 25]),
-                    Green => *pixel = Rgba([0, xc, yc, 25]),
+                    Red => *pixel = Rgba([xc, 0, yc, alpha]),
+                    Green => *pixel = Rgba([0, xc, yc, alpha]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 _ => println!("Unsupported bg_color"),
             }
         } else {
             //solid bg
-            *pixel = Rgba([color[0], color[1], color[2], 25]);
+            *pixel = Rgba([color[0], color[1], color[2], 50]);
         }
     }
 }
@@ -142,13 +145,15 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Sc
 /// Range for huerotate 5 to 355
 pub fn process_image(filename: &str, transformation: &str) {
     let mut image = image::open(filename).unwrap();
-    let rotation: i32 = rand::thread_rng().gen_range(0, 3);
+    let rotate_index = rand::thread_rng().gen_range(0, 3);
 
     match transformation {
         "blur" => blur(&image, 3.0_f32).save(filename).unwrap(),
         "brighten" => brighten(&image, 70).save(filename).unwrap(),
         "contrast" => contrast(&image, 100.0_f32).save(filename).unwrap(),
-        "huerotate" => huerotate(&image, rotation).save(filename).unwrap(),
+        "huerotate" => huerotate(&image, ROTATIONS[rotate_index])
+            .save(filename)
+            .unwrap(),
         "invert" => {
             invert(&mut image);
             image.save(filename).unwrap()
@@ -166,28 +171,73 @@ pub fn process_image(filename: &str, transformation: &str) {
 /// Generate a random fractal color and background color
 pub fn randomize(scheme: &mut Scheme) {
     scheme.random = true;
-    let fractal_num = if scheme.fractal == "barnsley" {
-        rand::thread_rng().gen_range(0, 8)
+    if rand::thread_rng().gen_range(0, 1) == 0 {
+        scheme.fancy_background = true;
+    } else { 
+        scheme.fancy_background = false;
+    }
+
+    let fractal_color;
+    if scheme.fractal == "barnsley" {
+        fractal_color = rand::thread_rng().gen_range(0, 8);
+
     } else {
-        rand::thread_rng().gen_range(0, 3)
-    };
-    scheme.color = str_to_color(COLORS[fractal_num]);
-    let bg_num = rand::thread_rng().gen_range(0, 8);
-    scheme.bg_color = str_to_color(COLORS[bg_num]);
+        fractal_color = rand::thread_rng().gen_range(0, 3);
+    }
+    scheme.color = str_to_color(COLORS[fractal_color]);
+
+    if scheme.fancy_background == true {
+        let background_1 = rand::thread_rng().gen_range(0, 3);
+        scheme.bg_color = str_to_color(COLORS[background_1]);
+        let mut different = true;
+        while different {
+            let background_2 = rand::thread_rng().gen_range(0, 3);
+            scheme.bg_color_2 = str_to_color(COLORS[background_2]);
+            if scheme.bg_color_2 != scheme.bg_color {
+                different = false;
+            }
+        }
+    } else {
+        let bg_num = rand::thread_rng().gen_range(0, 8);
+        scheme.bg_color = str_to_color(COLORS[bg_num]);
+    }
 }
 
 /// Apply a random number of random transformations
-pub fn random_transforms(filename: &str) {
-    for _ in 0..5 {
-        let transform_num = rand::thread_rng().gen_range(0, 8);
-        let transform = TRANSFORMS[transform_num];
+/// to some image file - a fractal for this programm
+pub fn random_transforms(scheme: &Scheme, filename: &str) {
+    let num_transforms = rand::thread_rng().gen_range(1, 7);
+    let mut record: Vec<String> = Vec::new();
+    for _ in 0..num_transforms {
+        let transform_index = rand::thread_rng().gen_range(0, 8);
+        let transform = TRANSFORMS[transform_index];
         process_image(filename, transform);
+        record.push(transform.to_string());
     }
-    process_image(filename, "huerotate");
+
+    log_random(&scheme, filename, record);
 }
 
+/// Function to keep track of what actually happened when a fractal
+/// was randomized. In case a randomization happens to look cool
+/// and one would like to apply the same characteristics to another fractal.
+pub fn log_random(scheme: &Scheme, filename: &str, record: Vec<String>) {
+    let transforms = record.join(", \n");
+
+    let data: String = format!(
+        "Fractal log\n
+            Scheme:\n {:?},
+            Transformations:\n {},",
+        scheme, transforms
+    );
+
+    let write_path = "/tmp/".to_owned() + filename + ".log";
+    fs::write(write_path, data).expect("Log write failed...");
+}
+
+// From B&O chapter 2, p28 - modified by Bart Massey
 /// Helper to parse a string as a pair of values separated
-/// by a separator char.
+/// by a separator char. For coordinate pairs e.g. "600x600"
 pub fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
     let fields: Vec<&str> = s.split(sep).collect();
     if fields.len() != 2 {
