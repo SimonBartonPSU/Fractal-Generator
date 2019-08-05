@@ -104,6 +104,7 @@ pub fn str_to_color(color: &str) -> Color {
 /// or just a solid background.
 pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Scheme) {
     let color: [u8; 3] = color_to_rgb(scheme.bg_color);
+    let alpha: u8 = if scheme.fractal == "barnsley" { 75 } else { 30 };
 
     for (x, y, pixel) in imgbuf.enumerate_pixels_mut() {
         let xc: u8 = (0.3 * x as f32) as u8;
@@ -111,18 +112,18 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Sc
         if scheme.fancy_background {
             match scheme.bg_color {
                 Red => match scheme.bg_color_2 {
-                    Blue => *pixel = Rgba([xc, 0, yc, 50]),
-                    Green => *pixel = Rgba([xc, yc, 0, 50]),
+                    Blue => *pixel = Rgba([xc, 0, yc, alpha]),
+                    Green => *pixel = Rgba([xc, yc, 0, alpha]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 Green => match scheme.bg_color_2 {
-                    Blue => *pixel = Rgba([0, xc, yc, 50]),
-                    Red => *pixel = Rgba([xc, yc, 0, 50]),
+                    Blue => *pixel = Rgba([0, xc, yc, alpha]),
+                    Red => *pixel = Rgba([xc, yc, 0, alpha]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 Blue => match scheme.bg_color_2 {
-                    Red => *pixel = Rgba([xc, 0, yc, 50]),
-                    Green => *pixel = Rgba([0, xc, yc, 50]),
+                    Red => *pixel = Rgba([xc, 0, yc, alpha]),
+                    Green => *pixel = Rgba([0, xc, yc, alpha]),
                     _ => println!("Unsupported bg_color_2"),
                 },
                 _ => println!("Unsupported bg_color"),
@@ -170,15 +171,16 @@ pub fn process_image(filename: &str, transformation: &str) {
 /// Generate a random fractal color and background color
 pub fn randomize(scheme: &mut Scheme) {
     scheme.random = true;
+    if rand::thread_rng().gen_range(0, 1) == 0 {
+        scheme.fancy_background = true;
+    } else { 
+        scheme.fancy_background = false;
+    }
+
     let fractal_color;
     if scheme.fractal == "barnsley" {
         fractal_color = rand::thread_rng().gen_range(0, 8);
 
-        if rand::thread_rng().gen_range(0, 1) == 0 {
-            scheme.fancy_background = true;
-        } else { 
-            scheme.fancy_background = false;
-        }
     } else {
         fractal_color = rand::thread_rng().gen_range(0, 3);
     }
