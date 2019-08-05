@@ -5,6 +5,7 @@
 // I/O Help
 // https://www.reddit.com/r/rust/comments/41hgwq/help_needed_user_input_in_rust/
 
+mod auto_random;
 mod barnsley;
 mod julia_sets;
 mod julias;
@@ -12,6 +13,7 @@ mod mandelbrot;
 mod menu;
 mod util;
 
+use crate::auto_random::*;
 use crate::barnsley::*;
 use crate::julia_sets::*;
 use crate::mandelbrot::*;
@@ -20,14 +22,20 @@ use crate::util::*;
 use std::string::String;
 
 fn usage() -> ! {
-    eprintln!("\n\n\tusage: <fractal-type> <file-name> <width>x<height>\n\n");
+    eprintln!("\n\n\tusage: <fractal-type> <file-name> <width>x<height>\n
+     or usage: auto-random <file-name> [number of randoms to make]\n\n");
     std::process::exit(1)
 }
 
 fn main() {
     let mut args: Vec<String> = std::env::args().skip(1).collect();
+    
     if args.len() != 3 {
         usage()
+    }
+
+    if args[0] == "auto-random" {
+        auto_random(args[2].parse::<usize>().unwrap(), &args[1]);
     }
 
     let pixel_dims = parse_pair(&args[2], 'x').expect("bad image dimensions");
@@ -47,7 +55,7 @@ fn main() {
         "barnsley" => barnsley_fern(imgx, imgy, filename, &mut scheme),
         "julia" | "multi-julia" => julia_fractal(args[0].as_str(), imgx, imgy, filename, &scheme),
         "mandelbrot" => mandelbrot_fractal(imgx, imgy, filename, &mut scheme),
-        _ => panic!("Unsupported fractal type"),
+        _ => println!("Unsupported fractal type"),
     }
 
     if scheme.random {
