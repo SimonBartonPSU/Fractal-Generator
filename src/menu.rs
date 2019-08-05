@@ -37,6 +37,8 @@ pub fn user_menu(mut scheme: &mut Scheme) {
         "random" | "3" => randomize(&mut scheme),
         _ => println!("Unrecognized input... running default."),
     }
+
+    println!("\n\to Constructing your fractal image");
 }
 
 /// The normal option allows a user to select only the color
