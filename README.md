@@ -46,6 +46,7 @@ Run `cargo test` to do some simple testing. Though it should be noted that the m
 ![Barnsley](https://i.imgur.com/KPU4MaJ.png)
 ![Julia](https://i.imgur.com/TzwaN9f.png)
 ![Mandelbrot](https://i.imgur.com/YiGrLzn.png)
+![Multi-julia](https://i.imgur.com/MsDTDte.png)
 
 ## License
 
