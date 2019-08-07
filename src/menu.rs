@@ -138,6 +138,17 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
         }
     }
 
+    println!("\nWould you like to perform a single transform? (y/n)");
+    io::stdout().flush().unwrap();
+    input.clear();
+    io::stdin().read_line(&mut input).ok();
+    let trimmed: &str = &input.trim().to_lowercase();
+
+    if trimmed == "y" || trimmed == "yes" {
+        scheme.do_transform = true;
+        transform_options(&mut scheme);
+    }
+
     println!("\n========================================================================================================================================\n");
 }
 
@@ -248,4 +259,54 @@ pub fn color_determine(input: String, scheme_type: bool) -> String {
     };
 
     trimmed.to_string()
+}
+
+fn transform_options(scheme: &mut Scheme) {
+    let mut input = String::new();
+    println!(
+        "\n\no TRANSFORMATIONS MENU: \n
+        o What transformation would you like to perform? Please select from the following option. \n"
+    );
+
+    print!(
+            "
+        \t1) brighten\n
+        \t2) constrast\n
+        \t3) huerotate\n
+        \t4) invert\n
+        \t5) rotate90\n
+        \t6) rotate180\n
+        \t7) rotate270\n
+        \t8) blur\n
+        \t9) smooth filter\n
+        \t10) sharpen filter\n
+        \t11) raised filter\n
+        
+        
+        o Input: "
+        );
+
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut input).ok();
+
+    let trimmed: &str = &input.trim().to_lowercase();
+
+
+    let transform: &str = match trimmed {
+        "1" | "brighten" => "brighten",
+        "2" | "contrast" => "contrast",
+        "3" | "huerotate" => "huerotate",
+        "4" | "invert" => "invert",
+        "5" | "rotate90" => "rotate90",
+        "6" | "rotate180" => "rotate180",
+        "7" | "rotate270" => "rotate270",
+        "8" | "blur" => "blur",
+        "9" | "smooth filter" => "smooth filter",
+        "10" | "sharpen filter" => "sharpen filter",
+        "11" | "raised filter" => "raised filter",
+        &_ => "contrast",
+    };
+
+    scheme.transform = transform.to_string();
+    println!("\n========================================================================================================================================\n");
 }

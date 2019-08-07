@@ -52,6 +52,8 @@ pub struct Scheme {
     pub bg_color: Color,
     pub bg_color_2: Color,
     pub random: bool,
+    pub do_transform: bool,
+    pub transform: String,
 }
 
 impl Default for Scheme {
@@ -63,6 +65,8 @@ impl Default for Scheme {
             bg_color: Black,
             bg_color_2: Red,
             random: false,
+            do_transform: false,
+            transform: String::new(),
         }
     }
 }

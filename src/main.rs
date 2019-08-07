@@ -62,4 +62,7 @@ fn main() {
     if scheme.random {
         random_transforms(&scheme, filename);
     }
+    if scheme.do_transform {
+        process_image(filename, &scheme.transform);
+    }
 }
