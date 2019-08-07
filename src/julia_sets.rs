@@ -1,5 +1,6 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
-//Generate 3 a randomly chosen julia set fractal as a .png image
+
+//Generate a randomly chosen julia set fractal as a .png image
 //base code credited to: https://crates.io/crates/image
 //resource on julia_set fractals: https://en.wikipedia.org/wiki/Julia_set#Pseudocode_for_normal_Julia_sets
 
@@ -9,6 +10,10 @@ use crate::util::Color::*;
 use crate::util::*;
 use image::Rgba;
 use rand::Rng;
+
+///Julia_fractal is a middle man function for both the julia sets fractal and the multi julia sets fractal. This fuction handles
+///the generation of the intial background image and then cycles through each pixel in the image. Sending the pixel to the appropriate 
+///function in julias.rs based on the fractal type to run through the correct formula to alter the pixel and draw the fractal.
 
 pub fn julia_fractal(julia_type: &str, imgy: u32, imgx: u32, filename: &str, scheme: &Scheme) {
     let mut imgbuf = image::ImageBuffer::new(imgx, imgy); // Create a new ImgBuf and apply our dimensions to it.
