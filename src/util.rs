@@ -16,6 +16,7 @@ const RAISED_KERNEL: [f32; 9] = [0.0, 0.0, -2.0, 0.0, 2.0, 0.0, 1.0, 0.0, 0.0];
 const COLORS: [&str; 8] = [
     "red", "blue", "green", "orange", "yellow", "violet", "black", "white",
 ];
+/// Str literals used to call random image operations
 const TRANSFORMS: [&str; 9] = [
     "brighten",
     "contrast",
@@ -56,6 +57,8 @@ pub struct Scheme {
     pub transform: String,
 }
 
+/// Reasonable values are set for a default fractal scheme
+/// With these values set, nothing can go seriously wrong
 impl Default for Scheme {
     fn default() -> Scheme {
         Scheme {
@@ -140,9 +143,8 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Sc
 }
 
 /// Image processing functions supplied by image crate
-/// to be used for fun and randomization
-/// imageops functions
-/// Acceptable ranges:
+/// to be used for fun and randomization imageops functions
+/// Ranges for transforms that give cool results:
 /// Range for blur 0.75 to 5.0
 /// Range for brighten -50 to 80
 /// Range for contrast -20.0 to 200.0
@@ -172,7 +174,9 @@ pub fn process_image(filename: &str, transformation: &str) {
     };
 }
 
-/// Generate a random fractal color and background color
+/// Generate a random fractal scheme 
+/// This includes color, type of background, and background color(s)
+/// Barnsley is able to support more colors for its fractal
 pub fn randomize(scheme: &mut Scheme) {
     scheme.random = true;
     if rand::thread_rng().gen_range(0, 1) == 0 {
@@ -222,7 +226,7 @@ pub fn random_transforms(scheme: &Scheme, filename: &str) {
     log_random(&scheme, filename, record);
 }
 
-/// Function to keep track of what actually happened when a fractal
+/// Keep track of what actually happened when a fractal
 /// was randomized. In case a randomization happens to look cool
 /// and one would like to apply the same characteristics to another fractal.
 pub fn log_random(scheme: &Scheme, filename: &str, record: Vec<String>) {

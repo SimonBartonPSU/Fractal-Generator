@@ -20,6 +20,7 @@ pub fn barnsley_fern(imgx: u32, imgy: u32, filename: &str, scheme: &mut Scheme) 
 
     apply_background(&mut imgbuf, &scheme);
 
+    // 20,000 is a good arbitrary number of points to plot, could be modified
     for _ in 0..20000_u32 {
         let rand_num = rng.gen::<f32>();
         let cx: f64;
