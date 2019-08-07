@@ -5,6 +5,8 @@
 // I/O Help
 // https://www.reddit.com/r/rust/comments/41hgwq/help_needed_user_input_in_rust/
 
+///! Generate a fractal based on command line args and user input
+
 mod auto_random;
 mod barnsley;
 mod julia_sets;
@@ -27,6 +29,9 @@ fn usage() -> ! {
     std::process::exit(1)
 }
 
+/// Parse command line args, either start auto-randomization
+/// or go through user menu process to receive custom input.
+/// Then generate the desired fractal with optional transformations.
 fn main() {
     let mut args: Vec<String> = std::env::args().skip(1).collect();
     

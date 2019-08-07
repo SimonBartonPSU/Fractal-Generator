@@ -8,6 +8,9 @@ use rand::Rng;
 
 const FRACTALS: [&str; 4] = ["barnsley", "mandelbrot", "julia", "multi-julia"];
 
+/// Ultimate automation of the fractal generation
+/// This does all of work of deciding fractal properties for a user
+/// including which fractal to use, what colors, and what transformations
 pub fn auto_random(num_to_make: usize, filename: &str) { 
     for i in 0..num_to_make {
         let fractal_index = rand::thread_rng().gen_range(0, 4);
