@@ -42,6 +42,11 @@ To build or run an optimized version, use `cargo --release`.
 
 Run `cargo test` to do some simple testing. Though it should be noted that the main form of testing for this project is human visual, i.e does the image generate in the way we expect visually. 
 
+## Documentation
+To read each files inner documentation about functionality and purpose run the follow:
+
+    cargo rustdoc --open -- --document-private-items
+
 ## Fractal Generation Examples
 ![Barnsley](https://i.imgur.com/KPU4MaJ.png)
 ![Julia](https://i.imgur.com/TzwaN9f.png)
