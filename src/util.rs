@@ -185,15 +185,14 @@ pub fn randomize(scheme: &mut Scheme) {
         scheme.fancy_background = false;
     }
 
-    let fractal_color;
-    if scheme.fractal == "barnsley" {
-        fractal_color = rand::thread_rng().gen_range(0, 8);
+    let fractal_color: usize = if scheme.fractal == "barnsley" {
+        rand::thread_rng().gen_range(0, 8)
     } else {
-        fractal_color = rand::thread_rng().gen_range(0, 3);
-    }
+        rand::thread_rng().gen_range(0, 3)
+    };
     scheme.color = str_to_color(COLORS[fractal_color]);
 
-    if scheme.fancy_background == true {
+    if scheme.fancy_background {
         let background_1 = rand::thread_rng().gen_range(0, 3);
         scheme.bg_color = str_to_color(COLORS[background_1]);
         let mut different = true;
