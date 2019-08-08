@@ -103,9 +103,7 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
             input = color_options_extensive();
             input = color_determine(input, true);
 
-            let color: &str = &input;
-
-            scheme.bg_color = str_to_color(color);
+            scheme.bg_color = str_to_color(&input);
         }
 
         "2" | "transition" => {
@@ -120,9 +118,7 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
             input = color_options_rgb(true);
             input = color_determine(input, false);
 
-            let mut color: &str = &input;
-
-            scheme.bg_color = str_to_color(color);
+            scheme.bg_color = str_to_color(&input);
 
             input.clear();
 
@@ -130,9 +126,8 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
 
             input = color_options_rgb(true);
             input = color_determine(input, false);
-            color = &input;
 
-            scheme.bg_color_2 = str_to_color(color);
+            scheme.bg_color_2 = str_to_color(&input);
         }
 
         _ => {

@@ -5,7 +5,7 @@
 // I/O Help
 // https://www.reddit.com/r/rust/comments/41hgwq/help_needed_user_input_in_rust/
 
-///! Generate a fractal based on command line args and user input
+//! Generate a fractal based on command line args and user input
 
 mod auto_random;
 mod barnsley;

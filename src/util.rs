@@ -137,7 +137,7 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Sc
             }
         } else {
             //solid bg
-            *pixel = Rgba([color[0], color[1], color[2], 50]);
+            *pixel = Rgba([color[0], color[1], color[2], 255]);
         }
     }
 }
