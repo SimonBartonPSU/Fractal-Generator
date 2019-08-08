@@ -144,7 +144,7 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
         }
     }
 
-    println!("\nWould you like to perform a single transform? (y/n)");
+    println!("\n\to Would you like to perform a single transform? (y/n)");
     io::stdout().flush().unwrap();
     input.clear();
     io::stdin().read_line(&mut input).ok();
