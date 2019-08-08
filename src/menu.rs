@@ -1,13 +1,12 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
 
-///This file contains all user interaction (UI) menus to utilize the fractal generator program. Covering user input for fractal color, 
-///background colors, background color styling, image trasformation additions, and general user notification on the process of the program. 
-
+///This file contains all user interaction (UI) menus to utilize the fractal generator program. Covering user input for fractal color,
+///background colors, background color styling, image trasformation additions, and general user notification on the process of the program.
 use crate::util::*;
 use std::io;
 use std::io::Write;
 
-///The user_menu function is the first entry point for the user on the firstly deciding on the initial style of background they will wish to use, 
+///The user_menu function is the first entry point for the user on the firstly deciding on the initial style of background they will wish to use,
 ///normal which limits you to only changing the background color on a black background, custom that allows the fractal color, background color & styling,
 ///and random which gives no user customization and instead randomly selects the input styling attributes and creates a random styled fractal
 ///of which can be determined in its log file. Reference README.md
@@ -73,8 +72,8 @@ pub fn normal_menu(mut scheme: &mut Scheme) {
     println!("\n========================================================================================================================================\n");
 }
 
-///The custom menu option allows a user to select the background styleing between solid color or transitional between two colors of which are user selected. 
-///After the user moves through those options they are also prompted if they wish to apply image atrributes which can alter the final image. 
+///The custom menu option allows a user to select the background styleing between solid color or transitional between two colors of which are user selected.
+///After the user moves through those options they are also prompted if they wish to apply image atrributes which can alter the final image.
 ///We have a default set to just make the background a solid black for unrecognized input.
 pub fn custom_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
@@ -154,7 +153,7 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
 }
 
 ///color_options_extensive is utilized to print the repeativly used color print options based on the fractal type. The extensive menu is used
-///for the barnsley fractal color and the background colors for the solid background on the custom menu. 
+///for the barnsley fractal color and the background colors for the solid background on the custom menu.
 
 pub fn color_options_extensive() -> String {
     let mut input = String::new();
@@ -219,11 +218,7 @@ pub fn color_options_rgb(transitional: bool) -> String {
 
     let trimmed: &str = &input.trim().to_lowercase();
 
-    if trimmed == "1" 
-        || trimmed == "2" 
-        || trimmed == "3"
-        || trimmed == "4" 
-    {
+    if trimmed == "1" || trimmed == "2" || trimmed == "3" || trimmed == "4" {
         input.to_string()
     } else {
         println!("\n\to Non-allowed option selected, running default color RED \n");
@@ -231,9 +226,8 @@ pub fn color_options_rgb(transitional: bool) -> String {
     }
 }
 
-
 ///color_determine returns the str to match on what option the user selected in the menus, typically by number, can converts it to the appropriate
-///string to match the color on the Color enum in util.rs. This way the user wont have to write out the name of the color each time and avoid common 
+///string to match the color on the Color enum in util.rs. This way the user wont have to write out the name of the color each time and avoid common
 ///typo error that would direct into defaulted match for error handling.
 pub fn color_determine(input: String, scheme_type: bool) -> String {
     let mut trimmed: &str = &input.trim().to_lowercase();
@@ -272,7 +266,6 @@ pub fn color_determine(input: String, scheme_type: bool) -> String {
     trimmed.to_string()
 }
 
-
 ///transform_options is just the prompt and user input menu if the user wishes to apply any image transformations to the fractal.
 fn transform_options(scheme: &mut Scheme) {
     let mut input = String::new();
@@ -282,7 +275,7 @@ fn transform_options(scheme: &mut Scheme) {
     );
 
     print!(
-            "
+        "
         \t1) brighten\n
         \t2) constrast\n
         \t3) huerotate\n
@@ -297,13 +290,12 @@ fn transform_options(scheme: &mut Scheme) {
         
         
         o Input: "
-        );
+    );
 
     io::stdout().flush().unwrap();
     io::stdin().read_line(&mut input).ok();
 
     let trimmed: &str = &input.trim().to_lowercase();
-
 
     let transform: &str = match trimmed {
         "1" | "brighten" => "brighten",

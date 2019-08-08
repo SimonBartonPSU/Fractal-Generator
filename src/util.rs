@@ -174,21 +174,20 @@ pub fn process_image(filename: &str, transformation: &str) {
     };
 }
 
-/// Generate a random fractal scheme 
+/// Generate a random fractal scheme
 /// This includes color, type of background, and background color(s)
 /// Barnsley is able to support more colors for its fractal
 pub fn randomize(scheme: &mut Scheme) {
     scheme.random = true;
     if rand::thread_rng().gen_range(0, 1) == 0 {
         scheme.fancy_background = true;
-    } else { 
+    } else {
         scheme.fancy_background = false;
     }
 
     let fractal_color;
     if scheme.fractal == "barnsley" {
         fractal_color = rand::thread_rng().gen_range(0, 8);
-
     } else {
         fractal_color = rand::thread_rng().gen_range(0, 3);
     }

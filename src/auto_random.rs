@@ -12,15 +12,15 @@ const FRACTALS: [&str; 4] = ["barnsley", "mandelbrot", "julia", "multi-julia"];
 /// Ultimate automation of the fractal generation process.
 /// This does all of work of deciding fractal properties for a user
 /// including which fractal to use, what colors, and what transformations
-pub fn auto_random(num_to_make: usize, filename: &str) { 
+pub fn auto_random(num_to_make: usize, filename: &str) {
     for i in 0..num_to_make {
         let fractal_index = rand::thread_rng().gen_range(0, 4);
         let fractal = FRACTALS[fractal_index];
         let filename = filename.to_owned() + &i.to_string() + ".png";
 
         let mut scheme = Scheme {
-             fractal: fractal.to_string(),
-             ..Default::default()
+            fractal: fractal.to_string(),
+            ..Default::default()
         };
 
         randomize(&mut scheme);

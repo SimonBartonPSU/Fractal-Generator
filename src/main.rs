@@ -24,8 +24,10 @@ use crate::util::*;
 use std::string::String;
 
 fn usage() -> ! {
-    eprintln!("\n\n\tusage: <fractal-type> <file-name> <width>x<height>\n
-     or usage: auto-random <file-name> [number of randoms to make]\n\n");
+    eprintln!(
+        "\n\n\tusage: <fractal-type> <file-name> <width>x<height>\n
+     or usage: auto-random <file-name> [number of randoms to make]\n\n"
+    );
     std::process::exit(1)
 }
 
@@ -34,7 +36,7 @@ fn usage() -> ! {
 /// Then generate the desired fractal with optional transformations.
 fn main() {
     let mut args: Vec<String> = std::env::args().skip(1).collect();
-    
+
     if args.len() != 3 {
         usage()
     }
