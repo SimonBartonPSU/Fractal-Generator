@@ -20,11 +20,11 @@ The following fractal types are supported:
 
 Build this program and library with `cargo build`. You can run the program with `cargo run`. However, to allow the program to correctly generate a image to your specifications you will need to supply the following data:
     
-    cargo run -- <fractal_type> <file_name> <width>x<height>
+    cargo run --release -- <fractal_type> <file_name> <width>x<height>
    
 For example:
 
-    cargo run -- julia julia.png 800x800
+    cargo run --release -- julia julia.png 800x800
     
 Note: To correctly produce a image without warping it is good practice to set the width x height as a perfect square as shown in the example above. If you adjust the dimensions vary harshly away from a square you will not see results as expected. 
     
