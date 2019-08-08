@@ -7,7 +7,7 @@ use crate::util::*;
 use std::io;
 use std::io::Write;
 
-/// The user_menu function is the first entry point for the user on the firstly deciding on the initial style of background they will wish to use, 
+///The user_menu function is the first entry point for the user on the firstly deciding on the initial style of background they will wish to use, 
 ///normal which limits you to only changing the background color on a black background, custom that allows the fractal color, background color & styling,
 ///and random which gives no user customization and instead randomly selects the input styling attributes and creates a random styled fractal
 ///of which can be determined in its log file. Reference README.md
@@ -224,7 +224,11 @@ pub fn color_options_rgb(transitional: bool) -> String {
 
     let trimmed: &str = &input.trim().to_lowercase();
 
-    if trimmed == "1" || trimmed == "2" || trimmed == "3" || trimmed != "4" {
+    if trimmed == "1" 
+        || trimmed == "2" 
+        || trimmed == "3"
+        || trimmed == "4" 
+    {
         input.to_string()
     } else {
         println!("\n\to Non-allowed option selected, running default color RED \n");
