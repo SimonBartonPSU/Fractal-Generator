@@ -9,14 +9,16 @@ use rand::Rng;
 use std::fs;
 use std::str::FromStr;
 
-/// 3x3 matrix values and other literals
+/// Smooth filter 3x3 matrix values.
 const SMOOTH_KERNEL: [f32; 9] = [1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0];
+/// Sharpen filter 3x3 matrix values.
 const SHARPEN_KERNEL: [f32; 9] = [-1.0, -1.0, -1.0, -1.0, 9.0, -1.0, -1.0, -1.0, -1.0];
+/// Raosed filter 3x3 matrix values.
 const RAISED_KERNEL: [f32; 9] = [0.0, 0.0, -2.0, 0.0, 2.0, 0.0, 1.0, 0.0, 0.0];
 const COLORS: [&str; 8] = [
     "red", "blue", "green", "orange", "yellow", "violet", "black", "white",
 ];
-/// Str literals used to call random image operations
+/// Str literals used to call random image operations.
 const TRANSFORMS: [&str; 9] = [
     "brighten",
     "contrast",
@@ -30,7 +32,7 @@ const TRANSFORMS: [&str; 9] = [
 ];
 const ROTATIONS: [i32; 3] = [90, 180, 270];
 
-/// Supported colors for user input
+/// Supported colors for fractals and backgrounds.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Color {
     Red,
@@ -43,7 +45,7 @@ pub enum Color {
     White,
 }
 
-/// Container for properties of fractal being built
+/// Container for properties of the fractal being generated.
 #[derive(Debug)]
 pub struct Scheme {
     pub fractal: String,
@@ -74,8 +76,7 @@ impl Default for Scheme {
     }
 }
 
-/// Helper to return three u8s based on parsed color
-/// u8s function as RGB data
+/// Convert a Color enum into RGB data values.
 pub fn color_to_rgb(color: Color) -> [u8; 3] {
     match color {
         Red => [255, 0, 0],
@@ -89,8 +90,8 @@ pub fn color_to_rgb(color: Color) -> [u8; 3] {
     }
 }
 
-/// Convenient conversion from String to a Color
-/// Defaults to Blue for invalid input colors
+/// Convert a str to a Color.
+/// Defaults to Black for invalid input colors.
 pub fn str_to_color(color: &str) -> Color {
     match color {
         "red" => Red,
@@ -106,9 +107,8 @@ pub fn str_to_color(color: &str) -> Color {
 }
 
 /// Iterate over the pixels of the image and apply a cool
-/// background, which will depend on scheme.
-/// Either transitioning from one color to another
-/// or just a solid background.
+/// background color. The coloring will either transition from 
+/// one color to another or just a solid background.
 pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Scheme) {
     let color: [u8; 3] = color_to_rgb(scheme.bg_color);
     let alpha: u8 = if scheme.fractal == "barnsley" { 75 } else { 30 };
@@ -142,13 +142,14 @@ pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Sc
     }
 }
 
-/// Image processing functions supplied by image crate
-/// to be used for fun and randomization imageops functions
-/// Ranges for transforms that give cool results:
-/// Range for blur 0.75 to 5.0
-/// Range for brighten -50 to 80
-/// Range for contrast -20.0 to 200.0
-/// Range for huerotate 5 to 355
+/// Invoke an image processing function
+/// to be used for fun and randomization functions
+/// as well as the custom menu.
+// Ranges for transforms that give cool results:
+// Range for blur 0.75 to 5.0
+// Range for brighten -50 to 80
+// Range for contrast -20.0 to 200.0
+// Range for huerotate 5 to 355
 pub fn process_image(filename: &str, transformation: &str) {
     let mut image = image::open(filename).unwrap();
     let rotate_index = rand::thread_rng().gen_range(0, 3);
@@ -174,9 +175,9 @@ pub fn process_image(filename: &str, transformation: &str) {
     };
 }
 
-/// Generate a random fractal scheme
-/// This includes color, type of background, and background color(s)
-/// Barnsley is able to support more colors for its fractal
+/// Generate a random fractal scheme.
+/// This includes color, type of background, and background color(s).
+/// Barnsley is able to support more colors for its fractal.
 pub fn randomize(scheme: &mut Scheme) {
     scheme.random = true;
     if rand::thread_rng().gen_range(0, 1) == 0 {
@@ -210,7 +211,7 @@ pub fn randomize(scheme: &mut Scheme) {
 }
 
 /// Apply a random number of random transformations
-/// to some image file - a fractal for this programm
+/// to some image file, always a fractal for this program.
 pub fn random_transforms(scheme: &Scheme, filename: &str) {
     let num_transforms = rand::thread_rng().gen_range(1, 7);
     let mut record: Vec<String> = Vec::new();
@@ -224,8 +225,9 @@ pub fn random_transforms(scheme: &Scheme, filename: &str) {
     log_random(&scheme, filename, record);
 }
 
-/// Keep track of what actually happened when a fractal
-/// was randomized. In case a randomization happens to look cool
+/// Helps keep track of what happened when a fractal
+/// was randomized by writing the Scheme and transformations to a txt file. 
+/// In case a randomization happens to look cool
 /// and one would like to apply the same characteristics to another fractal.
 pub fn log_random(scheme: &Scheme, filename: &str, record: Vec<String>) {
     let transforms = record.join(", \n");
@@ -243,7 +245,7 @@ pub fn log_random(scheme: &Scheme, filename: &str, record: Vec<String>) {
 
 // From B&O chapter 2, p28 - modified by Bart Massey
 /// Helper to parse a string as a pair of values separated
-/// by a separator char. For coordinate pairs e.g. "600x600"
+/// by a separator char. E.g. for coordinate pairs "600x600"
 pub fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
     let fields: Vec<&str> = s.split(sep).collect();
     if fields.len() != 2 {
