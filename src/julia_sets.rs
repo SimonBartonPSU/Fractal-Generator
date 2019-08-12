@@ -1,4 +1,5 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
+//! Julia Sets and Multi-Julia Set Implementations
 
 //Generate a randomly chosen julia set fractal as a .png image
 //base code credited to: https://crates.io/crates/image

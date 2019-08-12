@@ -1,3 +1,5 @@
+//! Julia Set and Multi-Julia Set intial iage set up
+
 //base code credited to: https://crates.io/crates/image
 //resource on julia_set fractals: https://en.wikipedia.org/wiki/Julia_set#Pseudocode_for_normal_Julia_sets
 //resource on multi-julia set / multibrot set: https://en.wikipedia.org/wiki/Multibrot_set
