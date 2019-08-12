@@ -12,7 +12,7 @@ This project implements the generation of the following set of fractals as .png 
 ## Fractal Types
 The following fractal types are supported:
 * `Mandelbrot`: Creates the Original Mandelbrot image
-* `Julia`:  Creates the Julia Set fractal image (Has 10 differnt stages / versions)
+* `Julia`:  Creates the Julia Set fractal image (Has 10 different stages / versions)
 * `Multi-Julia`: Creates a Multi-Julia / Multibrot Set fractual image (Has 6 different stages / versions)
 * `Barnsley`: Creates the Barnsley fern fractal image
 
