@@ -322,12 +322,18 @@ mod tests {
 
     #[test]
     fn test_color_determine_number_input() {
-        assert_eq!("violet".to_string(), color_determine("6".to_string(), false));
+        assert_eq!(
+            "violet".to_string(),
+            color_determine("6".to_string(), false)
+        );
     }
 
     #[test]
     fn test_color_determine_caps_word_input() {
-        assert_eq!("blue".to_string(), color_determine("BLUE".to_string(), false));
+        assert_eq!(
+            "blue".to_string(),
+            color_determine("BLUE".to_string(), false)
+        );
     }
 
     #[test]

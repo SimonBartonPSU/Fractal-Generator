@@ -107,7 +107,7 @@ pub fn str_to_color(color: &str) -> Color {
 }
 
 /// Iterate over the pixels of the image and apply a cool
-/// background color. The coloring will either transition from 
+/// background color. The coloring will either transition from
 /// one color to another or just a solid background.
 pub fn apply_background(imgbuf: &mut ImageBuffer<Rgba<u8>, Vec<u8>>, scheme: &Scheme) {
     let color: [u8; 3] = color_to_rgb(scheme.bg_color);
@@ -226,7 +226,7 @@ pub fn random_transforms(scheme: &Scheme, filename: &str) {
 }
 
 /// Helps keep track of what happened when a fractal
-/// was randomized by writing the Scheme and transformations to a txt file. 
+/// was randomized by writing the Scheme and transformations to a txt file.
 /// In case a randomization happens to look cool
 /// and one would like to apply the same characteristics to another fractal.
 pub fn log_random(scheme: &Scheme, filename: &str, record: Vec<String>) {
@@ -263,12 +263,12 @@ mod tests {
 
     #[test]
     fn test_good_parse_pair_input() {
-        assert_eq!(Some((600,600)), parse_pair("600x600",'x'));
+        assert_eq!(Some((600, 600)), parse_pair("600x600", 'x'));
     }
 
     #[test]
     fn test_bad_parse_pair_input() {
-        assert_eq!(None, parse_pair::<f32>("",'x'));
+        assert_eq!(None, parse_pair::<f32>("", 'x'));
     }
 
     #[test]
