@@ -38,14 +38,14 @@ For example:
     cargo run -- auto-random a_filename 10
 
 ## Testing
-Run the follow command
+Run the following command
     
     cargo test
 
 This will cover some minor test cases / unit test throughout the program. Keep in mind the main test will be human visual, you may compare the generated image to our source links down below to determine if the fractal itself was created correctly. 
 
 ## Documentation
-To read each files inner documentation about functionality and purpose run the follow:
+To read the inner documentation on each files functionality and purpose run the following command:
 
     cargo rustdoc --open -- --document-private-items
 
