@@ -1,5 +1,7 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
 
+//! Automatic fractal generation for those who wish to skip the menu system.
+
 use crate::barnsley::*;
 use crate::julia_sets::*;
 use crate::mandelbrot::*;

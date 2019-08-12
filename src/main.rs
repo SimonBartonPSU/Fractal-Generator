@@ -23,6 +23,7 @@ use crate::menu::*;
 use crate::util::*;
 use std::string::String;
 
+/// Remind user of expected arguments.
 fn usage() -> ! {
     eprintln!(
         "\n\n\tusage: <fractal-type> <file-name> <width>x<height>\n

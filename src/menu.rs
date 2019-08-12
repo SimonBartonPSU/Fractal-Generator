@@ -1,15 +1,15 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
 
-///This file contains all user interaction (UI) menus to utilize the fractal generator program. Covering user input for fractal color,
-///background colors, background color styling, image trasformation additions, and general user notification on the process of the program.
+//! Contains all user interaction (UI) menus to utilize the fractal generator program. Covering user input for fractal color,
+//! background colors, background color styling, image trasformation additions, and general user notification on the process of the program.
 use crate::util::*;
 use std::io;
 use std::io::Write;
 
-///The user_menu function is the first entry point for the user on the firstly deciding on the initial style of background they will wish to use,
-///normal which limits you to only changing the background color on a black background, custom that allows the fractal color, background color & styling,
-///and random which gives no user customization and instead randomly selects the input styling attributes and creates a random styled fractal
-///of which can be determined in its log file. Reference README.md
+/// The user_menu function is the first entry point for the user on the firstly deciding on the initial style of background they will wish to use,
+/// normal which limits you to only changing the background color on a black background, custom that allows the fractal color, background color & styling,
+/// and random which gives no user customization and instead randomly selects the input styling attributes and creates a random styled fractal
+/// of which can be determined in its log file. Reference README.md
 pub fn user_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
 
@@ -45,8 +45,8 @@ pub fn user_menu(mut scheme: &mut Scheme) {
     println!("\n\to Constructing your fractal image");
 }
 
-///The normal menu option allows a user to select only the color of the fractal they will generate upon a black background.
-///It should be known that the julia sets, multi julia sets, and mandelbrot fractals are given a limited fractal color optionality due to implementation constrictions.
+/// Allows a user to select only the color of the fractal they will generate upon a black background.
+/// It should be known that the julia sets, multi julia sets, and mandelbrot fractals are given a limited fractal color optionality due to implementation constrictions.
 pub fn normal_menu(mut scheme: &mut Scheme) {
     let mut input;
     let scheme_type;
@@ -72,9 +72,9 @@ pub fn normal_menu(mut scheme: &mut Scheme) {
     println!("\n========================================================================================================================================\n");
 }
 
-///The custom menu option allows a user to select the background styleing between solid color or transitional between two colors of which are user selected.
-///After the user moves through those options they are also prompted if they wish to apply image atrributes which can alter the final image.
-///We have a default set to just make the background a solid black for unrecognized input.
+/// Allows a user to select the background styling between solid color or transitional between two user selected colors.
+/// After the user moves through those options they are also prompted if they wish to apply image atrributes which can alter the final image.
+/// We have a default set to make the background a solid black for unrecognized input.
 pub fn custom_menu(mut scheme: &mut Scheme) {
     let mut input = String::new();
 
@@ -152,8 +152,8 @@ pub fn custom_menu(mut scheme: &mut Scheme) {
     println!("\n========================================================================================================================================\n");
 }
 
-///color_options_extensive is utilized to print the repeativly used color print options based on the fractal type. The extensive menu is used
-///for the barnsley fractal color and the background colors for the solid background on the custom menu.
+/// Utilized to print the repeatedly used color print options based on the fractal type. The extensive menu is used
+/// for the barnsley fractal color and the background colors for the solid background on the custom menu.
 
 pub fn color_options_extensive() -> String {
     let mut input = String::new();
@@ -191,7 +191,7 @@ pub fn color_options_extensive() -> String {
     }
 }
 
-///color_options_rgb is used for the julia, multi-julia set, and mandelbrot fractal colors, and the transitional background style menu
+/// Used for the julia, multi-julia set, and mandelbrot fractal colors, and the transitional background style menu.
 pub fn color_options_rgb(transitional: bool) -> String {
     let mut input = String::new();
 
@@ -226,9 +226,9 @@ pub fn color_options_rgb(transitional: bool) -> String {
     }
 }
 
-///color_determine returns the str to match on what option the user selected in the menus, typically by number, can converts it to the appropriate
-///string to match the color on the Color enum in util.rs. This way the user wont have to write out the name of the color each time and avoid common
-///typo error that would direct into defaulted match for error handling.
+/// Returns the string to match the option the user selected in the menus, typically by number. Can convert it to the appropriate
+/// string to match the color on the Color enum in util.rs. This way the user won't have to write out the name of the color each time and avoid common
+/// typo error that would direct into defaulted match for error handling.
 pub fn color_determine(input: String, scheme_type: bool) -> String {
     let mut trimmed: &str = &input.trim().to_lowercase();
 
@@ -266,7 +266,7 @@ pub fn color_determine(input: String, scheme_type: bool) -> String {
     trimmed.to_string()
 }
 
-///transform_options is just the prompt and user input menu if the user wishes to apply any image transformations to the fractal.
+/// Prompt and user input menu if the user wishes to apply any image transformations to the fractal.
 fn transform_options(scheme: &mut Scheme) {
     let mut input = String::new();
     println!(
@@ -317,7 +317,7 @@ fn transform_options(scheme: &mut Scheme) {
 }
 
 #[cfg(test)]
-mod tests {
+mod menu_tests {
     use super::*;
 
     #[test]

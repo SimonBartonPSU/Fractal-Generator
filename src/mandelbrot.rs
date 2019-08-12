@@ -1,5 +1,7 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
 
+//! Mandelbrot set implementation.
+
 use crate::util::Color::*;
 use crate::util::*;
 use image::Rgba;

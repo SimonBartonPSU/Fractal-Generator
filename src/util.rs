@@ -1,6 +1,6 @@
 // Copyright © 2019 Liam Rotchford, Simon Barton
 
-#![allow(dead_code)]
+//! Contains utility functions and stuctures for handling user input and managing fractal images.
 
 use crate::util::Color::*;
 use image::imageops::*;
@@ -258,7 +258,7 @@ pub fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
 }
 
 #[cfg(test)]
-mod tests {
+mod util_tests {
     use super::*;
 
     #[test]

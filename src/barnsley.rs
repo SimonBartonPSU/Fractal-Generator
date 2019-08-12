@@ -3,7 +3,7 @@
 // Inspired by http://rosettacode.org/wiki/Barnsley_fern
 // Barnsley's IFS: https://en.wikipedia.org/wiki/Barnsley_fern#Construction
 
-//! Barnsley's Fern implementation
+//! Barnsley's Fern implementation.
 
 use crate::util::*;
 use rand::Rng;
