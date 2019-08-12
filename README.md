@@ -31,16 +31,18 @@ Note: To correctly produce an image without warping, it is good practice to set 
 ## Alternative Build and Run (Randomizer)
 This command will allow the automatic generation of some provided number of random fractals with completely random color schemes and random image transformations. Running this option with the --release flag is highly recommended.
 
-    cargo run -- auto-random <file-name> <number to create>
+    cargo run --release auto-random <file-name> <number to create>
 
 For example:
 
     cargo run -- auto-random a_filename 10
 
 ## Testing
-To build or run an optimized version, use `cargo --release`.
+Run the follow command
+    
+    cargo test
 
-Run `cargo test` to do some simple testing. Though it should be noted that the main form of testing for this project is human visual, i.e does the image generate in the way we expect visually. 
+This will cover some minor test cases / unit test throughout the program. Keep in mind the main test will be human visual, you may compare the generated image to our source links down below to determine if the fractal itself was created correctly. 
 
 ## Documentation
 To read each files inner documentation about functionality and purpose run the follow:
