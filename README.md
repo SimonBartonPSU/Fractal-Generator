@@ -5,9 +5,9 @@ Liam Rotchford, Simon Barton
 rliam@pdx.edu, Simon5@pdx.edu
 
 ## Summary
-This project was inspired and based on the edited Mandelbrot image generator by Bart Massey which in turn was inspired O'Reilly Programming Rust book by Blandy and Orendorff found here: https://github.com/pdx-cs-rust/programming-rust-mandelbrot. With the insiration of Bart's project and his statment of wanting to apply color to his original project we took upon the challange ourselves. For more information on the four fractals we implemented in the project please view the sources section at the bottom of the page.
+This project was inspired and based on the edited Mandelbrot image generator by Bart Massey which in turn was inspired O'Reilly Programming Rust book by Blandy and Orendorff found here: https://github.com/pdx-cs-rust/programming-rust-mandelbrot. With the insiration of Bart's project and his statment of wanting to apply color to his original project, we took upon the opportunity to explore colors and new fractals ourselves. For more information on the four fractals we implemented in the project please view the sources section below.
 
-This project implements the generation of the following set of fractals as .png images: Julia Set, Barnsley's Fern, Mandelbrot, Multi-Julia Set / MultiBrot Set. With a simple UI the user has fine tune the characteristics of the desired fractal. We have implemented 3 different coloring modes in this project normal, custom, and random. The normal mode allows only the customization of the fractal color. Custom allows both fractal color and background color, be it one solid color or a transition between two. Random selects all characteristics for you and logs what was selected in the users /tmp/ directory, in the event you would line to recreate it later on. 
+This project implements the generation of the following set of fractals as .png or .jpeg images: Julia Set, Barnsley's Fern, Mandelbrot, Multi-Julia Set / MultiBrot Set. With a simple UI the user can fine tune the characteristics of the desired fractal. We have implemented 3 different coloring modes in this project: normal, custom, and random. The normal mode allows only the customization of the fractal color. Custom allows both fractal color and background color, be it one solid color or a transition between two. Random selects all characteristics for you and logs what was selected in the users /tmp/ directory, in the event you would like to examine what was performed and perhaps apply the same characteristics to a different fractal later on. 
 
 ## Fractal Types
 The following fractal types are supported:
@@ -18,7 +18,7 @@ The following fractal types are supported:
 
 ## Build and Run
 
-Build this program and library with `cargo build`. You can run the program with `cargo run`. However, to allow the program to correctly generate a image to your specifications you will need to supply the following data:
+Build this program and library with `cargo build`. You can run the program with `cargo run`. However, to allow the program to correctly generate an image to your specifications you will need to supply the following data:
     
     cargo run --release -- <fractal_type> <file_name> <width>x<height>
    
@@ -26,10 +26,10 @@ For example:
 
     cargo run --release -- julia julia.png 800x800
     
-Note: To correctly produce a image without warping it is good practice to set the width x height as a perfect square as shown in the example above. If you adjust the dimensions vary harshly away from a square you will not see results as expected. 
+Note: To correctly produce an image without warping, it is good practice to set the width x height as a perfect square as shown in the example above. Additionally, the image extension must be placed in the filename.
     
 ## Alternative Build and Run (Randomizer)
-This command will allow the automatic generation of some provided number of random fractals with completely random color schemes and random image transformations. 
+This command will allow the automatic generation of some provided number of random fractals with completely random color schemes and random image transformations. Running this option with the --release flag is highly recommended.
 
     cargo run -- auto-random <file-name> <number to create>
 
