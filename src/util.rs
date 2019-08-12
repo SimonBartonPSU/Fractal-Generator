@@ -244,7 +244,7 @@ pub fn log_random(scheme: &Scheme, filename: &str, record: Vec<String>) {
 }
 
 // From B&O chapter 2, p28 - modified by Bart Massey
-/// Helper to parse a string as a pair of values separated
+/// Parse a string as a pair of values separated
 /// by a separator char. E.g. for coordinate pairs "600x600"
 pub fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
     let fields: Vec<&str> = s.split(sep).collect();
@@ -254,5 +254,35 @@ pub fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
     match (T::from_str(fields[0]), T::from_str(fields[1])) {
         (Ok(f0), Ok(f1)) => Some((f0, f1)),
         _ => None,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_good_parse_pair_input() {
+        assert_eq!(Some((600,600)), parse_pair("600x600",'x'));
+    }
+
+    #[test]
+    fn test_bad_parse_pair_input() {
+        assert_eq!(None, parse_pair::<f32>("",'x'));
+    }
+
+    #[test]
+    fn test_default_color() {
+        assert_eq!(Color::Black, str_to_color("badInput"));
+    }
+
+    #[test]
+    fn test_entered_color() {
+        assert_eq!(Color::Violet, str_to_color("violet"));
+    }
+
+    #[test]
+    fn test_rgb_data() {
+        assert_eq!([238u8, 130u8, 238u8], color_to_rgb(Color::Violet));
     }
 }

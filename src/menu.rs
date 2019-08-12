@@ -315,3 +315,23 @@ fn transform_options(scheme: &mut Scheme) {
     scheme.transform = transform.to_string();
     println!("\n========================================================================================================================================\n");
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_color_determine_number_input() {
+        assert_eq!("violet".to_string(), color_determine("6".to_string(), false));
+    }
+
+    #[test]
+    fn test_color_determine_caps_word_input() {
+        assert_eq!("blue".to_string(), color_determine("BLUE".to_string(), false));
+    }
+
+    #[test]
+    fn test_color_determine_bad_input() {
+        assert_eq!("huh".to_string(), color_determine("Huh".to_string(), false));
+    }
+}
