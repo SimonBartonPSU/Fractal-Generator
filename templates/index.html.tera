@@ -1,0 +1,8 @@
+{% extends "base" %}
+
+{% block content %}
+<style> body {background-color: hsla(50, 33%, 25%, .75);} </style>
+<h1>Welcome to the Rust fractal generator web page!</h1>
+<img src="cool.png" alt="Barnsley's fern fractal in cool colors" width="700" height="700"> <br> <br>
+<a href="/gen">Generate a new fractal!</a>
+{% endblock content %}
