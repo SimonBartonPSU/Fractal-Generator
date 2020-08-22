@@ -1,7 +1,7 @@
 {% extends "base" %}
 
 {% block content %}
-<style> body {background-color: hsla(50, 33%, 25%, .75);} </style>
+<style> body {background-color: #b1c3e9;} </style>
 <h1>Here's a (maybe) cool fractal!</h1>
 <img src="cool0.png" alt="Automatically generated fractal" width="700" height="700"> <br> <br>
 <a href="/gen">Make another fractal!</a>
