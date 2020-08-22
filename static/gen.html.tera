@@ -1,0 +1,8 @@
+{% extends "base" %}
+
+{% block content %}
+<style> body {background-color: blue;} </style>
+<h1>Here's a cool fractal!</h1>
+<img src="cool0.png" alt="Automatically generated fractal" width="700" height="700">
+<a href="/gen">Make another!</a>
+{% endblock content %}
