@@ -5,7 +5,7 @@
 // I/O Help
 // https://www.reddit.com/r/rust/comments/41hgwq/help_needed_user_input_in_rust/
 
-//! Generate a fractal based on command line args and user input
+//! Display fractals on a webpage using Rust
 
 #![feature(proc_macro_hygiene, decl_macro)]
 #[macro_use] extern crate rocket;
