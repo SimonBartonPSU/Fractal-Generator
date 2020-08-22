@@ -1,1 +1,1 @@
-web: ./target/release/fractal_generator
+web: ROCKET_PORT=$PORT ROCKET_ENV=prod ./target/release/fractal_generator
