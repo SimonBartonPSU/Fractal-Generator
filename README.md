@@ -5,9 +5,11 @@ Liam Rotchford, Simon Barton
 rliam@pdx.edu, Simon5@pdx.edu
 
 ## Summary
-This project was inspired and based on the edited Mandelbrot image generator by Bart Massey which in turn was inspired O'Reilly Programming Rust book by Blandy and Orendorff found here: https://github.com/pdx-cs-rust/programming-rust-mandelbrot. With the insiration of Bart's project and his statment of wanting to apply color to his original project, we took upon the opportunity to explore colors and new fractals ourselves. For more information on the four fractals we implemented in the project please view the sources section below.
+This project was inspired and based on the edited Mandelbrot image generator by Bart Massey which in turn was inspired O'Reilly Programming Rust book by Blandy and Orendorff found here: https://github.com/pdx-cs-rust/programming-rust-mandelbrot. With the insiration of Bart Massey's project and his statment of wanting to apply color to his original project, we took upon the opportunity to explore colors and new fractals ourselves. For more information on the four fractals we implemented in the project please view the sources section below.
 
-This project implements the generation of the following set of fractals as .png or .jpeg images: Julia Set, Barnsley's Fern, Mandelbrot, Multi-Julia Set / MultiBrot Set. With a simple UI the user can fine tune the characteristics of the desired fractal. We have implemented 3 different coloring modes in this project: normal, custom, and random. The normal mode allows only the customization of the fractal color. Custom allows both fractal color and background color, be it one solid color or a transition between two. Random selects all characteristics for you and logs what was selected in the users /tmp/ directory, in the event you would like to examine what was performed and perhaps apply the same characteristics to a different fractal later on. 
+This project implements the generation of the following set of fractals as .png or .jpeg images: Julia Set, Barnsley's Fern, Mandelbrot, Multi-Julia Set / MultiBrot Set. With a simple web UI and some patience for auto-generation the user can view all of the fractals. We have implemented 3 different coloring modes in this project: normal, custom, and random. The normal mode allows only the customization of the fractal color. Custom allows both fractal color and background color, be it one solid color or a transition between two. Random selects all characteristics for you and logs what was selected in the users /tmp/ directory, in the event you would like to examine what was performed and perhaps apply the same characteristics to a different fractal later on.
+
+Visit https://rust-fractals.herokuapp.com/ for a demonstration!
 
 ## Fractal Types
 The following fractal types are supported:
@@ -17,6 +19,8 @@ The following fractal types are supported:
 * `Barnsley`: Creates the Barnsley fern fractal image
 
 ## Build and Run
+
+NOTE: These steps apply only to the `rust-class-finished` branch. The current branch simply functions as a web server.
 
 Build this program and library with `cargo build`. You can run the program with `cargo run`. However, to allow the program to correctly generate an image to your specifications you will need to supply the following data:
     
