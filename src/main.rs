@@ -53,9 +53,15 @@ fn cool0() -> Option<NamedFile> {
     NamedFile::open(&path).ok()
 }
 
+#[get("/favicon.ico")]
+fn favicon() -> Option<NamedFile> {
+    let path = Path::new("favicon.ico");
+    NamedFile::open(&path).ok()
+}
+
 fn main() {
     rocket::ignite()
-        .mount("/", rocket::routes![index, generate, cool, cool0])
+        .mount("/", rocket::routes![index, generate, cool, cool0, favicon])
         .attach(Template::fairing())
         .launch();
 }
