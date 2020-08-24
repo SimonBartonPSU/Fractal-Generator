@@ -3,8 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <title>Rust Fractal Generation Fun</title>
+    <link href="resources/cool.css" type="text/css" rel="stylesheet">
   </head>
   <body>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Projects</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
     {% block content %}{% endblock content %}
   </body>
 </html>

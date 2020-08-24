@@ -43,13 +43,19 @@ fn generate() -> Template {
 
 #[get("/cool.png")]
 fn cool() -> Option<NamedFile> {
-    let path = Path::new("cool.png");
+    let path = Path::new("resources/cool.png");
     NamedFile::open(&path).ok()
 }
 
 #[get("/cool0.png")]
 fn cool0() -> Option<NamedFile> {
     let path = Path::new("cool0.png");
+    NamedFile::open(&path).ok()
+}
+
+#[get("/resources/cool.css", format = "text/css")]
+fn style() -> Option<NamedFile> {
+    let path = Path::new("resources/cool.css");
     NamedFile::open(&path).ok()
 }
 
@@ -61,7 +67,7 @@ fn favicon() -> Option<NamedFile> {
 
 fn main() {
     rocket::ignite()
-        .mount("/", rocket::routes![index, generate, cool, cool0, favicon])
+        .mount("/", rocket::routes![index, generate, cool, cool0, style, favicon])
         .attach(Template::fairing())
         .launch();
 }
