@@ -1,9 +1,13 @@
 {% extends "base" %}
 
 {% block content %}
-<style> body {background-color: #b1c3e9;} </style>
-<h1>Welcome to the Rust fractal generator web page!</h1>
-<img src="cool.png" alt="Barnsley's fern fractal in cool colors" width="700" height="700"> <br> <br>
-<a href="/gen">Generate a new fractal!</a> <br> <br>
-<a href="https://github.com/SimonBartonPSU/Fractal-Generator">Project source on GitHub</a>
+<div class="index-container">
+    <h1>Welcome to the Rust fractal generator web page!</h1>
+    <img src="cool.png" alt="Barnsley's fern fractal in cool colors" width="700" height="700"> <br> <br>
+    <p>
+        <a href="https://www.rust-lang.org/learn">Rust</a> is a pretty cool programming language.
+        Two adventuring Portland State students used it to make some digital art back in 2019. Enjoy!
+    </p> <br> <br>
+    <a href="https://github.com/SimonBartonPSU/Fractal-Generator">Source</a>
+</div>
 {% endblock content %}

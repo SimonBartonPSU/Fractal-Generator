@@ -1,8 +1,10 @@
 {% extends "base" %}
 
 {% block content %}
-<h1>Here's a (maybe) cool fractal!</h1>
-<img src="cool0.png" alt="Automatically generated fractal" width="700" height="700"> <br> <br>
-<a href="/gen">Make another fractal!</a> <br> <br>
-<a href="https://github.com/SimonBartonPSU/Fractal-Generator">Project source on GitHub</a>
+<div class="gen-container">
+    <h1>Here's a (maybe) cool fractal!</h1>
+    <img src="cool0.png" alt="Automatically generated fractal"> <br>
+    <a href="/gen">Another!</a> <br><br>
+    <a href="https://github.com/SimonBartonPSU/Fractal-Generator">Source</a>
+</div>
 {% endblock content %}

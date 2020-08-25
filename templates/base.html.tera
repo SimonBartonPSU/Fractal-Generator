@@ -3,17 +3,35 @@
   <head>
     <meta charset="utf-8" />
     <title>Rust Fractal Generation Fun</title>
-    <link href="resources/cool.css" type="text/css" rel="stylesheet">
+    <link href="templates/cool.css" type="text/css" rel="stylesheet">
   </head>
   <body>
-      <nav>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Projects</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </nav>
+    <nav class="navbar">
+      <img class="navbar-toggle" src="resources/bars.png" id="menu" height="30" width="25">
+      <a href="/" class="logo">Rust Fractals</a>
+      <ul class="main-nav" id="main">
+        <li>
+          <a href="/" class="nav-links">Home</a>
+        </li>
+        <li>
+          <a href="/gen" class="nav-links">Make another fractal!</a>
+        </li>
+        <li>
+          <a href="/about" class="nav-links">About Us</a>
+        </li>
+      </ul>
+    </nav> <br>
+    <div class="container">
     {% block content %}{% endblock content %}
+    </div>
   </body>
+  <script>
+    let mainNav = document.getElementById('main');
+    let navBarToggle = document.getElementById('menu');
+
+    navBarToggle.addEventListener('click', function () {
+      mainNav.classList.toggle('active');
+    });
+  </script>
+
 </html>

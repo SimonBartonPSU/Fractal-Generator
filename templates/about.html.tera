@@ -1,0 +1,25 @@
+{% extends "base" %}
+
+{% block content %}
+<div class="about-container">
+    <h1>About</h1>
+    <p>Rust Fractals is a digital art project that leverages the performance of Rust by Liam Rotchford and
+    Simon Barton. Explore the wonders of patterns combined with randomness.</p>
+    <a href="https://github.com/SimonBartonPSU/Fractal-Generator">Project source on GitHub</a>
+    <h2>Hugely helpful crates</h2>
+    <p>Rustaceans stand on the shoulders of giants. Here were a couple particularly helpful crates for this project:</p>
+    <ul>
+        <li>
+            <a href="https://crates.io/crates/image">Image</a>
+        </li>
+        <li>
+            <a href="https://crates.io/crates/rocket">Rocket</a>
+        </li>
+    </ul>
+    <h2>The Team</h2>
+        <h3>Liam Rotchford</h3>
+        <a href="https://github.com/LiamRotchford5671">Go to GitHub</a> <br>
+        <h3>Simon Barton</h3>
+        <a href="https://github.com/SimonBartonPSU/">Go to GitHub</a> <br>
+</div>
+{% endblock content %}

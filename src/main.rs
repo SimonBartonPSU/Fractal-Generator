@@ -41,6 +41,13 @@ fn generate() -> Template {
     Template::render("gen", &context)
 }
 
+#[get("/about")]
+fn about() -> Template {
+    let mut context = HashMap::new();
+    context.insert("foo".to_string(), "baz".to_string());
+    Template::render("about", &context)
+}
+
 #[get("/cool.png")]
 fn cool() -> Option<NamedFile> {
     let path = Path::new("resources/cool.png");
@@ -53,21 +60,35 @@ fn cool0() -> Option<NamedFile> {
     NamedFile::open(&path).ok()
 }
 
-#[get("/resources/cool.css", format = "text/css")]
+#[get("/templates/cool.css", format = "text/css")]
 fn style() -> Option<NamedFile> {
-    let path = Path::new("resources/cool.css");
+    let path = Path::new("templates/cool.css");
+    NamedFile::open(&path).ok()
+}   
+
+#[get("/resources/rust-logo.png")]
+fn rust_logo() -> Option<NamedFile> {
+    let path = Path::new("resources/rust-logo.png");
+    NamedFile::open(&path).ok()
+}
+
+#[get("/resources/bars.png")]
+fn nav_bars() -> Option<NamedFile> {
+    let path = Path::new("resources/bars.png");
     NamedFile::open(&path).ok()
 }
 
 #[get("/favicon.ico")]
 fn favicon() -> Option<NamedFile> {
-    let path = Path::new("favicon.ico");
+    let path = Path::new("resources/favicon.ico");
     NamedFile::open(&path).ok()
 }
 
 fn main() {
     rocket::ignite()
-        .mount("/", rocket::routes![index, generate, cool, cool0, style, favicon])
+        .mount("/", rocket::routes![index, generate, about,
+                                    cool, cool0, style, 
+                                    rust_logo, nav_bars, favicon])
         .attach(Template::fairing())
         .launch();
 }
