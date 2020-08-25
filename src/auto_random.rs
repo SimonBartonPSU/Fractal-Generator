@@ -27,9 +27,9 @@ pub fn auto_random(num_to_make: usize, filename: &str) {
 
         randomize(&mut scheme);
         match fractal {
-            "barnsley" => barnsley_fern(800, 800, &filename, &mut scheme),
-            "julia" | "multi-julia" => julia_fractal(fractal, 700, 700, &filename, &scheme),
-            "mandelbrot" => mandelbrot_fractal(700, 700, &filename, &mut scheme),
+            "barnsley" => barnsley_fern(1000, 1000, &filename, &mut scheme),
+            "julia" | "multi-julia" => julia_fractal(fractal, 1000, 1000, &filename, &scheme),
+            "mandelbrot" => mandelbrot_fractal(1000, 1000, &filename, &mut scheme),
             _ => println!("Unsupported fractal type"),
         }
 
